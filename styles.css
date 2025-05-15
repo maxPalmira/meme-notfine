@@ -8,8 +8,42 @@ UPDATED: Reduced line height in meme-text section.
 UPDATED: Enhanced buy button with animations and effects.
 UPDATED: Improved bottom text readability with white color, larger font size, and tighter line height.
 UPDATED: Removed top buy button container and restored sticky footer layout.
-UPDATED: Standardized section styling to match meme-text section for better mobile display.
+UPDATED: Added loading state styles to prevent content flash.
 */
+
+/* Loading state styles */
+.loading * {
+  visibility: hidden;
+}
+
+.loading::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffb347 0%, #ff7043 100%);
+  visibility: visible;
+  z-index: 9999;
+}
+
+.loading::after {
+  content: "Loading...";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  color: white;
+  visibility: visible;
+  z-index: 10000;
+}
+
+body:not(.loading) * {
+  visibility: visible;
+}
 
 /* Scroll behavior */
 html {

@@ -5,6 +5,8 @@ UPDATED: Added navigation, tokenomics, how to buy sections, and community featur
 UPDATED: Simplified mobile menu structure and social icons.
 UPDATED: Enhanced buy button with emojis and better text.
 UPDATED: Moved buy button back to sticky footer.
+UPDATED: Added type="module" to script tag for configuration support.
+UPDATED: Emptied content sections for JavaScript population.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,130 +20,40 @@ UPDATED: Moved buy button back to sticky footer.
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="loading">
   <nav class="main-nav">
     <!-- Burger menu for opening -->
     <button class="mobile-menu-toggle burger-btn" aria-label="Open menu" aria-expanded="false">
       <i class="fas fa-bars"></i>
     </button>
     
-    <div class="nav-links">
-      <!-- Close button inside menu -->
-      <button class="mobile-menu-toggle close-btn" aria-label="Close menu" aria-expanded="true">
-        <i class="fas fa-times"></i>
-      </button>
-      <a href="#about">About</a>
-      <a href="#tokenomics">Tokenomics</a>
-      <a href="#how-to-buy">How to Buy</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#community">Community</a>
-    </div>
+    <div class="nav-links"></div>
     
     <!-- Social links in header -->
-    <div class="social-links">
-      <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
-      <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
-    </div>
+    <div class="social-links"></div>
   </nav>
 
   <main class="center-container">
     <img src="meme.png" alt="NOTFINE Meme" class="meme-img" />
     
+    <section class="meme-text"></section>
 
-    <section class="meme-text">
-      <p>📈 <span class="down">chart down</span> — <span class="not-fine">not fine</span></p>
-      <p>💀 <span class="rugged">got rugged</span> — <span class="not-fine">not fine</span></p>
-      <p>🧻 <span class="drained">wallet drained</span> — <span class="not-fine">not fine</span></p>
-      <p>🤡 <span class="ghosted">dev ghosted</span> — <span class="not-fine">not fine</span></p>
-      <p class="final-line"><span class="notfine-text">NOTFINE</span> — <span class="fine">FINE</span> 🤑📈🧠</p>
-    </section>
+    <section id="about" class="about-section"></section>
 
-    <section id="about" class="about-section">
-      <h2>ABOUT $NOTFINE</h2>
-      <p>$NOTFINE is the memecoin that embraces the chaos of the crypto world! Combining humor and satirical commentary on the struggles of every trader, we've created a community that finds strength in the absurd.</p>
-    </section>
+    <section id="tokenomics" class="tokenomics-section"></section>
 
-    <section id="tokenomics" class="tokenomics-section">
-      <h2>TOKENOMICS</h2>
-      <div class="tokenomics-grid">
-        <div class="metric">
-          <span class="metric-value">1,000,000,000,000</span>
-          <span class="metric-label">Total Supply</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">2%</span>
-          <span class="metric-label">Buy Tax</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">2%</span>
-          <span class="metric-label">Sell Tax</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">40%</span>
-          <span class="metric-label">Burned Forever</span>
-        </div>
-      </div>
-    </section>
+    <section id="how-to-buy" class="how-to-buy-section"></section>
 
-    <section id="how-to-buy" class="how-to-buy-section">
-      <h2>HOW TO BUY $NOTFINE</h2>
-      <div class="steps-container">
-        <div class="step">
-          <div class="step-icon">👛</div>
-          <h3>Create Wallet</h3>
-          <p>Download MetaMask or your preferred wallet</p>
-        </div>
-        <div class="step">
-          <div class="step-icon">💰</div>
-          <h3>Get ETH</h3>
-          <p>Buy ETH from an exchange or transfer to your wallet</p>
-        </div>
-        <div class="step">
-          <div class="step-icon">🔄</div>
-          <h3>Swap for $NOTFINE</h3>
-          <p>Use pump.fun to swap ETH for $NOTFINE</p>
-        </div>
-      </div>
-    </section>
+    <div class="contract-section"></div>
 
-    <div class="contract-section">
-      <h3>Contract Address</h3>
-      <div class="contract-container">
-        <code class="contract-address">0x1234567890abcdef1234567890abcdef12345678</code>
-        <button class="copy-btn" onclick="copyContract()">
-          <span class="copy-icon">📋</span>
-          <span class="copy-text">Copy</span>
-        </button>
-      </div>
-    </div>
-
-    <section id="community" class="community-section">
-      <h2>JOIN THE CHAOS</h2>
-      <div class="community-stats">
-        <div class="stat">
-          <span class="stat-value" id="holders-count">0</span>
-          <span class="stat-label">Holders</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="market-cap">$0</span>
-          <span class="stat-label">Market Cap</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="volume">$0</span>
-          <span class="stat-label">24h Volume</span>
-        </div>
-      </div>
-    </section>
+    <section id="community" class="community-section"></section>
   </main>
 
   <footer class="sticky-footer">
-    <div id="live-data" class="live-data-block">$0 traded | 0 holders</div>
-    <a href="#" class="buy-btn">
-      <span class="btn-text">Buy on pump.fun <span class="btn-icons">📈 🤑</span></span>
-    </a>
+    <div id="live-data" class="live-data-block"></div>
+    <a href="#" class="buy-btn"></a>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html> 
