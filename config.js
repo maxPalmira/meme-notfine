@@ -83,7 +83,7 @@ const config = {
     // Contract section
     contract: {
       title: "Contract Address",
-      address: "0x1234567890abcdef1234567890abcdef12345678",
+      address: "0x1234567890abcdef1234567890abcdef12345678hui",
       copyButton: {
         text: "Copy",
         icon: "📋",
@@ -106,7 +106,7 @@ const config = {
     buyButton: {
       text: "Buy on pump.fun",
       emojis: "📈 🤑",
-      link: "#",
+      link: "#hui",
     },
   },
 
