@@ -83,7 +83,7 @@ const config = {
     // Contract section
     contract: {
       title: "Contract Address",
-      address: "0x1234567890abcdef1234567890abcdef12345678hui",
+      address: "ХУЙ",
       copyButton: {
         text: "Copy",
         icon: "📋",
