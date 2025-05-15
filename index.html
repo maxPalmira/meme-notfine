@@ -1,6 +1,6 @@
 <!--
 Created index.html for the NOTFINE meme coin promo page.
-Displays meme.png centered with stylized text below, on an orange background. Mobile-first, no footer/header.
+UPDATED: Added Google Fonts, moved counters to sticky footer.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -8,19 +8,49 @@ Displays meme.png centered with stylized text below, on an orange background. Mo
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NOTFINE Meme Coin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="center-container">
     <img src="meme.png" alt="NOTFINE Meme" class="meme-img" />
+    
+    <div class="tagline">
+      Join the most chaotic memecoin venture where nothing is ever quite as it seems! $NOTFINE - because in the world of crypto, if it ain't fine, we've got a grin on our face.
+    </div>
+
     <section class="meme-text">
-      <p>📉 <span class="down">chart down</span> — <span class="not-fine">not fine</span></p>
+      <p>📈 <span class="down">chart down</span> — <span class="not-fine">not fine</span></p>
       <p>💀 <span class="rugged">got rugged</span> — <span class="not-fine">not fine</span></p>
       <p>🧻 <span class="drained">wallet drained</span> — <span class="not-fine">not fine</span></p>
       <p>🤡 <span class="ghosted">dev ghosted</span> — <span class="not-fine">not fine</span></p>
-      <p class="final-line">NOTFINE — <span class="fine">FINE</span> 🤑📈🧠</p>
+      <p class="final-line"><span class="notfine-text">NOTFINE</span> — <span class="fine">FINE</span> 🤑📈🧠</p>
     </section>
+
+    <section class="about-section">
+      <h2>ABOUT $NOTFINE</h2>
+      <p>$NOTFINE is the memecoin that embraces the chaos of the crypto world! Combining humor and satirical commentary on the struggles of every trader, we've created a community that finds strength in the absurd.</p>
+    </section>
+
+    <div class="contract-section">
+      <h3>Contract Address</h3>
+      <div class="contract-container">
+        <code class="contract-address">0x1234567890abcdef1234567890abcdef12345678</code>
+        <button class="copy-btn" onclick="copyContract()">
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+    </div>
   </main>
+
+  <footer class="sticky-footer">
+    <div id="live-data" class="live-data-block">$0 traded | 0 holders</div>
+    <a href="#" class="buy-btn">Buy on pump.fun</a>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html> 
