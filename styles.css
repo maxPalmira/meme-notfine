@@ -2,9 +2,23 @@
 Created styles.css for the NOTFINE meme coin promo page.
 Mobile-first, centers meme.png, uses a less-bright orange background, and stylizes the text with fun and stylish effects.
 UPDATED: Added styles for top buy button, live stats counter, and improved bottom text readability (white, larger, tighter line height).
+UPDATED: Added styles for navigation, tokenomics, how to buy sections, and community features.
+UPDATED: Fixed mobile menu layout, background, and spacing.
+UPDATED: Reduced line height in meme-text section.
+UPDATED: Enhanced buy button with animations and effects.
+UPDATED: Improved bottom text readability with white color, larger font size, and tighter line height.
+UPDATED: Removed top buy button container and restored sticky footer layout.
+UPDATED: Standardized section styling to match meme-text section for better mobile display.
 */
 
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}
+
 body {
+  padding-top: 60px; /* Reduced back to original - only nav height */
   min-height: 100vh;
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
@@ -14,7 +28,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   transition: background 1s;
-  padding-bottom: 120px; /* Increased space for two-row footer */
+  padding-bottom: 120px; /* Space for footer */
 }
 
 .center-container {
@@ -29,8 +43,8 @@ body {
 }
 
 .meme-img {
-  width: 90vw;
-  max-width: 350px;
+  width: 63vw;
+  max-width: 245px;
   height: auto;
   border-radius: 1.5rem;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
@@ -49,8 +63,8 @@ body {
   padding: 1.8rem 1.5rem;
   box-shadow: 0 2px 20px rgba(0,0,0,0.15);
   text-align: center;
-  font-size: 1.4rem;
-  color: #fff;
+  font-size: 1.6rem;
+  color: #ffffff;
   font-weight: 500;
   max-width: 600px;
   width: 90%;
@@ -60,8 +74,8 @@ body {
 }
 
 .meme-text p {
-  margin: 1.2em 0;
-  line-height: 1.3;
+  margin: 0.5em 0;
+  line-height: 1;
   letter-spacing: 0.02em;
 }
 
@@ -102,39 +116,146 @@ body {
     max-width: 95vw;
   }
   .meme-text {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     padding: 1.5rem 1rem;
   }
   
   .final-line {
-    font-size: 1.4em;
+    font-size: 1.6em;
+  }
+  body {
+    padding-bottom: 130px; /* Slightly more space on mobile */
+  }
+  
+  .sticky-footer {
+    padding: 0.6rem 1rem 0.8rem;
+  }
+  
+  .live-data-block {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.8rem;
+  }
+  
+  .about-section {
+    padding: 1.5rem;
+  }
+  
+  .contract-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .contract-address {
+    font-size: 0.8rem;
   }
 }
 
-/* Buy button at the top */
+/* Buy button styles */
 .buy-btn {
   display: block;
   width: 100%;
   max-width: 480px;
-  margin: 2.2rem auto 1.2rem auto;
-  padding: 1.1rem 0;
-  background: #222;
+  margin: 0 auto;
+  padding: 0.9rem 0;
+  background: linear-gradient(-45deg, #ff7043, #ff8a65, #ff7043, #ff5722);
+  background-size: 200% 200%;
   color: #fff;
   font-size: 1.35rem;
-  font-weight: 800;
+  font-weight: 700;
   border: none;
-  border-radius: 1.2rem;
+  border-radius: 1rem;
   text-align: center;
   text-decoration: none;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 15px rgba(255, 112, 67, 0.4);
   letter-spacing: 0.03em;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.3s ease;
   position: relative;
-  z-index: 10;
+  overflow: hidden;
+  text-transform: uppercase;
+  animation: gradientBg 3s ease infinite, pulse 2s ease-in-out infinite;
 }
-.buy-btn:hover, .buy-btn:focus {
-  background: #ff7043;
-  color: #fff;
+
+.btn-text {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-icons {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.2rem;
+  transform: translateY(1px);
+  filter: saturate(1.2);
+}
+
+.buy-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+  animation: shine 3s linear infinite;
+}
+
+.buy-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.buy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 112, 67, 0.6);
+  filter: brightness(1.1);
+}
+
+.buy-btn:hover::after {
+  opacity: 1;
+}
+
+.buy-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 10px rgba(255, 112, 67, 0.4);
+}
+
+.buy-btn:hover .btn-icons {
+  animation: wiggle 0.5s ease;
+}
+
+/* Button animations */
+@keyframes gradientBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: translateY(1px) rotate(0deg); }
+  25% { transform: translateY(1px) rotate(-10deg); }
+  75% { transform: translateY(1px) rotate(10deg); }
 }
 
 /* Live stats counter block */
@@ -181,63 +302,112 @@ body {
   font-weight: 500;
 }
 
-.about-section {
+/* Standardized section styling */
+.about-section,
+.tokenomics-section,
+.how-to-buy-section,
+.community-section,
+.contract-section {
   background: rgba(68, 57, 53, 0.95);
   border-radius: 1.2rem;
-  padding: 2rem;
-  margin: 2rem auto;
+  padding: 1.8rem 1.5rem;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  text-align: center;
   max-width: 600px;
   width: 90%;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  margin: 2rem auto;
+  backdrop-filter: blur(10px);
+  color: #ffffff;
 }
 
-.about-section h2 {
+/* Section headers */
+.about-section h2,
+.tokenomics-section h2,
+.how-to-buy-section h2,
+.community-section h2,
+.contract-section h3 {
   font-size: 2rem;
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
   color: #ffb347;
   letter-spacing: 0.05em;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
+  text-transform: uppercase;
 }
 
-.about-section p {
+/* Section content */
+.about-section p,
+.how-to-buy-section p {
   font-size: 1.1rem;
-  line-height: 1.5;
+  line-height: 1.4;
   margin: 0;
-}
-
-.contract-section {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  margin: 1rem auto;
-  max-width: 600px;
-  width: 90%;
-  text-align: center;
+  color: #ffffff;
   font-family: 'Space Grotesk', sans-serif;
 }
 
-.contract-section h3 {
-  color: #fff;
-  margin: 0 0 1rem;
-  font-size: 1.2rem;
+/* Grid layouts */
+.tokenomics-grid,
+.steps-container,
+.community-stats {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  width: 100%;
 }
 
+.tokenomics-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.steps-container {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.community-stats {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Stats and metrics */
+.metric,
+.stat,
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metric-value,
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4dff7c;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.metric-label,
+.stat-label {
+  font-size: 1rem;
+  color: #ffffff;
+  opacity: 0.9;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Contract section */
 .contract-container {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.8rem;
-  border-radius: 0.8rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .contract-address {
   font-family: monospace;
-  color: #fff;
+  color: #ffffff;
   font-size: 0.9rem;
   background: transparent;
   padding: 0.3rem 0.5rem;
@@ -245,6 +415,253 @@ body {
   word-break: break-all;
 }
 
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .about-section,
+  .tokenomics-section,
+  .how-to-buy-section,
+  .community-section,
+  .contract-section {
+    padding: 1.5rem 1rem;
+    width: 85%;
+  }
+
+  .tokenomics-grid,
+  .steps-container,
+  .community-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-value,
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .metric-label,
+  .stat-label {
+    font-size: 0.9rem;
+  }
+
+  .contract-container {
+    flex-direction: column;
+    padding: 0.8rem;
+  }
+
+  .contract-address {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+
+  .about-section h2,
+  .tokenomics-section h2,
+  .how-to-buy-section h2,
+  .community-section h2,
+  .contract-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tokenomics-grid,
+  .community-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-value,
+  .stat-value {
+    font-size: 1.4rem;
+  }
+}
+
+/* Navigation Styles */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(34, 34, 34, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 1001;
+}
+
+.mobile-menu-toggle:hover {
+  color: #ff7043;
+}
+
+.burger-btn {
+  font-size: 1.8rem;
+  padding: 0.5rem;
+}
+
+.close-btn {
+  font-size: 1.4rem;
+  padding: 0.4rem;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #ff7043;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+.social-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: #ff7043;
+}
+
+.mobile-social {
+  display: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .burger-btn {
+    display: block;
+  }
+
+  .close-btn {
+    display: none;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75%;
+    height: 100vh;
+    background: rgba(34, 34, 34, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 1.5rem 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    margin-top: 60px;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links.active .close-btn {
+    display: block;
+  }
+
+  .nav-links::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .nav-links.active::before {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    font-size: 1.1rem;
+    padding: 0.3rem 0;
+    opacity: 0.9;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-links a:hover {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .social-links a {
+    font-size: 1.4rem;
+    opacity: 0.9;
+  }
+
+  .social-links a:hover {
+    opacity: 1;
+    color: #ff7043;
+  }
+
+  .sticky-footer {
+    z-index: 1002;
+  }
+
+  section {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Section padding for header offset */
+section {
+  scroll-margin-top: 70px;
+}
+
+/* Copy button styles */
 .copy-btn {
   background: #ff7043;
   border: none;
@@ -269,82 +686,44 @@ body {
   font-size: 1.1rem;
 }
 
+/* Step icon */
+.step-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Sticky footer */
 .sticky-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(34, 34, 34, 0.95);
+  background: linear-gradient(to bottom, rgba(68,57,53,0.95), rgba(51,43,40,0.95));
   backdrop-filter: blur(8px);
   padding: 0.7rem 1rem 1rem;
-  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-}
-
-.buy-btn {
-  display: block;
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 0.9rem 0;
-  background: #ff7043;
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 1rem;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
-  letter-spacing: 0.03em;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.buy-btn:hover {
-  background: #ff8a65;
-  transform: translateY(-1px);
+  z-index: 1000;
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
 }
 
 .live-data-block {
-  font-size: 0.95rem;
+  color: #ffffff;
+  font-size: 1.2rem;
   font-weight: 600;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.7rem;
-  padding: 0.4rem 1rem;
-  letter-spacing: 0.01em;
   text-align: center;
-  margin: 0;
-  min-width: 200px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-@media (max-width: 600px) {
-  body {
-    padding-bottom: 130px; /* Slightly more space on mobile */
-  }
-  
+@media (max-width: 768px) {
   .sticky-footer {
     padding: 0.6rem 1rem 0.8rem;
   }
   
   .live-data-block {
-    font-size: 0.9rem;
-    padding: 0.35rem 0.8rem;
-  }
-  
-  .about-section {
-    padding: 1.5rem;
-  }
-  
-  .contract-container {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .contract-address {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
   }
 } 
