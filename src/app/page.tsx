@@ -1,103 +1,229 @@
-import Image from "next/image";
+// Fully migrated from legacy static site (index.html, script.js, config.js) to Next.js page (src/app/page.tsx)
+// All dynamic logic, content, and interactivity are now implemented using React idioms.
+// Fixed: TypeScript error for socialIcons object access.
+// Fixed: Import path for config.js to use correct relative path
+
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import config from './config.js';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // State for contract copy button
+  const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle');
+  // State for community stats
+  const [communityStats, setCommunityStats] = useState(() =>
+    config.content.community.stats.map(stat => ({ ...stat }))
+  );
+  // State for nav menu
+  const [navOpen, setNavOpen] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  // Refs for nav and close button
+  const navLinksRef = useRef<HTMLDivElement>(null);
+  const burgerBtnRef = useRef<HTMLButtonElement>(null);
+
+  // Populate navigation and social links
+  useEffect(() => {
+    // No-op: handled in JSX below
+  }, []);
+
+  // Handle mobile menu open/close
+  useEffect(() => {
+    if (navOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [navOpen]);
+
+  // Handle escape key for menu
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setNavOpen(false);
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
+
+  // Community stats animation (simulate live updates)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCommunityStats(prev => prev.map(stat => {
+        if (stat.id === 'holders-count') {
+          let value = Math.min(
+            parseInt(stat.value.replace(/,/g, '')) + Math.floor(Math.random() * 3),
+            config.stats.maxHolders
+          );
+          return { ...stat, value: value.toLocaleString() };
+        }
+        if (stat.id === 'market-cap') {
+          let value = Math.min(
+            parseInt(stat.value.replace(/[$,]/g, '')) + Math.floor(Math.random() * 100),
+            config.stats.maxMarketCap
+          );
+          return { ...stat, value: `$${value.toLocaleString()}` };
+        }
+        if (stat.id === 'volume') {
+          let value = Math.min(
+            parseInt(stat.value.replace(/[$,]/g, '')) + Math.floor(Math.random() * 20),
+            config.stats.maxVolume
+          );
+          return { ...stat, value: `$${value.toLocaleString()}` };
+        }
+        return stat;
+      }));
+    }, config.stats.updateInterval);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Contract copy logic
+  const handleCopyContract = async () => {
+    await navigator.clipboard.writeText(config.content.contract.address);
+    setCopyState('copied');
+    setTimeout(() => setCopyState('idle'), 1200);
+  };
+
+  // Dynamic meme text
+  const memeText = config.content.memeText.map((item, i) => {
+    if (item.finalLine) {
+      return (
+        <p className="final-line" key={i}>
+          <span className="notfine-text">{item.finalLine.text}</span> — <span className="fine">{item.finalLine.status}</span> {item.finalLine.emojis}
+        </p>
+      );
+    }
+    return (
+      <p key={i}>
+        {item.emoji} <span className="down">{item.text}</span> — <span className="not-fine">{item.status}</span>
+      </p>
+    );
+  });
+
+  // Dynamic tokenomics metrics
+  const tokenomicsMetrics = config.content.tokenomics.metrics.map((metric, i) => (
+    <div className="metric" key={i}>
+      <span className="metric-value">{metric.value}</span>
+      <span className="metric-label">{metric.label}</span>
     </div>
+  ));
+
+  // Dynamic how-to-buy steps
+  const howToBuySteps = config.content.howToBuy.steps.map((step, i) => (
+    <div className="step" key={i}>
+      <div className="step-icon">{step.icon}</div>
+      <h3>{step.title}</h3>
+      <p>{step.text}</p>
+    </div>
+  ));
+
+  // Dynamic community stats
+  const communityStatsBlocks = communityStats.map((stat, i) => (
+    <div className="stat" key={i}>
+      <span className="stat-value" id={stat.id}>{stat.value}</span>
+      <span className="stat-label">{stat.label}</span>
+    </div>
+  ));
+
+  // Dynamic nav links
+  const navLinks = config.navigation.map((item, i) => (
+    <a href={item.href} key={i} onClick={() => setNavOpen(false)}>{item.text}</a>
+  ));
+
+  // Dynamic social links
+  const socialIcons: Record<'twitter' | 'telegram' | 'discord', string> = {
+    twitter: 'fa-twitter',
+    telegram: 'fa-telegram',
+    discord: 'fa-discord',
+  };
+  const socialLinks = Object.entries(config.social).map(([platform, url], i) => (
+    <a href={url} title={platform.charAt(0).toUpperCase() + platform.slice(1)} key={i} target="_blank" rel="noopener noreferrer">
+      <i className={`fab ${socialIcons[platform as keyof typeof socialIcons]}`}></i>
+    </a>
+  ));
+
+  // Dynamic buy button
+  const buyBtn = (
+    <a href={config.content.buyButton.link} className="buy-btn">
+      <span className="btn-text">{config.content.buyButton.text} <span className="btn-icons">{config.content.buyButton.emojis}</span></span>
+    </a>
+  );
+
+  // Dynamic contract section
+  const contractSection = (
+    <div className="contract-container">
+      <code className="contract-address">{config.content.contract.address}</code>
+      <button className="copy-btn" onClick={handleCopyContract}>
+        <span className="copy-icon">{copyState === 'copied' ? config.content.contract.copyButton.successIcon : config.content.contract.copyButton.icon}</span>
+        <span className="copy-text">{copyState === 'copied' ? config.content.contract.copyButton.successText : config.content.contract.copyButton.text}</span>
+      </button>
+    </div>
+  );
+
+  return (
+    <>
+      <nav className="main-nav">
+        {/* Burger menu for opening */}
+        <button
+          className="mobile-menu-toggle burger-btn"
+          aria-label="Open menu"
+          aria-expanded={navOpen}
+          onClick={() => setNavOpen(true)}
+          ref={burgerBtnRef}
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+        <div
+          className={`nav-links${navOpen ? ' active' : ''}`}
+          ref={navLinksRef}
+        >
+          {/* Close button */}
+          <button
+            className="mobile-menu-toggle close-btn"
+            aria-label="Close menu"
+            aria-expanded={navOpen}
+            onClick={() => setNavOpen(false)}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+          {navLinks}
+        </div>
+        {/* Social links in header */}
+        <div className="social-links">{socialLinks}</div>
+      </nav>
+
+      <main className="center-container">
+        <img src="/meme.png" alt="NOTFINE Meme" className="meme-img" />
+        <section className="meme-text">{memeText}</section>
+        <section id="about" className="about-section">
+          <h2>{config.content.about.title}</h2>
+          <p>{config.content.about.text}</p>
+        </section>
+        <section id="tokenomics" className="tokenomics-section">
+          <h2>{config.content.tokenomics.title}</h2>
+          <div className="tokenomics-grid">{tokenomicsMetrics}</div>
+        </section>
+        <section id="how-to-buy" className="how-to-buy-section">
+          <h2>{config.content.howToBuy.title}</h2>
+          <div className="steps-container">{howToBuySteps}</div>
+        </section>
+        <div className="contract-section">
+          <h3>{config.content.contract.title}</h3>
+          {contractSection}
+        </div>
+        <section id="community" className="community-section">
+          <h2>{config.content.community.title}</h2>
+          <div className="community-stats">{communityStatsBlocks}</div>
+        </section>
+      </main>
+
+      <footer className="sticky-footer">
+        <div id="live-data" className="live-data-block">
+          {/* You can add live data here if needed */}
+        </div>
+        {buyBtn}
+      </footer>
+    </>
   );
 }

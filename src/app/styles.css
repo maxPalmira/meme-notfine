@@ -1,0 +1,443 @@
+/*
+Migrated styles.css from legacy static site to Next.js global stylesheet (src/app/styles.css).
+Original author: maxPalmira/meme-notfine
+Updated: Fixed navigation, sections styling, and overall layout to match original design
+Updated: Reduced spacing between sections for better mobile view
+*/
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Loading state styles */
+.loading * {
+  visibility: hidden;
+}
+
+.loading::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffb347 0%, #ff7043 100%);
+  visibility: visible;
+  z-index: 9999;
+}
+
+.loading::after {
+  content: "Loading...";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  color: white;
+  visibility: visible;
+  z-index: 10000;
+}
+
+body:not(.loading) * {
+  visibility: visible;
+}
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background: linear-gradient(135deg, #ffb347 0%, #ff7043 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 120px;
+}
+
+/* Navigation styles */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(51, 41, 37, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff7043;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: #ffffff;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: #ff7043;
+}
+
+/* Mobile menu */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Main content */
+.center-container {
+  max-width: 1200px;
+  margin: 80px auto 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Sections */
+section, .contract-section {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(51, 41, 37, 0.95);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin: 0.25rem 0;
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+/* Meme image */
+.meme-img {
+  width: 245px;
+  height: auto;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  margin: 2rem 0;
+  animation: bounce 2.5s infinite cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+/* Meme text section */
+.meme-text {
+  background: rgba(51, 41, 37, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  max-width: 800px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.meme-text p {
+  margin: 0.8rem 0;
+  line-height: 1.2;
+}
+
+.down, .not-fine {
+  color: #ff6b6b;
+  font-weight: 700;
+}
+
+.final-line {
+  margin-top: 2rem !important;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.notfine-text {
+  color: #ff6b6b;
+}
+
+.fine {
+  color: #4dff7c;
+}
+
+/* Tokenomics section */
+.tokenomics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4dff7c;
+}
+
+.metric-label {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* How to buy section */
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.step-icon {
+  font-size: 2.5rem;
+}
+
+/* Contract section */
+.contract-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.contract-address {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 1.1rem;
+}
+
+.copy-btn {
+  background: #ff7043;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.3s;
+}
+
+.copy-btn:hover {
+  background: #ff5722;
+}
+
+/* Community stats */
+.community-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4dff7c;
+}
+
+/* Footer */
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(51, 41, 37, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 2000;
+}
+
+.live-data-block {
+  background: rgba(255,255,255,0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* Buy button */
+.buy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(-45deg, #ff7043, #ff8a65, #ff7043, #ff5722);
+  background-size: 200% 200%;
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  animation: gradientBg 3s ease infinite;
+  width: auto;
+  min-width: 200px;
+}
+
+.buy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 112, 67, 0.4);
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes gradientBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75%;
+    height: 100vh;
+    background: rgba(51, 41, 37, 0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    padding-top: 4rem;
+    gap: 2rem;
+    z-index: 1500;
+  }
+
+  .nav-links::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links.active::before {
+    opacity: 1;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .tokenomics-grid,
+  .steps-container,
+  .community-stats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .center-container {
+    padding: 0.5rem;
+    margin-top: 60px;
+    gap: 0.5rem;
+  }
+
+  .meme-img {
+    width: 100%;
+    height: 40vh;
+    object-fit: contain;
+    margin: 0.25rem 0;
+    max-height: 40vh;
+  }
+
+  section, .contract-section {
+    padding: 1rem;
+    margin: 0.15rem 0;
+  }
+
+  .meme-text {
+    font-size: 1.4rem;
+  }
+
+  .final-line {
+    font-size: 1.6rem;
+  }
+
+  .contract-container {
+    flex-direction: column;
+  }
+
+  .contract-address {
+    width: 100%;
+    text-align: center;
+    word-break: break-all;
+  }
+} 
