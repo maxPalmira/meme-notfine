@@ -49,18 +49,23 @@ const config = {
       steps: [
         {
           icon: "👛",
-          title: "Create Wallet",
-          text: "Download MetaMask or your preferred wallet",
+          title: "Get a Wallet",
+          text: "Don't have a wallet? Just download MetaMask from your phone's app store or as a browser extension. It's super easy!",
         },
         {
           icon: "💰",
-          title: "Get ETH",
-          text: "Buy ETH from an exchange or transfer to your wallet",
+          title: "Get Some BNB",
+          text: "Buy BNB from any exchange (like Binance or Coinbase) and send it to your wallet. That's the coin you'll need to buy $NOTFINE!",
         },
         {
-          icon: "🔄",
-          title: "Swap for $NOTFINE",
-          text: "Use pump.fun to swap ETH for $NOTFINE",
+          icon: "🌐",
+          title: "Go to Pump.fun",
+          text: "Visit Pump.fun in your wallet's browser. Click 'Connect Wallet' and select your wallet. Easy peasy!",
+        },
+        {
+          icon: "💸",
+          title: "Buy $NOTFINE",
+          text: "Copy our contract address, paste it in, choose how much BNB you want to spend, and click 'Swap'. Congrats, you're NOTFINE! 🎉",
         },
       ],
     },

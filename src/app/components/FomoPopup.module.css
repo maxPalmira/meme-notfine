@@ -1,0 +1,89 @@
+/* Created: Styles for FOMO popup notifications
+   Features: Responsive design for desktop and mobile
+   Added: Animations for popup appearance and disappearance
+   Added: Different styles for desktop corner and mobile notifications
+   Updated: Added subtle border to notifications
+*/
+
+.notificationContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.notification {
+  background: rgba(51, 41, 37, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out forwards;
+  max-width: 300px;
+  transform-origin: bottom right;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notificationContent {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.address {
+  font-family: monospace;
+  color: #4dff7c;
+}
+
+.amount {
+  font-weight: 600;
+  color: #4dff7c;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .notificationContainer {
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+    padding: 10px;
+  }
+
+  .notification {
+    width: 100%;
+    max-width: none;
+    border-radius: 8px;
+    background: #332925;
+    animation: slideDown 0.3s ease-out forwards;
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+} 

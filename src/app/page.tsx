@@ -2,10 +2,18 @@
 // All dynamic logic, content, and interactivity are now implemented using React idioms.
 // Fixed: TypeScript error for socialIcons object access.
 // Fixed: Import path for config.js to use correct relative path
+// Updated: Reordered sections according to requirements (Hero, Slogans, Live Stats, Contract, How to Buy, FAQ, Footer)
+// Added: FOMO popup notifications
+// Added: FAQ accordion component
+// Updated: Restructured footer into regular footer and mobile sticky action bar
+// Updated: Added buy button to desktop header
 
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import config from './config.js';
+import FomoPopup from './components/FomoPopup';
+import FAQ from './components/FAQ';
+import HowToBuy from './components/HowToBuy';
 
 export default function Home() {
   // State for contract copy button
@@ -20,11 +28,6 @@ export default function Home() {
   // Refs for nav and close button
   const navLinksRef = useRef<HTMLDivElement>(null);
   const burgerBtnRef = useRef<HTMLButtonElement>(null);
-
-  // Populate navigation and social links
-  useEffect(() => {
-    // No-op: handled in JSX below
-  }, []);
 
   // Handle mobile menu open/close
   useEffect(() => {
@@ -109,15 +112,6 @@ export default function Home() {
     </div>
   ));
 
-  // Dynamic how-to-buy steps
-  const howToBuySteps = config.content.howToBuy.steps.map((step, i) => (
-    <div className="step" key={i}>
-      <div className="step-icon">{step.icon}</div>
-      <h3>{step.title}</h3>
-      <p>{step.text}</p>
-    </div>
-  ));
-
   // Dynamic community stats
   const communityStatsBlocks = communityStats.map((stat, i) => (
     <div className="stat" key={i}>
@@ -147,6 +141,13 @@ export default function Home() {
   const buyBtn = (
     <a href={config.content.buyButton.link} className="buy-btn">
       <span className="btn-text">{config.content.buyButton.text} <span className="btn-icons">{config.content.buyButton.emojis}</span></span>
+    </a>
+  );
+
+  // Desktop header buy button
+  const headerBuyBtn = (
+    <a href={config.content.buyButton.link} className="nav-buy-btn">
+      <span className="btn-text">{config.content.buyButton.text}</span>
     </a>
   );
 
@@ -189,41 +190,70 @@ export default function Home() {
           </button>
           {navLinks}
         </div>
-        {/* Social links in header */}
-        <div className="social-links">{socialLinks}</div>
+        {/* Right side of header with social links and buy button */}
+        <div className="nav-right">
+          <div className="social-links">{socialLinks}</div>
+          {headerBuyBtn}
+        </div>
       </nav>
 
       <main className="center-container">
+        {/* 1. Hero */}
         <img src="/meme.png" alt="NOTFINE Meme" className="meme-img" />
+        
+        {/* 2. Slogans */}
         <section className="meme-text">{memeText}</section>
-        <section id="about" className="about-section">
-          <h2>{config.content.about.title}</h2>
-          <p>{config.content.about.text}</p>
+        
+        {/* 3. Live Stats */}
+        <section id="community" className="community-section">
+          <h2 className="section-title">{config.content.community.title}</h2>
+          <div className="community-stats">{communityStatsBlocks}</div>
         </section>
-        <section id="tokenomics" className="tokenomics-section">
-          <h2>{config.content.tokenomics.title}</h2>
-          <div className="tokenomics-grid">{tokenomicsMetrics}</div>
-        </section>
-        <section id="how-to-buy" className="how-to-buy-section">
-          <h2>{config.content.howToBuy.title}</h2>
-          <div className="steps-container">{howToBuySteps}</div>
-        </section>
+
+        {/* 4. Contract Address */}
         <div className="contract-section">
-          <h3>{config.content.contract.title}</h3>
+          <h3 className="section-title">{config.content.contract.title}</h3>
           {contractSection}
         </div>
-        <section id="community" className="community-section">
-          <h2>{config.content.community.title}</h2>
-          <div className="community-stats">{communityStatsBlocks}</div>
+
+        {/* 5. How to Buy */}
+        <HowToBuy />
+
+        {/* 6. FAQ */}
+        <section id="faq" className="faq-section">
+          <h2 className="section-title">Frequently Asked Questions</h2>
+          <FAQ />
+        </section>
+
+        {/* Other sections */}
+        <section id="about" className="about-section">
+          <h2 className="section-title">{config.content.about.title}</h2>
+          <p>{config.content.about.text}</p>
+        </section>
+        
+        <section id="tokenomics" className="tokenomics-section">
+          <h2 className="section-title">{config.content.tokenomics.title}</h2>
+          <div className="tokenomics-grid">{tokenomicsMetrics}</div>
         </section>
       </main>
 
-      <footer className="sticky-footer">
-        <div id="live-data" className="live-data-block">
-          {/* You can add live data here if needed */}
+      {/* Regular footer */}
+      <footer className="main-footer">
+        <div className="footer-content">
+          <div className="footer-social-links">
+            {socialLinks}
+          </div>
+          <p className="disclaimer">This is not financial advice. Cryptocurrency investments carry high risk.</p>
+          <p className="copyright">© 2024 NOTFINE. All rights reserved.</p>
         </div>
-        {buyBtn}
       </footer>
+
+      {/* Mobile sticky action bar */}
+      <div className="mobile-action-bar">
+        {buyBtn}
+      </div>
+
+      <FomoPopup />
     </>
   );
 }

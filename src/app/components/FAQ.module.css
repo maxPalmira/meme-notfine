@@ -1,0 +1,67 @@
+/* Created: Styles for FAQ accordion component
+   Features: Smooth animations and transitions
+   Added: Hover and focus states
+   Added: Accessible styling
+*/
+
+.faqContainer {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  background: rgba(51, 41, 37, 0.95);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.faqQuestion {
+  width: 100%;
+  padding: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.faqQuestion:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.faqQuestion:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #4dff7c;
+}
+
+.icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-left: 1rem;
+  transition: transform 0.3s;
+}
+
+.active .icon {
+  transform: rotate(180deg);
+}
+
+.faqAnswer {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.faqAnswer p {
+  padding: 1.5rem;
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+} 
