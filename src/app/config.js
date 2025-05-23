@@ -1,6 +1,7 @@
 // Configuration file for NOTFINE meme coin website
 // Contains all editable content: texts, images, links, and other configuration options
 // Restored for Next.js integration
+// Performance optimized: Updated stats intervals and limits for better performance
 
 const config = {
   meta: {
@@ -94,7 +95,7 @@ const config = {
     },
   },
   stats: {
-    updateInterval: 3000, // ms
+    updateInterval: 10000, // Performance optimized: Increased from 3000ms to 10000ms
     maxHolders: 1500,
     maxMarketCap: 250000,
     maxVolume: 50000,

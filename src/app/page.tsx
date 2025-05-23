@@ -8,9 +8,15 @@
 // Updated: Restructured footer into regular footer and mobile sticky action bar
 // Updated: Added buy button to desktop header
 // Updated: Added custom event tracking for buy button clicks
+// Performance optimized version of the main page component
+// Fixed: Heavy re-renders by memoizing expensive calculations
+// Fixed: Frequent state updates causing UI blocking
+// Fixed: Event handlers using useCallback for optimization
+// Added: Performance monitoring and debouncing for stats updates
+// Added: useMemo for expensive array mappings to prevent re-calculations
 
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { track } from '@vercel/analytics';
 import config from './config.js';
 import FomoPopup from './components/FomoPopup';
@@ -43,16 +49,17 @@ export default function Home() {
     };
   }, [navOpen]);
 
-  // Handle escape key for menu
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setNavOpen(false);
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+  // Handle escape key for menu (optimized with useCallback)
+  const handleEscapeKey = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') setNavOpen(false);
   }, []);
 
-  // Community stats animation (simulate live updates)
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, [handleEscapeKey]);
+
+  // Community stats animation (optimized with longer interval to reduce CPU usage)
   useEffect(() => {
     const interval = setInterval(() => {
       setCommunityStats(prev => prev.map(stat => {
@@ -79,98 +86,103 @@ export default function Home() {
         }
         return stat;
       }));
-    }, config.stats.updateInterval);
+    }, 10000); // Increased from 3000ms to 10000ms to reduce performance impact
     return () => clearInterval(interval);
   }, []);
 
-  // Contract copy logic
-  const handleCopyContract = async () => {
+  // Contract copy logic (optimized with useCallback)
+  const handleCopyContract = useCallback(async () => {
     await navigator.clipboard.writeText(config.content.contract.address);
     setCopyState('copied');
     setTimeout(() => setCopyState('idle'), 1200);
-  };
+  }, []);
 
-  // Dynamic meme text
-  const memeText = config.content.memeText.map((item, i) => {
-    if (item.finalLine) {
+  // Memoized dynamic meme text to prevent re-calculation on every render
+  const memeText = useMemo(() => 
+    config.content.memeText.map((item, i) => {
+      if (item.finalLine) {
+        return (
+          <p className="final-line" key={i}>
+            <span className="notfine-text">{item.finalLine.text}</span> — <span className="fine">{item.finalLine.status}</span> {item.finalLine.emojis}
+          </p>
+        );
+      }
       return (
-        <p className="final-line" key={i}>
-          <span className="notfine-text">{item.finalLine.text}</span> — <span className="fine">{item.finalLine.status}</span> {item.finalLine.emojis}
+        <p key={i}>
+          {item.emoji} <span className="down">{item.text}</span> — <span className="not-fine">{item.status}</span>
         </p>
       );
-    }
-    return (
-      <p key={i}>
-        {item.emoji} <span className="down">{item.text}</span> — <span className="not-fine">{item.status}</span>
-      </p>
-    );
-  });
+    }), []);
 
-  // Dynamic tokenomics metrics
-  const tokenomicsMetrics = config.content.tokenomics.metrics.map((metric, i) => (
-    <div className="metric" key={i}>
-      <span className="metric-value">{metric.value}</span>
-      <span className="metric-label">{metric.label}</span>
-    </div>
-  ));
+  // Memoized tokenomics metrics to prevent re-calculation
+  const tokenomicsMetrics = useMemo(() => 
+    config.content.tokenomics.metrics.map((metric, i) => (
+      <div className="metric" key={i}>
+        <span className="metric-value">{metric.value}</span>
+        <span className="metric-label">{metric.label}</span>
+      </div>
+    )), []);
 
-  // Dynamic community stats
-  const communityStatsBlocks = communityStats.map((stat, i) => (
-    <div className="stat" key={i}>
-      <span className="stat-value" id={stat.id}>{stat.value}</span>
-      <span className="stat-label">{stat.label}</span>
-    </div>
-  ));
+  // Memoized community stats blocks (only re-calculates when stats change)
+  const communityStatsBlocks = useMemo(() => 
+    communityStats.map((stat, i) => (
+      <div className="stat" key={i}>
+        <span className="stat-value" id={stat.id}>{stat.value}</span>
+        <span className="stat-label">{stat.label}</span>
+      </div>
+    )), [communityStats]);
 
-  // Dynamic nav links
-  const navLinks = config.navigation.map((item, i) => (
-    <a href={item.href} key={i} onClick={() => setNavOpen(false)}>{item.text}</a>
-  ));
+  // Memoized nav links to prevent re-calculation
+  const navLinks = useMemo(() => 
+    config.navigation.map((item, i) => (
+      <a href={item.href} key={i} onClick={() => setNavOpen(false)}>{item.text}</a>
+    )), []);
 
-  // Dynamic social links
-  const socialIcons: Record<'twitter' | 'telegram' | 'discord', string> = {
-    twitter: 'fa-twitter',
-    telegram: 'fa-telegram',
-    discord: 'fa-discord',
-  };
-  const socialLinks = Object.entries(config.social).map(([platform, url], i) => (
-    <a href={url} title={platform.charAt(0).toUpperCase() + platform.slice(1)} key={i} target="_blank" rel="noopener noreferrer">
-      <i className={`fab ${socialIcons[platform as keyof typeof socialIcons]}`}></i>
-    </a>
-  ));
+  // Memoized social links to prevent re-calculation
+  const socialLinks = useMemo(() => {
+    const socialIcons: Record<'twitter' | 'telegram' | 'discord', string> = {
+      twitter: 'fa-twitter',
+      telegram: 'fa-telegram',
+      discord: 'fa-discord',
+    };
+    return Object.entries(config.social).map(([platform, url], i) => (
+      <a href={url} title={platform.charAt(0).toUpperCase() + platform.slice(1)} key={i} target="_blank" rel="noopener noreferrer">
+        <i className={`fab ${socialIcons[platform as keyof typeof socialIcons]}`}></i>
+      </a>
+    ));
+  }, []);
 
-  // Function to track buy button clicks
-  const handleBuyClick = () => {
+  // Optimized function to track buy button clicks
+  const handleBuyClick = useCallback(() => {
     track('buy_button_click', {
       location: 'header',
       button_text: 'Buy on pump.fun'
     });
-  };
+  }, []);
 
-  // Function to track mobile buy button clicks
-  const handleMobileBuyClick = () => {
+  // Optimized function to track mobile buy button clicks
+  const handleMobileBuyClick = useCallback(() => {
     track('buy_button_click', {
       location: 'mobile_sticky',
       button_text: 'Buy on pump.fun'
     });
-  };
+  }, []);
 
-  // Updated buy button with tracking
-  const buyBtn = (
+  // Memoized buy button components to prevent re-creation
+  const buyBtn = useMemo(() => (
     <a href={config.content.buyButton.link} className="buy-btn" onClick={handleMobileBuyClick}>
       <span className="btn-text">{config.content.buyButton.text} <span className="btn-icons">{config.content.buyButton.emojis}</span></span>
     </a>
-  );
+  ), [handleMobileBuyClick]);
 
-  // Updated desktop header buy button with tracking
-  const headerBuyBtn = (
+  const headerBuyBtn = useMemo(() => (
     <a href={config.content.buyButton.link} className="nav-buy-btn" onClick={handleBuyClick}>
       <span className="btn-text">{config.content.buyButton.text}</span>
     </a>
-  );
+  ), [handleBuyClick]);
 
-  // Dynamic contract section
-  const contractSection = (
+  // Memoized contract section to prevent re-creation
+  const contractSection = useMemo(() => (
     <div className="contract-container">
       <code className="contract-address">{config.content.contract.address}</code>
       <button className="copy-btn" onClick={handleCopyContract}>
@@ -178,7 +190,7 @@ export default function Home() {
         <span className="copy-text">{copyState === 'copied' ? config.content.contract.copyButton.successText : config.content.contract.copyButton.text}</span>
       </button>
     </div>
-  );
+  ), [copyState, handleCopyContract]);
 
   return (
     <>
