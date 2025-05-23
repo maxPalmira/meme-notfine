@@ -7,9 +7,11 @@
 // Added: FAQ accordion component
 // Updated: Restructured footer into regular footer and mobile sticky action bar
 // Updated: Added buy button to desktop header
+// Updated: Added custom event tracking for buy button clicks
 
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { track } from '@vercel/analytics';
 import config from './config.js';
 import FomoPopup from './components/FomoPopup';
 import FAQ from './components/FAQ';
@@ -137,16 +139,32 @@ export default function Home() {
     </a>
   ));
 
-  // Dynamic buy button
+  // Function to track buy button clicks
+  const handleBuyClick = () => {
+    track('buy_button_click', {
+      location: 'header',
+      button_text: 'Buy on pump.fun'
+    });
+  };
+
+  // Function to track mobile buy button clicks
+  const handleMobileBuyClick = () => {
+    track('buy_button_click', {
+      location: 'mobile_sticky',
+      button_text: 'Buy on pump.fun'
+    });
+  };
+
+  // Updated buy button with tracking
   const buyBtn = (
-    <a href={config.content.buyButton.link} className="buy-btn">
+    <a href={config.content.buyButton.link} className="buy-btn" onClick={handleMobileBuyClick}>
       <span className="btn-text">{config.content.buyButton.text} <span className="btn-icons">{config.content.buyButton.emojis}</span></span>
     </a>
   );
 
-  // Desktop header buy button
+  // Updated desktop header buy button with tracking
   const headerBuyBtn = (
-    <a href={config.content.buyButton.link} className="nav-buy-btn">
+    <a href={config.content.buyButton.link} className="nav-buy-btn" onClick={handleBuyClick}>
       <span className="btn-text">{config.content.buyButton.text}</span>
     </a>
   );

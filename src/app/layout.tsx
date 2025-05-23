@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+import { Analytics } from '@vercel/analytics/react';
 import "./tailwind.css";
 import './styles.css';
 
@@ -29,6 +30,7 @@ export default function RootLayout({
       </head>
       <body className={spaceGrotesk.className}>
         {children}
+        <Analytics debug={true} />
       </body>
     </html>
   );
