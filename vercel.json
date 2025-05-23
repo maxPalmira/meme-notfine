@@ -1,0 +1,14 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "development": true
+    }
+  },
+  "github": {
+    "autoAlias": false
+  },
+  "alias": [],
+  "regions": ["iad1"],
+  "framework": "nextjs"
+} 
