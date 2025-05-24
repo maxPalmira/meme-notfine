@@ -1,8 +1,9 @@
-// Updated: Added Vercel Speed Insights integration alongside existing Analytics
+// Updated: Added Google Analytics integration alongside existing Vercel Analytics and Speed Insights
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import GoogleAnalytics from './components/GoogleAnalytics';
 import "./tailwind.css";
 import './styles.css';
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
       </head>
       <body className={spaceGrotesk.className}>
+        <GoogleAnalytics />
         {children}
         <Analytics debug={true} />
         <SpeedInsights />
