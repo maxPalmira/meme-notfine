@@ -90,12 +90,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Contract copy logic (optimized with useCallback)
-  const handleCopyContract = useCallback(async () => {
-    await navigator.clipboard.writeText(config.content.contract.address);
-    setCopyState('copied');
-    setTimeout(() => setCopyState('idle'), 1200);
-  }, []);
+
 
   // Memoized dynamic meme text to prevent re-calculation on every render
   const memeText = useMemo(() => 
@@ -132,11 +127,34 @@ export default function Home() {
       </div>
     )), [communityStats]);
 
+  // Track social link clicks
+  const handleSocialClick = useCallback((platform: string, location: string) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'Social',
+        event_label: `${platform} - ${location}`,
+        event_value: 1
+      });
+    }
+  }, []);
+
+  // Track navigation link clicks
+  const handleNavClick = useCallback((linkText: string) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'Navigation',
+        event_label: linkText,
+        event_value: 1
+      });
+    }
+    setNavOpen(false);
+  }, []);
+
   // Memoized nav links to prevent re-calculation
   const navLinks = useMemo(() => 
     config.navigation.map((item, i) => (
-      <a href={item.href} key={i} onClick={() => setNavOpen(false)}>{item.text}</a>
-    )), []);
+      <a href={item.href} key={i} onClick={() => handleNavClick(item.text)}>{item.text}</a>
+    )), [handleNavClick]);
 
   // Memoized social links to prevent re-calculation
   const socialLinks = useMemo(() => {
@@ -146,26 +164,66 @@ export default function Home() {
       discord: 'fa-discord',
     };
     return Object.entries(config.social).map(([platform, url], i) => (
-      <a href={url} title={platform.charAt(0).toUpperCase() + platform.slice(1)} key={i} target="_blank" rel="noopener noreferrer">
+      <a 
+        href={url} 
+        title={platform.charAt(0).toUpperCase() + platform.slice(1)} 
+        key={i} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        onClick={() => handleSocialClick(platform, 'header')}
+      >
         <i className={`fab ${socialIcons[platform as keyof typeof socialIcons]}`}></i>
       </a>
     ));
-  }, []);
+  }, [handleSocialClick]);
 
   // Optimized function to track buy button clicks
   const handleBuyClick = useCallback(() => {
+    // Vercel Analytics
     track('buy_button_click', {
       location: 'header',
       button_text: 'Buy on pump.fun'
     });
+    // Google Analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'CTA',
+        event_label: 'Header Buy Button',
+        event_value: 1
+      });
+    }
   }, []);
 
   // Optimized function to track mobile buy button clicks
   const handleMobileBuyClick = useCallback(() => {
+    // Vercel Analytics
     track('buy_button_click', {
       location: 'mobile_sticky',
       button_text: 'Buy on pump.fun'
     });
+    // Google Analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'CTA',
+        event_label: 'Mobile Sticky Buy Button',
+        event_value: 1
+      });
+    }
+  }, []);
+
+  // Track contract copy clicks
+  const handleCopyContract = useCallback(async () => {
+    await navigator.clipboard.writeText(config.content.contract.address);
+    setCopyState('copied');
+    setTimeout(() => setCopyState('idle'), 1200);
+    // Google Analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'Contract',
+        event_label: 'Copy Contract Address',
+        event_value: 1
+      });
+    }
   }, []);
 
   // Memoized buy button components to prevent re-creation
@@ -271,7 +329,21 @@ export default function Home() {
       <footer className="main-footer">
         <div className="footer-content">
           <div className="footer-social-links">
-            {socialLinks}
+            {Object.entries(config.social).map(([platform, url], i) => (
+              <a 
+                href={url} 
+                title={platform.charAt(0).toUpperCase() + platform.slice(1)} 
+                key={i} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                onClick={() => handleSocialClick(platform, 'footer')}
+              >
+                <i className={`fab ${
+                  platform === 'twitter' ? 'fa-twitter' :
+                  platform === 'telegram' ? 'fa-telegram' : 'fa-discord'
+                }`}></i>
+              </a>
+            ))}
           </div>
           <p className="disclaimer">This is not financial advice. Cryptocurrency investments carry high risk.</p>
           <p className="copyright">© 2024 NOTFINE. All rights reserved.</p>
