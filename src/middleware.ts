@@ -1,8 +1,8 @@
-// Added basic authentication middleware with strong random password for site protection
+// Fixed basic authentication middleware with proper error handling and loop prevention
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // Skip auth for API routes and static assets
+  // Skip auth for API routes, static assets, and auth endpoint
   if (
     request.nextUrl.pathname.startsWith('/api/') ||
     request.nextUrl.pathname.startsWith('/_next/') ||
@@ -12,22 +12,37 @@ export function middleware(request: NextRequest) {
   }
 
   const basicAuth = request.headers.get('authorization')
-  const url = request.nextUrl.clone()
 
   if (basicAuth) {
-    const authValue = basicAuth.split(' ')[1]
-    const [user, pwd] = atob(authValue).split(':')
+    try {
+      const authValue = basicAuth.split(' ')[1]
+      if (!authValue) {
+        return createAuthResponse()
+      }
+      
+      const [user, pwd] = atob(authValue).split(':')
 
-    // Strong randomized credentials - change these as needed
-    if (user === 'memeLord' && pwd === 'K9x#mQ7$nZ2@wP5v') {
-      return NextResponse.next()
+      // Strong randomized credentials
+      if (user === 'memeLord' && pwd === 'K9x#mQ7$nZ2@wP5v') {
+        return NextResponse.next()
+      }
+    } catch (error) {
+      return createAuthResponse()
     }
   }
 
-  url.pathname = '/api/auth'
-  return NextResponse.rewrite(url)
+  return createAuthResponse()
+}
+
+function createAuthResponse() {
+  return new NextResponse('Authentication required', {
+    status: 401,
+    headers: {
+      'WWW-Authenticate': 'Basic realm="Protected Meme Site"',
+    },
+  })
 }
 
 export const config = {
-  matcher: ['/((?!api/auth|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 } 
