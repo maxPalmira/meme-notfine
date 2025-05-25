@@ -1,4 +1,4 @@
-// Added basic authentication middleware to protect site from public access
+// Added basic authentication middleware with strong random password for site protection
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
@@ -18,8 +18,8 @@ export function middleware(request: NextRequest) {
     const authValue = basicAuth.split(' ')[1]
     const [user, pwd] = atob(authValue).split(':')
 
-    // Change these credentials as needed
-    if (user === 'admin' && pwd === 'password123') {
+    // Strong randomized credentials - change these as needed
+    if (user === 'memeLord' && pwd === 'K9x#mQ7$nZ2@wP5v') {
       return NextResponse.next()
     }
   }
