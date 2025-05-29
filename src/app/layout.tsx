@@ -1,9 +1,10 @@
-// Updated: Added Google Analytics integration alongside existing Vercel Analytics and Speed Insights
+// Updated: Added Google Analytics integration alongside existing Vercel Analytics and Speed Insights, and stagewise dev toolbar
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import GoogleAnalytics from './components/GoogleAnalytics';
+import { StagewiseToolbar } from '@stagewise/toolbar-next';
 import "./tailwind.css";
 import './styles.css';
 
@@ -12,6 +13,11 @@ const spaceGrotesk = Space_Grotesk({
   weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
+
+// Stagewise configuration
+const stagewiseConfig = {
+  plugins: []
+};
 
 export const metadata: Metadata = {
   title: "NOTFINE Meme Coin",
@@ -36,6 +42,9 @@ export default function RootLayout({
       <body className={spaceGrotesk.className}>
         <GoogleAnalytics />
         {children}
+        {process.env.NODE_ENV === 'development' && (
+          <StagewiseToolbar config={stagewiseConfig} />
+        )}
         <Analytics debug={true} />
         <SpeedInsights />
       </body>
