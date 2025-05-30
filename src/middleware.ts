@@ -2,6 +2,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
+  // Skip auth for localhost development
+  if (request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1') {
+    return NextResponse.next()
+  }
+
   // Skip auth for API routes, static assets, and auth endpoint
   if (
     request.nextUrl.pathname.startsWith('/api/') ||
