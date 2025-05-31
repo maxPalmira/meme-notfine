@@ -164,7 +164,7 @@ body {
 }
 
 /* Sections */
-section, .contract-section {
+section:not(.homepage-section), .contract-section {
   width: 100%;
   max-width: 800px;
   background: rgba(51, 41, 37, 0.95);

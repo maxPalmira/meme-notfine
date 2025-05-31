@@ -22,6 +22,7 @@ const jua = Jua({
 
 // Stagewise configuration
 const stagewiseConfig = {
+  workspace: 'meme-notfine-unique-' + process.pid,
   plugins: []
 };
 
