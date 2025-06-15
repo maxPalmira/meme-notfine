@@ -28,7 +28,8 @@ const HeroSection = () => {
           alt="Cat Hero Character - NOTFINE Mascot"
           width={399}
           height={670}
-          className="absolute top-0 left-0 z-20"
+          className="absolute top-0 left-0 z-20 debug-image"
+          data-filename="cat-hero.svg"
           priority
         />
 
@@ -39,7 +40,8 @@ const HeroSection = () => {
           alt="Hero Flame 1 Decoration"
           width={324}
           height={441}
-          className="absolute z-10"
+          className="absolute z-10 debug-image"
+          data-filename="hero-flame-1.svg"
           style={{
             left: '0px',
             top: '280px'
@@ -53,7 +55,8 @@ const HeroSection = () => {
           alt="Hero Flame 2 Decoration"
           width={586}
           height={334}
-          className="absolute z-10"
+          className="absolute z-10 debug-image"
+          data-filename="hero-flame-2.svg"
           style={{
             left: '337px',
             top: '407px'
@@ -68,7 +71,8 @@ const HeroSection = () => {
         alt="Hero Flame 3 Decoration"
         width={444}
         height={276}
-        className="absolute z-10"
+        className="absolute z-10 debug-image"
+        data-filename="hero-flame-3.svg"
         style={{
           left: '1525px',
           top: '486px'
@@ -93,7 +97,8 @@ const HeroSection = () => {
           alt="Speech Bubble Background"
           width={1082}
           height={628}
-          className="absolute"
+          className="absolute debug-image"
+          data-filename="bg-speech-bubble-1.svg"
           style={{
             left: '274px',
             top: '0px'
@@ -129,7 +134,8 @@ const HeroSection = () => {
           alt="Hero Stars 1 Decoration"
           width={152}
           height={144}
-          className="absolute z-40"
+          className="absolute z-40 debug-image"
+          data-filename="stars-1.svg"
           style={{
             left: '831px',
             top: '42px'
@@ -142,7 +148,8 @@ const HeroSection = () => {
           alt="Hero Stars 2 Decoration"
           width={92}
           height={87}
-          className="absolute z-40"
+          className="absolute z-40 debug-image"
+          data-filename="stars-1.svg"
           style={{
             left: '1814px',
             top: '374px'
@@ -155,7 +162,8 @@ const HeroSection = () => {
           alt="Hero Stars 2 Duplicate Decoration"
           width={178}
           height={169}
-          className="absolute z-40"
+          className="absolute z-40 debug-image"
+          data-filename="stars-1.svg"
           style={{
             left: '1729px',
             top: '0px'

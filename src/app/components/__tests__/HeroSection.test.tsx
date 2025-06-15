@@ -214,4 +214,56 @@ describe('HeroSection', () => {
     expect(screen.getByRole('img', { name: /speech bubble/i })).toHaveAttribute('alt');
     expect(screen.getByRole('img', { name: /stars 1/i })).toHaveAttribute('alt');
   });
+});
+
+describe('Debug System Integration Bug Fixes', () => {
+  it('should have debug-image classes on all Image components', () => {
+    render(<HeroSection />);
+    
+    // Test that all images have debug-image class
+    const catImage = screen.getByTestId('hero-cat');
+    const flame1Image = screen.getByTestId('hero-flame-1');
+    const flame2Image = screen.getByTestId('hero-flame-2');
+    const flame3Image = screen.getByTestId('hero-flame-3');
+    const speechBubbleImage = screen.getByTestId('speech-bubble-svg');
+    
+    expect(catImage).toHaveClass('debug-image');
+    expect(flame1Image).toHaveClass('debug-image');
+    expect(flame2Image).toHaveClass('debug-image');
+    expect(flame3Image).toHaveClass('debug-image');
+    expect(speechBubbleImage).toHaveClass('debug-image'); 
+  });
+
+  it('should have data-filename attributes on all Image components', () => {
+    render(<HeroSection />);
+    
+    // Test that all images have data-filename attributes
+    const catImage = screen.getByTestId('hero-cat');
+    const flame1Image = screen.getByTestId('hero-flame-1');
+    const flame2Image = screen.getByTestId('hero-flame-2');
+    const flame3Image = screen.getByTestId('hero-flame-3');
+    const speechBubbleImage = screen.getByTestId('speech-bubble-svg');
+    
+    expect(catImage).toHaveAttribute('data-filename', 'cat-hero.svg');
+    expect(flame1Image).toHaveAttribute('data-filename', 'hero-flame-1.svg');
+    expect(flame2Image).toHaveAttribute('data-filename', 'hero-flame-2.svg');
+    expect(flame3Image).toHaveAttribute('data-filename', 'hero-flame-3.svg');
+    expect(speechBubbleImage).toHaveAttribute('data-filename', 'bg-speech-bubble-1.svg');
+  });
+
+  it('should have debug attributes on star decorations', () => {
+    render(<HeroSection />);
+    
+    const stars1 = screen.getByTestId('hero-stars-1');
+    const stars2 = screen.getByTestId('hero-stars-2');
+    const stars2Duplicate = screen.getByTestId('hero-stars-2-duplicate');
+    
+    expect(stars1).toHaveClass('debug-image');
+    expect(stars2).toHaveClass('debug-image');
+    expect(stars2Duplicate).toHaveClass('debug-image');
+    
+    expect(stars1).toHaveAttribute('data-filename', 'stars-1.svg');
+    expect(stars2).toHaveAttribute('data-filename', 'stars-1.svg');
+    expect(stars2Duplicate).toHaveAttribute('data-filename', 'stars-1.svg');
+  });
 }); 

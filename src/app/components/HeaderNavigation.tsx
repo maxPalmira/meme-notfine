@@ -5,7 +5,8 @@ import Image from 'next/image';
 const HeaderNavigation = () => {
   return (
     <header 
-      className="fixed top-0 left-0 right-0 z-50 bg-[#869241] border-[6px] border-black"
+      className="fixed top-0 left-0 right-0 z-50 border-[6px] border-black"
+      style={{ backgroundColor: '#869241' }}
       role="banner"
     >
       <div 
@@ -29,7 +30,8 @@ const HeaderNavigation = () => {
               alt="Tokenomics Navigation Button"
               width={120}
               height={40}
-              className="h-auto"
+              className="h-auto debug-image"
+              data-filename="nav-tokenomics.svg"
             />
           </div>
 
@@ -45,7 +47,8 @@ const HeaderNavigation = () => {
               alt="Roadmap Navigation Button"
               width={100}
               height={40}
-              className="h-auto"
+              className="h-auto debug-image"
+              data-filename="nav-roadmap.svg"
             />
           </div>
 
@@ -61,7 +64,8 @@ const HeaderNavigation = () => {
               alt="Our Team Navigation Button"
               width={110}
               height={40}
-              className="h-auto"
+              className="h-auto debug-image"
+              data-filename="nav-ourteam.svg"
             />
           </div>
 
@@ -77,7 +81,8 @@ const HeaderNavigation = () => {
               alt="Art Community Navigation Button"
               width={130}
               height={40}
-              className="h-auto"
+              className="h-auto debug-image"
+              data-filename="nav-artcommunity.svg"
             />
           </div>
 
@@ -93,7 +98,8 @@ const HeaderNavigation = () => {
               alt="How to Buy Navigation Button"
               width={115}
               height={40}
-              className="h-auto"
+              className="h-auto debug-image"
+              data-filename="nav-howtobuy.svg"
             />
           </div>
 
@@ -109,7 +115,8 @@ const HeaderNavigation = () => {
               alt="FAQ Navigation Button"
               width={80}
               height={40}
-              className="h-auto"
+              className="h-auto debug-image"
+              data-filename="nav-faq.svg"
             />
           </div>
         </nav>
@@ -125,11 +132,12 @@ const HeaderNavigation = () => {
             data-testid="social-discord"
           >
             <Image
-              src="/figma-exports/social-icons/icon-discord.svg"
+              src="/figma-exports/social-icons/discord.svg"
               alt="Discord Social Icon"
               width={24}
               height={24}
-              className="w-6 h-6"
+              className="w-6 h-6 debug-image"
+              data-filename="discord.svg"
             />
           </div>
 
@@ -139,11 +147,12 @@ const HeaderNavigation = () => {
             data-testid="social-twitter"
           >
             <Image
-              src="/figma-exports/social-icons/icon-twitter.svg"
+              src="/figma-exports/social-icons/twitter.svg"
               alt="Twitter Social Icon"
               width={24}
               height={24}
-              className="w-6 h-6"
+              className="w-6 h-6 debug-image"
+              data-filename="twitter.svg"
             />
           </div>
 
@@ -153,11 +162,12 @@ const HeaderNavigation = () => {
             data-testid="social-telegram"
           >
             <Image
-              src="/figma-exports/social-icons/icon-telegram.svg"
+              src="/figma-exports/social-icons/telegram.svg"
               alt="Telegram Social Icon"
               width={24}
               height={24}
-              className="w-6 h-6"
+              className="w-6 h-6 debug-image"
+              data-filename="telegram.svg"
             />
           </div>
         </div>

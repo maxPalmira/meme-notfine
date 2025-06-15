@@ -101,7 +101,7 @@ describe('HeaderNavigation', () => {
     render(<HeaderNavigation />);
     
     const header = screen.getByRole('banner');
-    expect(header).toHaveClass('bg-[#869241]');
+    expect(header).toHaveStyle({ backgroundColor: '#869241' });
     expect(header).toHaveClass('border-[6px]', 'border-black');
   });
 
@@ -136,5 +136,52 @@ describe('HeaderNavigation', () => {
     // Social icons should have hover effects
     const discordIcon = screen.getByTestId('social-discord');
     expect(discordIcon).toHaveClass('hover:scale-110', 'transition-transform');
+  });
+});
+
+describe('Social Icons Bug Fixes', () => {
+  it('should load social icons with correct file paths', () => {
+    render(<HeaderNavigation />);
+    
+    // Test that social icons use correct file paths (without "icon-" prefix)
+    const discordIcon = screen.getByAltText('Discord Social Icon');
+    const twitterIcon = screen.getByAltText('Twitter Social Icon');
+    const telegramIcon = screen.getByAltText('Telegram Social Icon');
+    
+    expect(discordIcon).toHaveAttribute('src', expect.stringContaining('discord.svg'));
+    expect(twitterIcon).toHaveAttribute('src', expect.stringContaining('twitter.svg'));
+    expect(telegramIcon).toHaveAttribute('src', expect.stringContaining('telegram.svg'));
+  });
+
+  it('should have debug system integration attributes', () => {
+    render(<HeaderNavigation />);
+    
+    // Test that social icons have debug-image classes
+    const socialContainer = screen.getByTestId('social-icons');
+    const discordIcon = screen.getByAltText('Discord Social Icon');
+    const twitterIcon = screen.getByAltText('Twitter Social Icon'); 
+    const telegramIcon = screen.getByAltText('Telegram Social Icon');
+    
+    expect(discordIcon).toHaveClass('debug-image');
+    expect(twitterIcon).toHaveClass('debug-image');
+    expect(telegramIcon).toHaveClass('debug-image');
+    
+    // Test that icons have data-filename attributes
+    expect(discordIcon).toHaveAttribute('data-filename', 'discord.svg');
+    expect(twitterIcon).toHaveAttribute('data-filename', 'twitter.svg');
+    expect(telegramIcon).toHaveAttribute('data-filename', 'telegram.svg');
+  });
+
+  it('should have navigation elements with debug attributes', () => {
+    render(<HeaderNavigation />);
+    
+    // Test navigation elements have debug attributes
+    const tokenomicsNav = screen.getByTestId('nav-tokenomics').querySelector('img');
+    const roadmapNav = screen.getByTestId('nav-roadmap').querySelector('img');
+    
+    expect(tokenomicsNav).toHaveClass('debug-image');
+    expect(roadmapNav).toHaveClass('debug-image');
+    expect(tokenomicsNav).toHaveAttribute('data-filename', expect.stringContaining('nav-tokenomics.svg'));
+    expect(roadmapNav).toHaveAttribute('data-filename', expect.stringContaining('nav-roadmap.svg'));
   });
 }); 

@@ -166,4 +166,30 @@ describe('CASection', () => {
     expect(sectionElement).toHaveClass('max-w-full');
     expect(sectionElement).toHaveClass('overflow-hidden');
   });
+});
+
+describe('Background Styling Bug Fixes', () => {
+  it('should have proper section width and height without clipping', () => {
+    render(<CASection />);
+    
+    const section = screen.getByTestId('ca-section');
+    
+    // Test that section has proper dimensions and layout
+    expect(section).toHaveStyle({ 
+      width: '1467px', 
+      height: '219px' 
+    });
+    expect(section).toHaveClass('max-w-full');
+    expect(section).toHaveClass('overflow-hidden');
+  });
+
+  it('should maintain proper styling inheritance from main layout', () => {
+    render(<CASection />);
+    
+    const section = screen.getByTestId('ca-section');
+    
+    // Test that section has proper responsive and layout classes
+    expect(section).toHaveClass('relative', 'mx-auto', 'flex', 'flex-col');
+    expect(section).toHaveClass('items-center', 'justify-center');
+  });
 }); 
