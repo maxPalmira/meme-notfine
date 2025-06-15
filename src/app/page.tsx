@@ -3,10 +3,22 @@
 "use client";
 
 import Image from "next/image";
+import GridOverlay from "./components/GridOverlay";
+import DebugToggle from "./components/DebugToggle";
+import DebugLabels from "./components/DebugLabels";
 
 export default function Home() {
   return (
     <div className="min-h-screen relative">
+      {/* Debug Toggle */}
+      <DebugToggle />
+
+      {/* Debug Labels */}
+      <DebugLabels />
+
+      {/* Grid Overlay for Visual Orientation */}
+      <GridOverlay />
+
       {/* Original Gradient Background with Noise Filter - matching exact stops */}
       <div
         className="absolute top-0 left-0 w-full min-h-full bg-gradient-to-b from-[#A6B857] via-[#CDE26F] via-[#FFF587] to-[#FFD272] -z-20"
@@ -69,7 +81,10 @@ export default function Home() {
           {/* Social Icons */}
           <div className="flex items-center gap-4">
             {/* Discord */}
-            <div className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+            <div
+              className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer debug-image"
+              data-filename="icon-discord"
+            >
               <Image
                 src="/figma-exports/social-icons/icon-discord.svg"
                 alt="Discord"
@@ -80,7 +95,10 @@ export default function Home() {
             </div>
 
             {/* Twitter */}
-            <div className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+            <div
+              className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer debug-image"
+              data-filename="icon-twitter"
+            >
               <Image
                 src="/figma-exports/social-icons/icon-twitter.svg"
                 alt="Twitter"
@@ -91,7 +109,10 @@ export default function Home() {
             </div>
 
             {/* Telegram */}
-            <div className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+            <div
+              className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer debug-image"
+              data-filename="icon-telegram"
+            >
               <Image
                 src="/figma-exports/social-icons/icon-telegram.svg"
                 alt="Telegram"
@@ -109,7 +130,8 @@ export default function Home() {
         {/* Flame Background Pattern */}
         <div className="absolute inset-0 z-0">
           <svg
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover debug-svg"
+            data-filename="flame-bg"
             viewBox="0 0 1920 782"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +166,7 @@ export default function Home() {
         <div className="relative z-10 flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-12 px-6 max-w-7xl mx-auto">
           {/* Left Column - Cat Character with Hat */}
           <div className="flex-shrink-0 lg:w-1/2">
-            <div className="relative">
+            <div className="relative debug-image" data-filename="cat-happy">
               <Image
                 src="/figma-exports/characters/cat-happy.svg"
                 alt="Deg the Cat Character"
@@ -275,7 +297,8 @@ export default function Home() {
               {/* Connector arrows */}
               <div className="absolute left-8 top-8 z-20">
                 <svg
-                  className="w-16 h-16 text-[#DB4646] transform rotate-60"
+                  className="w-16 h-16 text-[#DB4646] transform rotate-60 debug-svg"
+                  data-filename="arrow-connector"
                   fill="currentColor"
                   viewBox="0 0 71 64"
                 >
@@ -347,7 +370,8 @@ export default function Home() {
             <div className="relative">
               <div className="absolute left-8 top-8 z-20">
                 <svg
-                  className="w-16 h-16 text-[#DB4646] transform -rotate-30"
+                  className="w-16 h-16 text-[#DB4646] transform -rotate-30 debug-svg"
+                  data-filename="arrow-2"
                   fill="currentColor"
                   viewBox="0 0 64 71"
                 >
@@ -374,7 +398,8 @@ export default function Home() {
             <div className="relative">
               <div className="absolute left-8 top-8 z-20">
                 <svg
-                  className="w-16 h-16 text-[#DB4646] transform -rotate-30"
+                  className="w-16 h-16 text-[#DB4646] transform -rotate-30 debug-svg"
+                  data-filename="arrow-3"
                   fill="currentColor"
                   viewBox="0 0 64 71"
                 >
@@ -406,7 +431,8 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none">
           {/* Top cloud */}
           <svg
-            className="absolute top-0 right-32 w-96 h-64 transform rotate-[3.769deg] opacity-80"
+            className="absolute top-0 right-32 w-96 h-64 transform rotate-[3.769deg] opacity-80 debug-svg"
+            data-filename="cloud-top"
             viewBox="0 0 738 301"
             fill="none"
           >
@@ -419,7 +445,8 @@ export default function Home() {
 
           {/* Bottom cloud for sad cat */}
           <svg
-            className="absolute bottom-0 right-16 w-96 h-64 opacity-70"
+            className="absolute bottom-0 right-16 w-96 h-64 opacity-70 debug-svg"
+            data-filename="cloud-bottom"
             viewBox="0 0 733 353"
             fill="none"
           >
@@ -475,7 +502,7 @@ export default function Home() {
             </div>
 
             {/* Sad Cat Character */}
-            <div className="relative pt-24">
+            <div className="relative pt-24 debug-image" data-filename="cat-sad">
               <Image
                 src="/figma-exports/characters/cat-sad.svg"
                 alt="Sad Cat Character"
@@ -489,7 +516,7 @@ export default function Home() {
       </section>
 
       {/* Tokenomics Section */}
-      <section className="homepage-section py-16 px-6 relative overflow-hidden">
+      <section className="homepage-section py-16 px-6 relative overflow-hidden flex lg:flex md:flex">
         {/* Coral Background with Chevron Pattern */}
         <div className="absolute inset-0 bg-[#C08080] border-t-[8px] border-b-[8px] border-black">
           {/* Chevron Pattern Overlay */}
@@ -520,7 +547,8 @@ export default function Home() {
             height="200"
             viewBox="0 0 120 200"
             fill="none"
-            className="opacity-90"
+            className="opacity-90 debug-svg"
+            data-filename="flame-left"
           >
             <path
               d="M10 200C20 180 30 160 25 140C20 120 15 100 30 80C45 60 60 40 50 20C40 10 30 5 20 0C40 10 70 30 80 60C90 90 85 120 75 140C65 160 60 180 70 190C80 200 90 195 100 180C110 165 105 150 95 140C85 130 75 125 80 110C85 95 95 85 110 90C125 95 130 110 120 125C110 140 95 150 85 160C75 170 70 185 80 195C90 200 100 190 110 175L10 200Z"
@@ -538,7 +566,8 @@ export default function Home() {
             height="200"
             viewBox="0 0 120 200"
             fill="none"
-            className="opacity-90"
+            className="opacity-90 debug-svg"
+            data-filename="flame-right"
           >
             <path
               d="M10 200C20 180 30 160 25 140C20 120 15 100 30 80C45 60 60 40 50 20C40 10 30 5 20 0C40 10 70 30 80 60C90 90 85 120 75 140C65 160 60 180 70 190C80 200 90 195 100 180C110 165 105 150 95 140C85 130 75 125 80 110C85 95 95 85 110 90C125 95 130 110 120 125C110 140 95 150 85 160C75 170 70 185 80 195C90 200 100 190 110 175L10 200Z"
@@ -1061,7 +1090,10 @@ export default function Home() {
 
               {/* Cat Character */}
               <div className="mt-8 flex justify-center lg:justify-end">
-                <div className="relative">
+                <div
+                  className="relative debug-image"
+                  data-filename="cat-rocket"
+                >
                   <Image
                     src="/figma-exports/characters/cat-rocket.svg"
                     alt="Cat on Rocket"

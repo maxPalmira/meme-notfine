@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import "./tailwind.css";
 import "./styles.css";
+import "./debug-svg.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

@@ -1,0 +1,11 @@
+/* Debug SVG Borders - Only active in debug-mode */
+
+/* Debug mode activation styles */
+body.debug-mode .debug-svg {
+  border: 2px dashed black !important;
+}
+
+/* For images with debug labels */
+body.debug-mode .debug-image {
+  border: 2px dashed black !important;
+}
