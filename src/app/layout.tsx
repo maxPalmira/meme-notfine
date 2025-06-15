@@ -57,7 +57,7 @@ export default function RootLayout({
         />
         {/* Config Console Dependencies */}
         <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/maxPalmira/config-console@main/config-console.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/maxPalmira/debug-window@main/config-console.js"></script>
       </head>
       <body className={`${spaceGrotesk.className} ${jua.variable} antialiased`}>
         <GoogleAnalytics />
