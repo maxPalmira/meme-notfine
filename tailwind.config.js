@@ -13,6 +13,17 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        cream: "#FFF3DC",
+        'red-primary': "#E85834",
+      },
+      borderWidth: {
+        '7': '7px',
+      },
+      borderRadius: {
+        '40': '40px',
+      },
+      boxShadow: {
+        'custom': '8px 8px 0px rgba(0, 0, 0, 1)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
