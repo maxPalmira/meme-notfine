@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 
-export default function DebugLabels() {
+interface DebugLabelsProps {
+  visible?: boolean;
+}
+
+export default function DebugLabels({ visible = true }: DebugLabelsProps) {
   useEffect(() => {
     const updateLabels = () => {
       // Remove existing labels
@@ -10,7 +14,8 @@ export default function DebugLabels() {
         .querySelectorAll(".debug-label-overlay")
         .forEach((el) => el.remove());
 
-      if (!document.body.classList.contains("debug-mode")) {
+      // Only show labels if both visible prop and debug mode are true
+      if (!visible || !document.body.classList.contains("debug-mode")) {
         return;
       }
 
@@ -90,7 +95,7 @@ export default function DebugLabels() {
         .forEach((el) => el.remove());
       clearTimeout(window.debugLabelTimeout);
     };
-  }, []);
+  }, [visible]); // Add visible to dependency array
 
   return null;
 }
@@ -98,6 +103,6 @@ export default function DebugLabels() {
 // Extend Window interface for TypeScript
 declare global {
   interface Window {
-    debugLabelTimeout: number;
+    debugLabelTimeout: NodeJS.Timeout | undefined;
   }
 }

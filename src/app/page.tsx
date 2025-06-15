@@ -3,21 +3,31 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import GridOverlay from "./components/GridOverlay";
-import DebugToggle from "./components/DebugToggle";
+import ConfigDebugConsole from "./components/ConfigDebugConsole";
 import DebugLabels from "./components/DebugLabels";
 
 export default function Home() {
+  // State for controlling debug features individually
+  const [showGrid, setShowGrid] = useState(true);
+  const [showLabels, setShowLabels] = useState(true);
+  const [showBorders, setShowBorders] = useState(true);
+
   return (
     <div className="min-h-screen relative">
-      {/* Debug Toggle */}
-      <DebugToggle />
+      {/* Config Console - The proper one from the repo */}
+      <ConfigDebugConsole 
+        onGridToggle={setShowGrid}
+        onLabelsToggle={setShowLabels}
+        onBordersToggle={setShowBorders}
+      />
 
-      {/* Debug Labels */}
-      <DebugLabels />
+      {/* Debug Labels - Controlled by Config Console */}
+      <DebugLabels visible={showLabels} />
 
-      {/* Grid Overlay for Visual Orientation */}
-      <GridOverlay />
+      {/* Grid Overlay - Controlled by Config Console */}
+      <GridOverlay visible={showGrid} />
 
       {/* Original Gradient Background with Noise Filter - matching exact stops */}
       <div
