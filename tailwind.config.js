@@ -15,12 +15,15 @@ module.exports = {
         foreground: "var(--foreground)",
         cream: "#FFF3DC",
         'red-primary': "#E85834",
+        orange: "#FF9D33",
       },
       borderWidth: {
+        '4': '4px',
         '7': '7px',
       },
       borderRadius: {
         '40': '40px',
+        '66': '66px',
       },
       boxShadow: {
         'custom': '8px 8px 0px rgba(0, 0, 0, 1)',

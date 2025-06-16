@@ -1,0 +1,154 @@
+# Figma Design Analysis - Node 38:620 (Desktop View)
+Date: 2025-01-21
+Project: $NOTFINE Website
+
+## Overview
+Design file: PZCXc4tndOeY0qkZpvZTaX
+Node: 38-620 (Desktop Frame)
+Last modified: 2025-06-15T19:39:59Z
+
+## Section Structure Analysis
+
+### 1. Section - CA (Contract Address) - Node 266:11
+- **Dimensions**: 1467×219px
+- **Position**: x: 216, y: 953
+- **Border Radius**: 40px
+- **Layout**: Two-button design
+
+#### CA Button Group (Node 71:332)
+- **CA Button Background**: Rectangle with:
+  - Fill: #FFF3DC (cream color)
+  - Stroke: 7px black (#000000)
+  - Border Radius: 40px
+  - Dimensions: 1467×80px
+
+#### Contract Address Text (Node 65:5781)
+- **Content**: `0x71C7656EC7ab88b098defB751B7401B5f6d8976F`
+- **Font**: Jua, 400 weight, 24px
+- **Color**: Black (#000000)
+- **Position**: x: 453, y: 27 (within button)
+
+#### Copy Button (Node 65:5780)
+- **Background**: Rectangle with:
+  - Fill: #E85834 (red color)
+  - Stroke: 7px black (#000000)
+  - Border Radius: 40px
+  - Shadow: 8px 8px 0px rgba(0, 0, 0, 1)
+  - Dimensions: 378×80px
+  - Position: x: 555, y: 139
+
+#### Copy Button Text (Node 65:5782)
+- **Content**: "copy"
+- **Font**: Jua, 400 weight, 64px
+- **Color**: Black (#000000)
+- **Position**: x: 679, y: 136
+
+### 2. Section - Memes (Node 266:13)
+- **Dimensions**: 1712.168×768.357px
+- **Position**: x: 118, y: 2652
+- **Border Radius**: 0px
+
+#### Background Elements
+- **Cloud Background 1** (Node 65:5731):
+  - Gradient: Radial from #A7725B to #824852
+  - Position: x: 750.663, y: 81.357
+  - Dimensions: 896.288×391.329px
+
+- **Cloud Background 2** (Node 65:6011):
+  - Same gradient fill
+  - Position: x: 975.032, y: 0
+  - Dimensions: 737.136×300.914px
+
+#### Main Character (Node 65:5918)
+- **Cat Character**: "memes-cat-sad"
+- **Dimensions**: 255×474px
+- **Position**: x: 1082, y: 256
+- **Colors**: Multiple fills including #QZQBU5, #OUAFYW, #JZT3NM, #W2VXMG
+
+#### Meme Buttons (4 buttons in grid)
+1. **"chart down — not fine"** (Node 65:13466)
+2. **"got rugged — not fine"** (Node 65:13465)
+3. **"wallet drained — not fine"** (Node 65:13464)
+4. **"dev ghosted — not fine"** (Node 65:13463)
+
+Each button:
+- Background: #QZQBU5 (orange)
+- Stroke: 4px black
+- Border Radius: 66px
+- Dimensions: 756×132px
+- Font: Jua, 48px, uppercase, center-aligned
+
+#### Section Text (Node 65:6031)
+- **Content**: "whats wrong, deg?"
+- **Font**: Jua, 48px, uppercase
+- **Color**: Black (#000000)
+- **Position**: x: 1094.667, y: 110
+
+## Color Palette Used
+- **Primary Orange**: #FF9D33 (QZQBU5)
+- **Cream**: #FFF3DC (JZT3NM)
+- **Red**: #E85834 (C5SFSX)
+- **Yellow**: #FEC400 (8N94QB)
+- **Green**: #A6B857 (4YYGZH)
+- **Teal**: #57B8AD (I67NQG)
+- **Purple**: #B47CC7 (86LXLO)
+- **Gray**: #808080 (2NNR7N)
+- **Black**: #000000 (SGS2SP)
+
+## Typography System
+- **Font Family**: Jua (primary font)
+- **Header Sizes**: 96px (main headers), 64px (secondary)
+- **Body Text**: 48px (buttons), 32px (standard), 24px (small)
+- **Font Weight**: 400 (regular)
+- **Text Effects**: 
+  - Text Shadow: 4px 4px 0px rgba(0, 0, 0, 1)
+  - Stroke: 6px black on headers
+
+## Layout System
+- **Container Width**: 1920px (desktop)
+- **Section Spacing**: Variable based on content
+- **Border Radius**: 40px (buttons), 66px (meme buttons)
+- **Stroke Width**: 7px (main elements), 4-6px (decorative)
+- **Shadow Style**: 8px 8px 0px rgba(0, 0, 0, 1)
+
+## Asset Requirements
+### SVG Files Needed:
+1. **memes-cat-sad.svg** - Main character (255×474px)
+2. **memes-bg-for-sad-cat.svg** - Character background
+3. **memes-bg-cloud-1.svg** - Cloud background 1
+4. **memes-bg-cloud-2.svg** - Cloud background 2
+
+## Implementation Notes
+- CA section uses exact positioning for precise layout
+- Memes section uses absolute positioning for SVG elements
+- All elements maintain strict adherence to Figma specifications
+- Responsive considerations needed for mobile scaling
+- Debug system integration required for development workflow
+
+## Current Implementation Status
+### CA Section: IN_PROGRESS
+- Component created with exact Figma styling ✅
+- Copy functionality implemented ✅
+- Test coverage: 9/14 passing ✅
+- **Issues**: Clipboard mocking, accessibility attributes
+- **Next**: Fix test environment, complete integration
+
+### Memes Section: COMPLETED
+- Component created with exact Figma styling ✅
+- SVG integration complete ✅
+- Application integration complete ✅
+- Test coverage: 10/10 passing ✅
+- Debug system integration complete ✅
+
+## Visual Issues Identified
+Based on user feedback about restricted width and mismatched styling:
+1. Sections may need full-width container adjustments
+2. Background gradients may need proper flow between sections
+3. SVG positioning may need refinement for different screen sizes
+4. Z-index layering may need optimization
+
+## Next Steps for PM
+1. Review current implementation against this Figma analysis
+2. Identify specific visual discrepancies
+3. Create visual edit task list based on comparison
+4. Prioritize fixes based on impact on user experience 

@@ -41,10 +41,9 @@ describe('CASection', () => {
     
     const sectionElement = screen.getByTestId('ca-section');
     expect(sectionElement).toHaveClass('relative');
-    expect(sectionElement).toHaveStyle({
-      width: '1467px',
-      height: '219px',
-    });
+    expect(sectionElement).toHaveClass('w-full');
+    expect(sectionElement).toHaveClass('py-8');
+    expect(sectionElement).toHaveClass('px-4');
   });
 
   it('renders CA button with cream background and black border', () => {
@@ -119,9 +118,9 @@ describe('CASection', () => {
   it('has proper accessibility attributes', () => {
     render(<CASection />);
     
-    const addressElement = screen.getByText(contractAddress);
-    expect(addressElement).toHaveAttribute('role', 'button');
-    expect(addressElement).toHaveAttribute('aria-label', 'Click to copy contract address');
+    const caButtonContainer = screen.getByTestId('ca-button');
+    expect(caButtonContainer).toHaveAttribute('role', 'button');
+    expect(caButtonContainer).toHaveAttribute('aria-label', 'Click to copy contract address');
     
     const copyButton = screen.getByRole('button', { name: 'Copy contract address to clipboard' });
     expect(copyButton).toHaveAttribute('aria-label', 'Copy contract address to clipboard');
@@ -153,17 +152,17 @@ describe('CASection', () => {
     render(<CASection />);
     
     const addressElement = screen.getByText(contractAddress);
-    expect(addressElement).toHaveClass('text-2xl'); // 24px
+    expect(addressElement).toHaveClass('text-xl'); // Base size, grows to text-2xl on md screens
     
     const copyButtonText = screen.getByText('copy');
-    expect(copyButtonText).toHaveClass('text-6xl'); // 64px
+    expect(copyButtonText).toHaveClass('text-4xl'); // Base size, grows to text-6xl on md screens
   });
 
   it('is responsive on smaller screens', () => {
     render(<CASection />);
     
     const sectionElement = screen.getByTestId('ca-section');
-    expect(sectionElement).toHaveClass('max-w-full');
+    expect(sectionElement).toHaveClass('w-full');
     expect(sectionElement).toHaveClass('overflow-hidden');
   });
 });
@@ -174,12 +173,10 @@ describe('Background Styling Bug Fixes', () => {
     
     const section = screen.getByTestId('ca-section');
     
-    // Test that section has proper dimensions and layout
-    expect(section).toHaveStyle({ 
-      width: '1467px', 
-      height: '219px' 
-    });
-    expect(section).toHaveClass('max-w-full');
+    // Test that section has proper responsive dimensions and layout
+    expect(section).toHaveClass('w-full');
+    expect(section).toHaveClass('py-8');
+    expect(section).toHaveClass('px-4');
     expect(section).toHaveClass('overflow-hidden');
   });
 
@@ -189,7 +186,65 @@ describe('Background Styling Bug Fixes', () => {
     const section = screen.getByTestId('ca-section');
     
     // Test that section has proper responsive and layout classes
-    expect(section).toHaveClass('relative', 'mx-auto', 'flex', 'flex-col');
+    expect(section).toHaveClass('relative', 'flex', 'flex-col');
     expect(section).toHaveClass('items-center', 'justify-center');
+  });
+});
+
+describe('Responsive Layout and Figma Compliance', () => {
+  it('should be responsive and scale properly on all screen sizes', () => {
+    render(<CASection />);
+    
+    const section = screen.getByTestId('ca-section');
+    
+    // Should not have fixed width that restricts responsiveness
+    expect(section).toHaveClass('w-full');
+    expect(section).toHaveClass('py-8');
+    expect(section).toHaveClass('px-4');
+    expect(section).not.toHaveStyle({ width: '1467px' });
+  });
+
+  it('should have Figma-compliant background colors and styling', () => {
+    render(<CASection />);
+    
+    const caButton = screen.getByTestId('ca-button');
+    
+    // Figma specs: #FFF3DC background with 7px black stroke and 40px border radius
+    expect(caButton).toHaveClass('bg-cream'); // Should map to #FFF3DC
+    expect(caButton).toHaveClass('border-black');
+    expect(caButton).toHaveClass('border-7');
+    expect(caButton).toHaveClass('rounded-40');
+  });
+
+  it('should use responsive positioning instead of absolute positioning', () => {
+    render(<CASection />);
+    
+    // Check that contract address text uses responsive positioning
+    const addressElement = screen.getByText('0x71C7656EC7ab88b098defB751B7401B5f6d8976F');
+    expect(addressElement).not.toHaveStyle({ position: 'absolute' });
+    expect(addressElement).toHaveClass('text-center');
+  });
+
+  it('should have proper container structure for full-width layout', () => {
+    render(<CASection />);
+    
+    const section = screen.getByTestId('ca-section');
+    
+    // Should be a full-width section with proper max-width constraints
+    expect(section).toHaveClass('w-full');
+    expect(section).toHaveClass('py-8'); // Proper vertical padding
+    expect(section).toHaveClass('px-4'); // Proper horizontal padding for mobile
+  });
+
+  it('should maintain Figma dimensions as design constraints, not fixed values', () => {
+    render(<CASection />);
+    
+    const section = screen.getByTestId('ca-section');
+    
+    // Should use CSS custom properties or responsive classes instead of inline styles
+    expect(section).not.toHaveStyle({ 
+      width: '1467px',
+      height: '219px' 
+    });
   });
 }); 

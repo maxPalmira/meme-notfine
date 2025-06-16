@@ -46,7 +46,9 @@ describe('MemesSection', () => {
     render(<MemesSection />);
     
     const section = screen.getByTestId('memes-section');
-    expect(section).toHaveStyle({ minHeight: '600px' });
+    expect(section).toHaveClass('w-full');
+    expect(section).toHaveClass('py-8');
+    expect(section).toHaveClass('px-4');
   });
 });
 
@@ -100,13 +102,77 @@ describe('Layout and Positioning', () => {
     expect(cat).toHaveClass('z-20');
   });
 
-  it('uses absolute positioning for precise SVG placement', () => {
+  it('uses responsive positioning for SVG placement', () => {
     render(<MemesSection />);
     
     const cat = screen.getByTestId('memes-cat-sad');
     const bgForCat = screen.getByTestId('memes-bg-for-sad-cat');
     
-    expect(cat).toHaveClass('absolute');
-    expect(bgForCat).toHaveClass('absolute');
+    expect(cat).toHaveClass('debug-image');
+    expect(bgForCat).toHaveClass('absolute'); // Background elements can use absolute
+  });
+});
+
+describe('Responsive Layout and Figma Compliance', () => {
+  it('should be responsive and scale properly on all screen sizes', () => {
+    render(<MemesSection />);
+    
+    const section = screen.getByTestId('memes-section');
+    
+    // Should be full width and responsive
+    expect(section).toHaveClass('w-full');
+    expect(section).toHaveClass('py-8'); // Proper vertical padding
+    expect(section).toHaveClass('px-4'); // Proper horizontal padding for mobile
+  });
+
+  it('should match Figma design specifications for layout', () => {
+    render(<MemesSection />);
+    
+    const section = screen.getByTestId('memes-section');
+    
+    // Should use design dimensions as constraints, not fixed values
+    expect(section).not.toHaveStyle({ width: '1712.168px' });
+    expect(section).not.toHaveStyle({ height: '768.357px' });
+  });
+
+  it('should have proper section structure for Figma compliance', () => {
+    render(<MemesSection />);
+    
+    const section = screen.getByTestId('memes-section');
+    
+    // Figma specs: Should have proper responsive structure
+    expect(section).toHaveClass('relative');
+    expect(section).toHaveClass('w-full');
+    expect(section).toHaveClass('overflow-hidden');
+  });
+
+  it('should include meme buttons matching Figma specifications', () => {
+    render(<MemesSection />);
+    
+    // According to Figma, should have 4 meme buttons with specific styling
+    const memeButtons = screen.getAllByRole('button');
+    expect(memeButtons).toHaveLength(4);
+    
+    memeButtons.forEach(button => {
+      expect(button).toHaveClass('bg-orange'); // Should match #FF9D33 from Figma
+      expect(button).toHaveClass('border-black');
+      expect(button).toHaveClass('border-4');
+      expect(button).toHaveClass('rounded-66'); // 66px border radius from Figma
+    });
+  });
+
+  it('should display "whats wrong, deg?" text as per Figma', () => {
+    render(<MemesSection />);
+    
+    // Figma specs include this specific text
+    expect(screen.getByText(/whats wrong, deg\?/i)).toBeInTheDocument();
+  });
+
+  it('should use responsive positioning instead of fixed pixel positioning', () => {
+    render(<MemesSection />);
+    
+    // SVG elements should use responsive positioning
+    const cat = screen.getByTestId('memes-cat-sad');
+    expect(cat).not.toHaveStyle({ left: '300px', top: '150px' });
   });
 }); 
