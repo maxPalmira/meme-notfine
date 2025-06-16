@@ -10,6 +10,7 @@ import DebugLabels from "./components/DebugLabels";
 import HeaderNavigation from "./components/HeaderNavigation";
 import HeroSection from "./components/HeroSection";
 import CASection from "./components/CASection";
+import MemesSection from "./components/MemesSection";
 
 export default function Home() {
   // State for controlling debug features individually
@@ -63,6 +64,9 @@ export default function Home() {
 
       {/* Contract Address Section - Using Component */}
       <CASection />
+
+      {/* Memes Section */}
+      <MemesSection />
 
       {/* Platforms Section */}
       <section className="homepage-section py-16 px-6">
