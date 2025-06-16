@@ -27,8 +27,8 @@ const CASection = () => {
   return (
     <section 
       data-testid="ca-section"
-      className="w-full py-8 px-4 relative flex flex-col items-center justify-center overflow-hidden mx-auto"
-      style={{ maxWidth: '1920px', background: 'none' }}
+      className="py-8 px-4 relative flex flex-col items-center justify-center overflow-hidden"
+      style={{ maxWidth: '1920px', background: 'none', marginLeft: 'auto', marginRight: 'auto' }}
     >
       <div className="w-full max-w-6xl relative">
         {/* CA Button (Contract Address Display) */}
