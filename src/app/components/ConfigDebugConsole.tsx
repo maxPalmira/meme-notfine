@@ -8,11 +8,25 @@ interface ConfigDebugConsoleProps {
   onBordersToggle: (enabled: boolean) => void;
 }
 
+interface DebugSettings {
+  showGrid: boolean;
+  showLabels: boolean;
+  showBorders: boolean;
+}
+
 declare global {
   interface Window {
     ConfigConsole: any;
   }
 }
+
+const DEFAULT_SETTINGS: DebugSettings = {
+  showGrid: true,
+  showLabels: true,
+  showBorders: true,
+};
+
+const STORAGE_KEY = 'debugSettings';
 
 export default function ConfigDebugConsole({ 
   onGridToggle, 
@@ -21,13 +35,48 @@ export default function ConfigDebugConsole({
 }: ConfigDebugConsoleProps) {
   const consoleRef = useRef<any>(null);
   const [isReady, setIsReady] = useState(false);
+  const [debugSettings, setDebugSettings] = useState<DebugSettings>(DEFAULT_SETTINGS);
+
+  // Load settings from localStorage
+  const loadSettings = (): DebugSettings => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        return { ...DEFAULT_SETTINGS, ...JSON.parse(saved) };
+      }
+    } catch (error) {
+      console.warn('Failed to load debug settings:', error);
+    }
+    return DEFAULT_SETTINGS;
+  };
+
+  // Save settings to localStorage
+  const saveSettings = (settings: DebugSettings) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+      setDebugSettings(settings);
+    } catch (error) {
+      console.warn('Failed to save debug settings:', error);
+    }
+  };
+
+  // Update a specific setting
+  const updateSetting = (key: keyof DebugSettings, value: boolean) => {
+    const newSettings = { ...debugSettings, [key]: value };
+    saveSettings(newSettings);
+    return newSettings;
+  };
 
   useEffect(() => {
+    // Load settings on mount
+    const loadedSettings = loadSettings();
+    setDebugSettings(loadedSettings);
+
     // Wait for ConfigConsole to be available
     const checkConfigConsole = () => {
       if (typeof window !== 'undefined' && window.ConfigConsole) {
         setIsReady(true);
-        initializeConfigConsole();
+        initializeConfigConsole(loadedSettings);
       } else {
         setTimeout(checkConfigConsole, 100);
       }
@@ -42,7 +91,7 @@ export default function ConfigDebugConsole({
     };
   }, []);
 
-  const initializeConfigConsole = () => {
+  const initializeConfigConsole = (settings: DebugSettings) => {
     if (consoleRef.current) {
       consoleRef.current.destroy();
     }
@@ -60,18 +109,21 @@ export default function ConfigDebugConsole({
     // Add initial log
     console.addLog('Debug console initialized', 'info');
 
-    // Add debug checkboxes with initial state
-    console.addCheckbox('Show Grid', true, (checked: boolean) => {
+    // Add debug checkboxes with saved state
+    console.addCheckbox('Show Grid', settings.showGrid, (checked: boolean) => {
+      const newSettings = updateSetting('showGrid', checked);
       onGridToggle(checked);
       console.addLog(`Grid: ${checked ? 'ON' : 'OFF'}`, 'info');
     });
 
-    console.addCheckbox('Show SVG Labels', true, (checked: boolean) => {
+    console.addCheckbox('Show SVG Labels', settings.showLabels, (checked: boolean) => {
+      const newSettings = updateSetting('showLabels', checked);
       onLabelsToggle(checked);
       console.addLog(`SVG Labels: ${checked ? 'ON' : 'OFF'}`, 'info');
     });
 
-    console.addCheckbox('Show SVG Borders', true, (checked: boolean) => {
+    console.addCheckbox('Show SVG Borders', settings.showBorders, (checked: boolean) => {
+      const newSettings = updateSetting('showBorders', checked);
       onBordersToggle(checked);
       // Toggle debug-mode class on body for CSS styling
       if (checked) {
@@ -89,20 +141,29 @@ export default function ConfigDebugConsole({
 
     console.addConfigButton('Reset Debug', () => {
       // Reset all debug features to default state
-      onGridToggle(true);
-      onLabelsToggle(true);
-      onBordersToggle(true);
-      document.body.classList.add('debug-mode');
+      saveSettings(DEFAULT_SETTINGS);
+      onGridToggle(DEFAULT_SETTINGS.showGrid);
+      onLabelsToggle(DEFAULT_SETTINGS.showLabels);
+      onBordersToggle(DEFAULT_SETTINGS.showBorders);
+      if (DEFAULT_SETTINGS.showBorders) {
+        document.body.classList.add('debug-mode');
+      } else {
+        document.body.classList.remove('debug-mode');
+      }
       console.addLog('Debug features reset to defaults', 'info');
     });
 
-    // Initialize with debug mode on
-    document.body.classList.add('debug-mode');
+    // Initialize with loaded settings
+    if (settings.showBorders) {
+      document.body.classList.add('debug-mode');
+    } else {
+      document.body.classList.remove('debug-mode');
+    }
     
-    // Initialize all debug features as enabled
-    onGridToggle(true);
-    onLabelsToggle(true);
-    onBordersToggle(true);
+    // Initialize all debug features with loaded settings
+    onGridToggle(settings.showGrid);
+    onLabelsToggle(settings.showLabels);
+    onBordersToggle(settings.showBorders);
   };
 
   // This component doesn't render anything - the Config Console manages its own DOM
