@@ -2,7 +2,9 @@
 
 import Image from 'next/image';
 
-const HeroSection = () => {
+// Fixed positioning version - exact Figma coordinates
+// Use this when you need pixel-perfect alignment matching Figma
+const HeroSectionFixed = () => {
   return (
     <section 
       data-testid="hero-section"
@@ -15,19 +17,23 @@ const HeroSection = () => {
         marginRight: 'auto' 
       }}
     >
-      {/* Cat Container - for flame positioning relative to cat */}
+      {/* 
+        Strategy: Use exact Figma coordinates for pixel-perfect positioning
+        Each element positioned using the inspector values from Figma
+      */}
+      
+      {/* Cat Character - Primary focal point */}
       <div 
         data-testid="cat-container"
-        className="relative z-20"
+        className="absolute z-20"
         style={{
           position: 'absolute',
-          left: '182px',
-          top: '86px',
-          width: '399px',
-          height: '670px'
+          left: '182px',  // Exact Figma X coordinate
+          top: '86px',    // Exact Figma Y coordinate
+          width: '399px', // Exact Figma width
+          height: '670px' // Exact Figma height
         }}
       >
-        {/* Cat Character */}
         <Image
           data-testid="hero-cat"
           src="/figma-exports/characters/cat-hero.svg"
@@ -38,45 +44,47 @@ const HeroSection = () => {
           data-filename="cat-hero.svg"
           priority
         />
-
-        {/* Flame 1 - positioned relative to cat */}
-        <Image
-          data-testid="hero-flame-1"
-          src="/figma-exports/decorations/hero-flame-1.svg"
-          alt="Hero Flame 1 Decoration"
-          width={324}
-          height={441}
-          className="absolute z-10 debug-image"
-          data-filename="hero-flame-1.svg"
-          style={{
-            position: 'absolute',
-            left: '0px',
-            top: '280px',
-            width: '324px',
-            height: '441px'
-          }}
-        />
-
-        {/* Flame 2 - positioned relative to cat */}
-        <Image
-          data-testid="hero-flame-2"
-          src="/figma-exports/decorations/hero-flame-2.svg"
-          alt="Hero Flame 2 Decoration"
-          width={586}
-          height={334}
-          className="absolute z-10 debug-image"
-          data-filename="hero-flame-2.svg"
-          style={{
-            position: 'absolute',
-            left: '337px',
-            top: '407px',
-            width: '586px',
-            height: '334px'
-          }}
-        />
       </div>
 
-      {/* Flame 3 - positioned relative to section */}
+      {/* Flame Elements - Positioned using exact Figma coordinates */}
+      {/* 
+        Note: These coordinates should match exactly what you see in Figma inspector
+        If elements look misaligned, double-check Figma X,Y values
+      */}
+      <Image
+        data-testid="hero-flame-1"
+        src="/figma-exports/decorations/hero-flame-1.svg"
+        alt="Hero Flame 1 Decoration"
+        width={324}
+        height={441}
+        className="absolute z-10 debug-image"
+        data-filename="hero-flame-1.svg"
+        style={{
+          position: 'absolute',
+          left: '182px',  // Figma X coordinate
+          top: '366px',   // Figma Y coordinate (86 + 280)
+          width: '324px',
+          height: '441px'
+        }}
+      />
+
+      <Image
+        data-testid="hero-flame-2"
+        src="/figma-exports/decorations/hero-flame-2.svg"
+        alt="Hero Flame 2 Decoration"
+        width={586}
+        height={334}
+        className="absolute z-10 debug-image"
+        data-filename="hero-flame-2.svg"
+        style={{
+          position: 'absolute',
+          left: '519px',  // Figma X coordinate (182 + 337)
+          top: '493px',   // Figma Y coordinate (86 + 407)
+          width: '586px',
+          height: '334px'
+        }}
+      />
+
       <Image
         data-testid="hero-flame-3"
         src="/figma-exports/decorations/hero-flame-3.svg"
@@ -87,26 +95,26 @@ const HeroSection = () => {
         data-filename="hero-flame-3.svg"
         style={{
           position: 'absolute',
-          left: '1525px',
-          top: '486px',
+          left: '1525px',  // Exact Figma X coordinate
+          top: '486px',    // Exact Figma Y coordinate
           width: '444px',
           height: '276px'
         }}
       />
 
-      {/* Speech Bubble Group - positioned relative to section */}
+      {/* Speech Bubble Group - Container for bubble and text */}
       <div
         data-testid="speech-bubble-group"
         className="absolute z-30"
         style={{
           position: 'absolute',
-          left: '555px',
-          top: '3px',
-          width: '1356px',
-          height: '628px'
+          left: '555px',  // Figma X coordinate for bubble group
+          top: '3px',     // Figma Y coordinate for bubble group
+          width: '1356px', // Total width needed for bubble + content
+          height: '628px'  // Total height needed
         }}
       >
-        {/* Speech Bubble SVG - positioned relative to bubble group */}
+        {/* Speech Bubble Background - Positioned within group */}
         <Image
           data-testid="speech-bubble-svg"
           src="/figma-exports/backgrounds/bg-speech-bubble-1.svg"
@@ -117,21 +125,21 @@ const HeroSection = () => {
           data-filename="bg-speech-bubble-1.svg"
           style={{
             position: 'absolute',
-            left: '274px',
-            top: '0px',
+            left: '274px',  // Relative to bubble group
+            top: '0px',     // Relative to bubble group
             width: '1082px',
             height: '628px'
           }}
         />
 
-        {/* Text Content - positioned relative to bubble group */}
+        {/* Text Content - Positioned within bubble group */}
         <div
           data-testid="speech-text-content"
           className="absolute font-jua text-black text-lg leading-relaxed"
           style={{
             position: 'absolute',
-            left: '1013px',
-            top: '101px',
+            left: '1013px',  // Relative to bubble group (458 + 555)
+            top: '101px',    // Relative to bubble group
             width: '771px',
             height: '481px'
           }}
@@ -147,7 +155,7 @@ const HeroSection = () => {
           </p>
         </div>
 
-        {/* Stars - positioned relative to speech bubble group */}
+        {/* Star Decorations - Positioned relative to bubble group */}
         <Image
           data-testid="hero-stars-1"
           src="/figma-exports/decorations/stars-1.svg"
@@ -158,8 +166,8 @@ const HeroSection = () => {
           data-filename="stars-1.svg"
           style={{
             position: 'absolute',
-            left: '831px',
-            top: '42px',
+            left: '831px',   // Relative to bubble group
+            top: '42px',     // Relative to bubble group
             width: '152px',
             height: '144px'
           }}
@@ -175,8 +183,8 @@ const HeroSection = () => {
           data-filename="stars-1.svg"
           style={{
             position: 'absolute',
-            left: '1814px',
-            top: '374px',
+            left: '1814px',  // Relative to bubble group
+            top: '374px',    // Relative to bubble group
             width: '92px',
             height: '87px'
           }}
@@ -192,8 +200,8 @@ const HeroSection = () => {
           data-filename="stars-1.svg"
           style={{
             position: 'absolute',
-            left: '1729px',
-            top: '0px',
+            left: '1729px',  // Relative to bubble group
+            top: '0px',      // Relative to bubble group
             width: '178px',
             height: '169px'
           }}
@@ -203,4 +211,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection; 
+export default HeroSectionFixed; 
