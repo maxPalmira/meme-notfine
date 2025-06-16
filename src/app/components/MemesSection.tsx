@@ -13,7 +13,8 @@ const MemesSection = () => {
   return (
     <section 
       data-testid="memes-section"
-      className="w-full py-8 px-4 relative overflow-hidden"
+      className="w-full py-8 px-4 relative overflow-hidden mx-auto"
+      style={{ maxWidth: '1920px', background: 'none' }}
     >
       <div className="w-full max-w-7xl mx-auto relative min-h-[600px]">
         {/* Background Cloud 1 - Positioned responsively */}

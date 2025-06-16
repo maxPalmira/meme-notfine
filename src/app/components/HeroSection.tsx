@@ -6,8 +6,8 @@ const HeroSection = () => {
   return (
     <section 
       data-testid="hero-section"
-      className="relative w-full overflow-hidden"
-      style={{ minHeight: '800px' }}
+      className="relative w-full overflow-hidden mx-auto"
+      style={{ minHeight: '800px', maxWidth: '1920px', background: 'none' }}
     >
       {/* Cat Container - for flame positioning relative to cat */}
       <div 
