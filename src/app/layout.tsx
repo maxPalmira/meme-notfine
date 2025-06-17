@@ -55,9 +55,9 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         />
-        {/* Config Console Dependencies */}
-        <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/maxPalmira/debug-window@main/config-console.js"></script>
+        {/* External Scripts - Made async to fix console errors */}
+        <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js" async defer></script>
+        <script src="https://cdn.jsdelivr.net/gh/maxPalmira/debug-window@main/config-console.js" async defer></script>
       </head>
       <body className={`${spaceGrotesk.className} ${jua.variable} antialiased`}>
         <GoogleAnalytics />

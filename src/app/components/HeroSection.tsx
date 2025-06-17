@@ -140,7 +140,9 @@ const HeroSection = () => {
           </div>
           
           <div className="mb-6 leading-relaxed">
-            $NOTFINE is the memecoin that embraces the chaos of the crypto world! Combining humor and satirical commentary on the struggles of every trader, we've created a community that finds strength in the absurd.
+            $NOTFINE is the memecoin that embraces the chaos of the crypto world! 
+            Combining humor and satirical commentary on the struggles of every trader, 
+            we&apos;ve created a community that finds strength in the absurd.
           </div>
           
           <div className="mb-2 text-lg font-semibold">

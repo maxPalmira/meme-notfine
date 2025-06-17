@@ -51,7 +51,7 @@ describe('ConfigDebugConsole', () => {
     );
 
     await waitFor(() => {
-      expect(mockOnGridToggle).toHaveBeenCalledWith(false);
+      expect(mockOnGridToggle).toHaveBeenCalledWith(true);
       expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
       expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
       expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(false);
@@ -60,9 +60,9 @@ describe('ConfigDebugConsole', () => {
 
   it('should restore debug settings from localStorage', async () => {
     const savedSettings = JSON.stringify({
-      showGrid: false,
+      showGridOverlay: false,
       showLabels: false,
-      showBorders: true,
+      showDebugOutlines: true,
       showSectionBorders: true
     });
     localStorageMock.getItem.mockReturnValue(savedSettings);
@@ -105,9 +105,9 @@ describe('ConfigDebugConsole', () => {
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       'debugSettings',
       JSON.stringify({
-        showGrid: false,
+        showGridOverlay: false,
         showLabels: true,
-        showBorders: true,
+        showDebugOutlines: true,
         showSectionBorders: false
       })
     );
@@ -127,7 +127,7 @@ describe('ConfigDebugConsole', () => {
 
     await waitFor(() => {
       // Should fall back to defaults
-      expect(mockOnGridToggle).toHaveBeenCalledWith(false);
+      expect(mockOnGridToggle).toHaveBeenCalledWith(true);
       expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
       expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
       expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(false);
@@ -155,9 +155,9 @@ describe('ConfigDebugConsole', () => {
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       'debugSettings',
       JSON.stringify({
-        showGrid: false,
+        showGridOverlay: true,
         showLabels: true,
-        showBorders: true,
+        showDebugOutlines: true,
         showSectionBorders: false
       })
     );
