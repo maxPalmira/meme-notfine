@@ -6,12 +6,14 @@ interface ConfigDebugConsoleProps {
   onGridToggle: (enabled: boolean) => void;
   onLabelsToggle: (enabled: boolean) => void;
   onBordersToggle: (enabled: boolean) => void;
+  onSectionBordersToggle: (enabled: boolean) => void;
 }
 
 interface DebugSettings {
   showGrid: boolean;
   showLabels: boolean;
   showBorders: boolean;
+  showSectionBorders: boolean;
 }
 
 declare global {
@@ -21,9 +23,10 @@ declare global {
 }
 
 const DEFAULT_SETTINGS: DebugSettings = {
-  showGrid: true,
+  showGrid: false,
   showLabels: true,
   showBorders: true,
+  showSectionBorders: false,
 };
 
 const STORAGE_KEY = 'debugSettings';
@@ -31,7 +34,8 @@ const STORAGE_KEY = 'debugSettings';
 export default function ConfigDebugConsole({ 
   onGridToggle, 
   onLabelsToggle, 
-  onBordersToggle 
+  onBordersToggle,
+  onSectionBordersToggle
 }: ConfigDebugConsoleProps) {
   const consoleRef = useRef<any>(null);
   const [isReady, setIsReady] = useState(false);
@@ -134,6 +138,18 @@ export default function ConfigDebugConsole({
       console.addLog(`SVG Borders: ${checked ? 'ON' : 'OFF'}`, 'info');
     });
 
+    console.addCheckbox('Show Section Borders', settings.showSectionBorders, (checked: boolean) => {
+      const newSettings = updateSetting('showSectionBorders', checked);
+      onSectionBordersToggle(checked);
+      // Toggle section-borders class on body for CSS styling
+      if (checked) {
+        document.body.classList.add('section-borders-debug');
+      } else {
+        document.body.classList.remove('section-borders-debug');
+      }
+      console.addLog(`Section Borders: ${checked ? 'ON' : 'OFF'}`, 'info');
+    });
+
     // Add utility buttons
     console.addConfigButton('Clear Console', () => {
       console.clearLogs();
@@ -145,10 +161,16 @@ export default function ConfigDebugConsole({
       onGridToggle(DEFAULT_SETTINGS.showGrid);
       onLabelsToggle(DEFAULT_SETTINGS.showLabels);
       onBordersToggle(DEFAULT_SETTINGS.showBorders);
+      onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
       if (DEFAULT_SETTINGS.showBorders) {
         document.body.classList.add('debug-mode');
       } else {
         document.body.classList.remove('debug-mode');
+      }
+      if (DEFAULT_SETTINGS.showSectionBorders) {
+        document.body.classList.add('section-borders-debug');
+      } else {
+        document.body.classList.remove('section-borders-debug');
       }
       console.addLog('Debug features reset to defaults', 'info');
     });
@@ -160,10 +182,17 @@ export default function ConfigDebugConsole({
       document.body.classList.remove('debug-mode');
     }
     
+    if (settings.showSectionBorders) {
+      document.body.classList.add('section-borders-debug');
+    } else {
+      document.body.classList.remove('section-borders-debug');
+    }
+    
     // Initialize all debug features with loaded settings
     onGridToggle(settings.showGrid);
     onLabelsToggle(settings.showLabels);
     onBordersToggle(settings.showBorders);
+    onSectionBordersToggle(settings.showSectionBorders);
   };
 
   // This component doesn't render anything - the Config Console manages its own DOM

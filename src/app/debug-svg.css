@@ -8,4 +8,10 @@ body.debug-mode .debug-svg {
 /* For images with debug labels */
 body.debug-mode .debug-image {
   border: 2px dashed black !important;
+  background: #ff000014 !important;
+}
+
+/* Section borders in debug mode */
+body.debug-mode section {
+  border: 1px dashed blue !important;
 }

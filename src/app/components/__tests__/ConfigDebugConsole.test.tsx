@@ -31,6 +31,7 @@ describe('ConfigDebugConsole', () => {
   const mockOnGridToggle = jest.fn();
   const mockOnLabelsToggle = jest.fn();
   const mockOnBordersToggle = jest.fn();
+  const mockOnSectionBordersToggle = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -45,13 +46,15 @@ describe('ConfigDebugConsole', () => {
         onGridToggle={mockOnGridToggle}
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
+        onSectionBordersToggle={mockOnSectionBordersToggle}
       />
     );
 
     await waitFor(() => {
-      expect(mockOnGridToggle).toHaveBeenCalledWith(true);
+      expect(mockOnGridToggle).toHaveBeenCalledWith(false);
       expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
       expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
+      expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(false);
     });
   });
 
@@ -59,7 +62,8 @@ describe('ConfigDebugConsole', () => {
     const savedSettings = JSON.stringify({
       showGrid: false,
       showLabels: false,
-      showBorders: true
+      showBorders: true,
+      showSectionBorders: true
     });
     localStorageMock.getItem.mockReturnValue(savedSettings);
 
@@ -68,6 +72,7 @@ describe('ConfigDebugConsole', () => {
         onGridToggle={mockOnGridToggle}
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
+        onSectionBordersToggle={mockOnSectionBordersToggle}
       />
     );
 
@@ -75,6 +80,7 @@ describe('ConfigDebugConsole', () => {
       expect(mockOnGridToggle).toHaveBeenCalledWith(false);
       expect(mockOnLabelsToggle).toHaveBeenCalledWith(false);
       expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
+      expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(true);
     });
   });
 
@@ -84,11 +90,12 @@ describe('ConfigDebugConsole', () => {
         onGridToggle={mockOnGridToggle}
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
+        onSectionBordersToggle={mockOnSectionBordersToggle}
       />
     );
 
     await waitFor(() => {
-      expect(mockConfigConsole.addCheckbox).toHaveBeenCalledTimes(3);
+      expect(mockConfigConsole.addCheckbox).toHaveBeenCalledTimes(4);
     });
 
     // Simulate checkbox toggle by calling the callback function
@@ -100,7 +107,8 @@ describe('ConfigDebugConsole', () => {
       JSON.stringify({
         showGrid: false,
         showLabels: true,
-        showBorders: true
+        showBorders: true,
+        showSectionBorders: false
       })
     );
   });
@@ -113,14 +121,16 @@ describe('ConfigDebugConsole', () => {
         onGridToggle={mockOnGridToggle}
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
+        onSectionBordersToggle={mockOnSectionBordersToggle}
       />
     );
 
     await waitFor(() => {
       // Should fall back to defaults
-      expect(mockOnGridToggle).toHaveBeenCalledWith(true);
+      expect(mockOnGridToggle).toHaveBeenCalledWith(false);
       expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
       expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
+      expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(false);
     });
   });
 
@@ -130,6 +140,7 @@ describe('ConfigDebugConsole', () => {
         onGridToggle={mockOnGridToggle}
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
+        onSectionBordersToggle={mockOnSectionBordersToggle}
       />
     );
 
@@ -144,9 +155,10 @@ describe('ConfigDebugConsole', () => {
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       'debugSettings',
       JSON.stringify({
-        showGrid: true,
+        showGrid: false,
         showLabels: true,
-        showBorders: true
+        showBorders: true,
+        showSectionBorders: false
       })
     );
   });
