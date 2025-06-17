@@ -59,9 +59,6 @@ const CASection = () => {
             tabIndex={0}
             aria-label="Copy contract address to clipboard"
           >
-            <span className="font-jua text-4xl md:text-6xl text-black select-none">
-              copy
-            </span>
           </div>
         </div>
 
