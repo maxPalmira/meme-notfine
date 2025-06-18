@@ -29,7 +29,7 @@ const CASection = () => {
   return (
     <section 
       data-testid="ca-section"
-      className="py-8 px-4 relative flex flex-col items-center justify-center overflow-hidden"
+      className="w-full py-8 px-4 relative flex flex-col items-center justify-center overflow-hidden"
       style={{ maxWidth: '1920px', background: 'none', marginLeft: 'auto', marginRight: 'auto' }}
     >
       <div className="w-full max-w-6xl relative">
@@ -52,15 +52,16 @@ const CASection = () => {
 
         {/* Copy Button */}
         <div className="flex justify-center">
-          <button
-            className="bg-red-primary border-black border-7 rounded-40 shadow-custom hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-300 px-8 py-4"
+          <div
+            className="svg-container debug-image"
+            data-filename="copy-button.svg"
             onClick={handleCopy}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
             aria-label="Copy contract address to clipboard"
           >
-            <span className="font-jua text-4xl md:text-6xl text-black select-none">
-              copy
-            </span>
-          </button>
+          </div>
         </div>
 
         {/* Copy Status Feedback */}
