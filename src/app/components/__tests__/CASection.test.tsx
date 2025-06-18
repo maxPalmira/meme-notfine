@@ -130,8 +130,6 @@ describe('CASection', () => {
     const user = userEvent.setup();
     render(<CASection />);
     
-    const addressElement = screen.getByText(contractAddress);
-    
     // Tab to first focusable element and press Enter
     await user.tab();
     await user.keyboard('{Enter}');

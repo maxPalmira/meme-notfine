@@ -34,6 +34,27 @@ export default function Home() {
       {/* Grid Overlay - Controlled by Config Console */}
       <GridOverlay visible={showGrid} />
 
+      {/* Debug Border Styles - Controlled by Config Console */}
+      {showBorders && (
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            * {
+              outline: 1px solid red !important;
+            }
+          `
+        }} />
+      )}
+      
+      {showSectionBorders && (
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            section {
+              border: 2px solid blue !important;
+            }
+          `
+        }} />
+      )}
+
       {/* Original Gradient Background with Noise Filter - matching exact stops */}
       <div
         className="absolute top-0 left-0 w-full min-h-full bg-gradient-to-b from-[#A6B857] via-[#CDE26F] via-[#FFF587] to-[#FFD272] -z-20"

@@ -96,8 +96,8 @@ export default function GridOverlay({ visible = true }: GridOverlayProps) {
 
   if (!visible || !debugMode) return null;
 
-  const gridLines = [];
-  const gridLabels = [];
+  const gridLines: JSX.Element[] = [];
+  const gridLabels: JSX.Element[] = [];
 
   // Vertical lines (x-axis)
   gridData.verticalLines.forEach((xPos, i) => {
