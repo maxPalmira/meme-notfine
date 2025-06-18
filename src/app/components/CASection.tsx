@@ -51,7 +51,7 @@ const CASection = () => {
         {/* Copy Button */}
         <div className="flex justify-center">
           <div
-            className="svg-container debug-image bg-red-primary border-black border-7 rounded-40 shadow-custom hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-300 px-8 py-4 cursor-pointer"
+            className="svg-container debug-image"
             data-filename="copy-button.svg"
             onClick={handleCopy}
             onKeyDown={handleKeyDown}
