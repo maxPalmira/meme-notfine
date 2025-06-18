@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GridOverlay from "./components/GridOverlay";
 import ConfigDebugConsole from "./components/ConfigDebugConsole";
 import DebugLabels from "./components/DebugLabels";
@@ -17,6 +17,20 @@ export default function Home() {
   const [showLabels, setShowLabels] = useState(true);
   const [showBorders, setShowBorders] = useState(true);
   const [showSectionBorders, setShowSectionBorders] = useState(false);
+
+  // Handle debug-mode class toggle
+  useEffect(() => {
+    if (showBorders) {
+      document.body.classList.add("debug-mode");
+    } else {
+      document.body.classList.remove("debug-mode");
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove("debug-mode");
+    };
+  }, [showBorders]);
 
   return (
     <div className="min-h-screen relative">
