@@ -31,7 +31,7 @@ export function middleware(request: NextRequest) {
       if (user === 'memeLord' && pwd === 'K9x#mQ7$nZ2@wP5v') {
         return NextResponse.next()
       }
-    } catch (error) {
+    } catch {
       return createAuthResponse()
     }
   }

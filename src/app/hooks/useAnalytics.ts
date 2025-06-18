@@ -3,7 +3,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { pageview } from '../lib/gtag';
+import { pageview, event } from '../lib/gtag';
 
 export function useAnalytics() {
   const pathname = usePathname();
@@ -18,11 +18,8 @@ export function useAnalytics() {
 
   // Return tracking functions for manual event tracking
   return {
-    trackEvent: (eventName: string, properties?: Record<string, any>) => {
-      // Track with Google Analytics
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', eventName, properties);
-      }
+    trackEvent: (action: string, category: string, label?: string, value?: number) => {
+      event({ action, category, label, value });
     },
     trackPageView: (url: string) => {
       pageview(url);

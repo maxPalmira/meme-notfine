@@ -20,7 +20,7 @@ interface ConfigConsoleInstance {
 
 declare global {
   interface Window {
-    ConfigConsole: new (config: any) => ConfigConsoleInstance;
+    ConfigConsole: new (config: Record<string, unknown>) => ConfigConsoleInstance;
   }
 }
 
@@ -45,22 +45,45 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   onSectionBordersToggle,
 }) => {
   const consoleRef = useRef<ConfigConsoleInstance | null>(null);
-  const [debugSettings, setDebugSettings] = useState<DebugSettings>(DEFAULT_SETTINGS);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Load settings from localStorage
+  // Load settings from localStorage with robust error handling
   const loadSettings = (): DebugSettings => {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return DEFAULT_SETTINGS;
+    }
+    
     try {
       const saved = localStorage.getItem('debugSettings');
-      return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
+      // Explicitly check for null, undefined, and empty string
+      if (saved === null || saved === undefined || saved === '' || saved === 'undefined') {
+        return DEFAULT_SETTINGS;
+      }
+      
+      const parsed = JSON.parse(saved);
+      // Ensure parsed data is an object and has expected properties
+      if (typeof parsed === 'object' && parsed !== null) {
+        return { ...DEFAULT_SETTINGS, ...parsed };
+      }
+      return DEFAULT_SETTINGS;
     } catch (error) {
       console.warn('Failed to load debug settings:', error);
+      // Clear corrupted data
+      try {
+        localStorage.removeItem('debugSettings');
+      } catch (clearError) {
+        console.warn('Failed to clear corrupted settings:', clearError);
+      }
       return DEFAULT_SETTINGS;
     }
   };
 
-  // Save settings to localStorage
+  // Save settings to localStorage with error handling
   const saveSettings = (settings: DebugSettings) => {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return;
+    }
+    
     try {
       localStorage.setItem('debugSettings', JSON.stringify(settings));
     } catch (error) {
@@ -68,19 +91,77 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
     }
   };
 
-  // Initialize callbacks with current settings
-  const initializeCallbacks = (settings: DebugSettings) => {
-    onGridToggle(settings.showGridOverlay);
-    onLabelsToggle(settings.showLabels);
-    onBordersToggle(settings.showDebugOutlines);
-    onSectionBordersToggle(settings.showSectionBorders);
-  };
-
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
+    // Initialize callbacks with current settings
+    const initializeCallbacks = (settings: DebugSettings) => {
+      onGridToggle(settings.showGridOverlay);
+      onLabelsToggle(settings.showLabels);
+      onBordersToggle(settings.showDebugOutlines);
+      onSectionBordersToggle(settings.showSectionBorders);
+    };
+
+    // Initialize ConfigConsole instance
+    const initializeConfigConsole = (settings: DebugSettings) => {
+      try {
+        if (consoleRef.current) {
+          consoleRef.current.destroy();
+        }
+
+        consoleRef.current = new window.ConfigConsole({
+          title: 'Debug Console',
+          width: 300,
+          height: 400,
+          right: 20,
+          bottom: 20,
+        }).init();
+
+        // Add debug controls
+        consoleRef.current.addCheckbox('Grid Overlay', settings.showGridOverlay, (value: boolean) => {
+          const updatedSettings = { ...settings, showGridOverlay: value };
+          saveSettings(updatedSettings);
+          onGridToggle(value);
+        });
+
+        consoleRef.current.addCheckbox('Debug Labels', settings.showLabels, (value: boolean) => {
+          const updatedSettings = { ...settings, showLabels: value };
+          saveSettings(updatedSettings);
+          onLabelsToggle(value);
+        });
+
+        consoleRef.current.addCheckbox('Debug Outlines', settings.showDebugOutlines, (value: boolean) => {
+          const updatedSettings = { ...settings, showDebugOutlines: value };
+          saveSettings(updatedSettings);
+          onBordersToggle(value);
+        });
+
+        consoleRef.current.addCheckbox('Section Borders', settings.showSectionBorders, (value: boolean) => {
+          const updatedSettings = { ...settings, showSectionBorders: value };
+          saveSettings(updatedSettings);
+          onSectionBordersToggle(value);
+        });
+
+        // Add utility buttons
+        consoleRef.current.addConfigButton('Clear Logs', () => {
+          consoleRef.current?.clearLogs();
+        });
+
+        consoleRef.current.addConfigButton('Reset Settings', () => {
+          saveSettings(DEFAULT_SETTINGS);
+          // Trigger callbacks with default values
+          onGridToggle(DEFAULT_SETTINGS.showGridOverlay);
+          onLabelsToggle(DEFAULT_SETTINGS.showLabels);
+          onBordersToggle(DEFAULT_SETTINGS.showDebugOutlines);
+          onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
+        });
+
+      } catch (error) {
+        console.warn('Failed to initialize ConfigConsole:', error);
+      }
+    };
+    
     const loadedSettings = loadSettings();
-    setDebugSettings(loadedSettings);
 
     // Wait for ConfigConsole to be available with retry mechanism
     let retryCount = 0;
@@ -110,70 +191,12 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
         consoleRef.current.destroy();
       }
     };
-  }, []);
+  }, [onGridToggle, onLabelsToggle, onBordersToggle, onSectionBordersToggle]);
 
-  const initializeConfigConsole = (settings: DebugSettings) => {
-    try {
-      if (consoleRef.current) {
-        consoleRef.current.destroy();
-      }
-
-      consoleRef.current = new window.ConfigConsole({
-        title: 'Debug Console',
-        width: 300,
-        height: 400,
-        right: 20,
-        bottom: 20,
-      }).init();
-
-      // Add debug controls
-      consoleRef.current.addCheckbox('Grid Overlay', settings.showGridOverlay, (value: boolean) => {
-        const updatedSettings = { ...settings, showGridOverlay: value };
-        setDebugSettings(updatedSettings);
-        saveSettings(updatedSettings);
-        onGridToggle(value);
-      });
-
-      consoleRef.current.addCheckbox('Debug Labels', settings.showLabels, (value: boolean) => {
-        const updatedSettings = { ...settings, showLabels: value };
-        setDebugSettings(updatedSettings);
-        saveSettings(updatedSettings);
-        onLabelsToggle(value);
-      });
-
-      consoleRef.current.addCheckbox('Debug Outlines', settings.showDebugOutlines, (value: boolean) => {
-        const updatedSettings = { ...settings, showDebugOutlines: value };
-        setDebugSettings(updatedSettings);
-        saveSettings(updatedSettings);
-        onBordersToggle(value);
-      });
-
-      consoleRef.current.addCheckbox('Section Borders', settings.showSectionBorders, (value: boolean) => {
-        const updatedSettings = { ...settings, showSectionBorders: value };
-        setDebugSettings(updatedSettings);
-        saveSettings(updatedSettings);
-        onSectionBordersToggle(value);
-      });
-
-      // Add utility buttons
-      consoleRef.current.addConfigButton('Clear Logs', () => {
-        consoleRef.current?.clearLogs();
-      });
-
-      consoleRef.current.addConfigButton('Reset Settings', () => {
-        setDebugSettings(DEFAULT_SETTINGS);
-        saveSettings(DEFAULT_SETTINGS);
-        // Trigger callbacks with default values
-        onGridToggle(DEFAULT_SETTINGS.showGridOverlay);
-        onLabelsToggle(DEFAULT_SETTINGS.showLabels);
-        onBordersToggle(DEFAULT_SETTINGS.showDebugOutlines);
-        onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
-      });
-
-    } catch (error) {
-      console.warn('Failed to initialize ConfigConsole:', error);
-    }
-  };
+  // Prevent rendering during SSR to avoid hydration issues
+  if (!isInitialized) {
+    return null;
+  }
 
   return null;
 };

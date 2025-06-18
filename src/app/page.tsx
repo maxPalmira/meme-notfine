@@ -13,9 +13,9 @@ import MemesSection from "./components/MemesSection";
 
 export default function Home() {
   // State for controlling debug features individually
-  const [showGrid, setShowGrid] = useState(true);
-  const [showLabels, setShowLabels] = useState(true);
-  const [showBorders, setShowBorders] = useState(true);
+  const [showGrid, setShowGrid] = useState(false);
+  const [showLabels, setShowLabels] = useState(false);
+  const [showBorders, setShowBorders] = useState(false);
   const [showSectionBorders, setShowSectionBorders] = useState(false);
 
   return (

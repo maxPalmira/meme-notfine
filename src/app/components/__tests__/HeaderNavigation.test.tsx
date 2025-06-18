@@ -157,7 +157,6 @@ describe('Social Icons Bug Fixes', () => {
     render(<HeaderNavigation />);
     
     // Test that social icons have debug-image classes
-    const socialContainer = screen.getByTestId('social-icons');
     const discordIcon = screen.getByAltText('Discord Social Icon');
     const twitterIcon = screen.getByAltText('Twitter Social Icon'); 
     const telegramIcon = screen.getByAltText('Telegram Social Icon');

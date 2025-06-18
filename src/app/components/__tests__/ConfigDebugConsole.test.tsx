@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ConfigDebugConsole from '../ConfigDebugConsole';
 
@@ -161,5 +161,172 @@ describe('ConfigDebugConsole', () => {
         showSectionBorders: false
       })
     );
+  });
+
+  it('should handle corrupted localStorage data gracefully', () => {
+    // Test the actual bug: localStorage returning "undefined" as string
+    localStorageMock.getItem.mockReturnValue('undefined');
+    
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+    
+    // Should clear corrupted data
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith('debugSettings');
+  });
+
+  it('should handle empty string localStorage data', () => {
+    localStorageMock.getItem.mockReturnValue('');
+    
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+  });
+
+  it('should handle null localStorage data', () => {
+    localStorageMock.getItem.mockReturnValue(null);
+    
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+  });
+
+  it('should handle malformed JSON in localStorage', () => {
+    localStorageMock.getItem.mockReturnValue('invalid json');
+    
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+    
+    // Should clear corrupted data
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith('debugSettings');
+  });
+
+  it('should work when localStorage is undefined', () => {
+    // Simulate environment where localStorage is not available
+    const originalLocalStorage = window.localStorage;
+    // @ts-expect-error Testing localStorage unavailable scenario
+    delete window.localStorage;
+    
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+    
+    // Restore localStorage
+    window.localStorage = originalLocalStorage;
+  });
+
+  it('should initialize with default settings when localStorage fails', () => {
+    localStorageMock.getItem.mockImplementation(() => {
+      throw new Error('localStorage error');
+    });
+
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+
+    // Should still call callbacks with default values
+    expect(mockOnGridToggle).toHaveBeenCalledWith(true);
+    expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
+    expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
+    expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(false);
+  });
+
+  it('should handle ConfigConsole initialization failure gracefully', () => {
+    // Mock ConfigConsole to not be available
+    const originalConfigConsole = window.ConfigConsole;
+    // @ts-expect-error Testing ConfigConsole unavailable scenario
+    delete window.ConfigConsole;
+
+    expect(() => {
+      render(
+        <ConfigDebugConsole
+          onGridToggle={mockOnGridToggle}
+          onLabelsToggle={mockOnLabelsToggle}
+          onBordersToggle={mockOnBordersToggle}
+          onSectionBordersToggle={mockOnSectionBordersToggle}
+        />
+      );
+    }).not.toThrow();
+
+    // Should still initialize callbacks even without ConfigConsole
+    setTimeout(() => {
+      expect(mockOnGridToggle).toHaveBeenCalledWith(true);
+      expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
+      expect(mockOnBordersToggle).toHaveBeenCalledWith(true);
+      expect(mockOnSectionBordersToggle).toHaveBeenCalledWith(false);
+    }, 5100); // After timeout
+
+    // Restore ConfigConsole
+    window.ConfigConsole = originalConfigConsole;
+  });
+
+  it('should save settings when checkboxes are toggled', () => {
+    localStorageMock.getItem.mockReturnValue('{"showGridOverlay":false}');
+
+    render(
+      <ConfigDebugConsole
+        onGridToggle={mockOnGridToggle}
+        onLabelsToggle={mockOnLabelsToggle}
+        onBordersToggle={mockOnBordersToggle}
+        onSectionBordersToggle={mockOnSectionBordersToggle}
+      />
+    );
+
+    // Simulate checkbox callback
+    const gridCheckboxCallback = mockConfigConsole.addCheckbox.mock.calls
+      .find(call => call[0] === 'Grid Overlay')?.[2];
+    
+    if (gridCheckboxCallback) {
+      gridCheckboxCallback(true);
+      
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        'debugSettings',
+        expect.stringContaining('"showGridOverlay":true')
+      );
+      expect(mockOnGridToggle).toHaveBeenCalledWith(true);
+    }
   });
 }); 

@@ -11,7 +11,9 @@ const CASection = () => {
       await navigator.clipboard.writeText(contractAddress);
       setCopyStatus('copied');
       setTimeout(() => setCopyStatus('idle'), 2000);
-    } catch (error) {
+    } catch {
+      // Image failed to load, use fallback
+      console.warn('Failed to load CA section image, using fallback');
       setCopyStatus('error');
       setTimeout(() => setCopyStatus('idle'), 2000);
     }
