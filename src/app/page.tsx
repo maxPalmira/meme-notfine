@@ -7,7 +7,6 @@ import GridOverlay from "./components/GridOverlay";
 import ConfigDebugConsole from "./components/ConfigDebugConsole";
 import ConfigDebugToggle from "./components/ConfigDebugToggle";
 import DebugLabels from "./components/DebugLabels";
-import DebugToggle from "./components/DebugToggle";
 import HeaderNavigation from "./components/HeaderNavigation";
 import HeroSection from "./components/HeroSection";
 import CASection from "./components/CASection";
@@ -33,9 +32,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Debug Toggle - Controls debug-mode class on body */}
-      <DebugToggle />
-
       {/* Config Console Toggle - Controls ConfigDebugConsole visibility */}
       <ConfigDebugToggle onToggle={setShowConfigConsole} />
 
