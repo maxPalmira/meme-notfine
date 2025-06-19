@@ -58,24 +58,19 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
     
     try {
       const saved = localStorage.getItem('debugSettings');
-      // Explicitly check for null, undefined, and empty string
       if (saved === null || saved === undefined || saved === '' || saved === 'undefined') {
         return DEFAULT_SETTINGS;
       }
       
       const parsed = JSON.parse(saved);
-      // Ensure parsed data is an object and has expected properties
       if (typeof parsed === 'object' && parsed !== null) {
         return { ...DEFAULT_SETTINGS, ...parsed };
       }
       return DEFAULT_SETTINGS;
     } catch (error) {
-      console.warn('Failed to load debug settings:', error);
-      // Clear corrupted data
       try {
         localStorage.removeItem('debugSettings');
       } catch (clearError) {
-        console.warn('Failed to clear corrupted settings:', clearError);
       }
       return DEFAULT_SETTINGS;
     }
@@ -90,29 +85,24 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
     try {
       localStorage.setItem('debugSettings', JSON.stringify(settings));
     } catch (error) {
-      console.warn('Failed to save debug settings:', error);
     }
   };
 
   // Load the ConfigConsole script dynamically
   const loadConfigConsoleScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
-      // Check if already loaded
       if (window.ConfigConsole) {
         resolve();
         return;
       }
 
-      // Check if script tag already exists
       const existingScript = document.querySelector('script[src*="config-console.js"]');
       if (existingScript) {
-        // Script is loading, wait for it
         existingScript.addEventListener('load', () => resolve());
         existingScript.addEventListener('error', reject);
         return;
       }
 
-      // Create and load the script
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/gh/maxPalmira/debug-window@main/config-console.js';
       script.async = true;
@@ -124,7 +114,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
       };
       
       script.onerror = () => {
-        console.error('Failed to load ConfigConsole script');
         reject(new Error('Failed to load ConfigConsole script'));
       };
 
@@ -133,7 +122,9 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     const loadedSettings = loadSettings();
 
@@ -198,7 +189,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
           onSectionBordersToggle(loadedSettings.showSectionBorders);
 
         } catch (error) {
-          console.warn('ConfigConsole failed to load:', error);
           setIsInitialized(true);
         }
       };
@@ -217,7 +207,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   // Separate effect to handle visibility toggle with CSS class
   useEffect(() => {
     if (isInitialized && consoleRef.current) {
-      // Find the console DOM element and toggle hidden class
       setTimeout(() => {
         const consoleElement = document.querySelector('[data-title="Debug Console"]') || 
                               document.querySelector('.config-console') ||
