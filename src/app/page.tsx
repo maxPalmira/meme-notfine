@@ -17,7 +17,6 @@ export default function Home() {
   // State for controlling debug features individually
   const [showGrid, setShowGrid] = useState(false);
   const [showLabels, setShowLabels] = useState(false);
-  const [showBorders, setShowBorders] = useState(false);
   const [showSectionBorders, setShowSectionBorders] = useState(false);
   const [showConfigConsole, setShowConfigConsole] = useState(true);
 
@@ -44,7 +43,6 @@ export default function Home() {
         visible={showConfigConsole}
         onGridToggle={setShowGrid}
         onLabelsToggle={setShowLabels}
-        onBordersToggle={setShowBorders}
         onSectionBordersToggle={handleSectionBordersToggle}
       />
 
