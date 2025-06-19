@@ -19,6 +19,7 @@ export default function Home() {
   const [showLabels, setShowLabels] = useState(false);
   const [showBorders, setShowBorders] = useState(false);
   const [showSectionBorders, setShowSectionBorders] = useState(false);
+  const [showSvgBorders, setShowSvgBorders] = useState(false);
   const [showConfigConsole, setShowConfigConsole] = useState(true);
 
   // Handler for section borders toggle
@@ -28,6 +29,16 @@ export default function Home() {
       document.body.classList.add('show-section-borders');
     } else {
       document.body.classList.remove('show-section-borders');
+    }
+  };
+
+  // Handler for SVG borders toggle
+  const handleSvgBordersToggle = (enabled: boolean) => {
+    setShowSvgBorders(enabled);
+    if (enabled) {
+      document.body.classList.add('show-svg-borders');
+    } else {
+      document.body.classList.remove('show-svg-borders');
     }
   };
 
@@ -46,6 +57,7 @@ export default function Home() {
         onLabelsToggle={setShowLabels}
         onBordersToggle={setShowBorders}
         onSectionBordersToggle={handleSectionBordersToggle}
+        onSvgBordersToggle={handleSvgBordersToggle}
       />
 
       {/* Debug Labels - Controlled by Config Console */}
