@@ -59,8 +59,9 @@ npm run dev                        # Should start without errors
 ```bash
 # With development server running at http://localhost:3000
 # Enable debug mode to show debug labels
-# Take screenshot showing current font size
-# Save as: screenshots/before-debug-labels-font-size.png
+# Use Playwright for consistent screenshots:
+npx playwright screenshot --full-page http://localhost:3000 screenshots/before-debug-labels-font-size.png
+# OR use browser dev tools screenshot if Playwright fails
 ```
 
 ### Step 4: Provide Analysis Summary & WAIT FOR CONFIRMATION
@@ -109,6 +110,18 @@ npm run dev
 ```
 
 ### Step 7: Screenshot Documentation (Exactly 4 Total)
+```bash
+# Use Playwright for all screenshots (installed and available)
+# 1. BEFORE screenshot (already taken in Step 3)
+# 2. AFTER - larger font
+npx playwright screenshot --full-page http://localhost:3000 screenshots/AFTER-larger-font.png
+# 3. AFTER - toggle test (debug OFF)
+npx playwright screenshot --full-page http://localhost:3000 screenshots/AFTER-toggle-test.png  
+# 4. AFTER - responsive check
+npx playwright screenshot --device="iPhone 12" http://localhost:3000 screenshots/AFTER-responsive-check.png
+```
+
+**Screenshot Requirements:**
 1. **BEFORE-current-font.png**: Current font size (debug ON, labels visible)
 2. **AFTER-larger-font.png**: Increased font size (debug ON, labels clearly larger)
 3. **AFTER-toggle-test.png**: Toggle functionality works (debug OFF, no labels)
@@ -164,6 +177,13 @@ Before marking COMPLETED, verify:
 - Check for fixed heights/widths on label containers
 - Verify text doesn't overflow parent elements
 - Test on different screen sizes
+
+**If screenshots fail:**
+- Ensure dev server is running on http://localhost:3000
+- Verify Playwright is installed: `npx playwright --version`
+- If Playwright fails, use browser dev tools manual screenshot
+- Ensure debug mode is enabled before taking screenshots
+- Check screenshots directory exists or create it
 
 **If tests fail:**
 - Update test expectations for new font size
