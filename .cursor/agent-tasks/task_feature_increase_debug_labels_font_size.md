@@ -13,8 +13,15 @@ Increase the font size of debug labels by 4px to improve readability. The debug 
 - **Confirmation Required**: After initial analysis (Step 4), before final commit
 - **⛔ HARD STOPS**: Git workflow issues, environment failures, external dependency problems
 
+## Error Classification System
+- 🔴 **HARD STOP**: Git conflicts, server won't start, core functionality broken
+- 🟡 **PROCEED WITH CAUTION**: Linting warnings, test failures in unrelated components  
+- 🟢 **CONTINUE**: Missing optional dependencies with workarounds available
+
 ## Cost Control Measures
 - **Max debugging iterations**: 3 attempts before escalation
+- **Debugging Attempt Definition**: Each cycle of modify code → test → verify → screenshot
+- **Reset counter**: After successful partial completion
 - **Screenshot limit**: Exactly 4 final images (no debugging screenshots)
 - **External dependency timeout**: 30 minutes before escalation
 - **Task time limit**: 2 hours maximum
@@ -36,14 +43,28 @@ git status                          # Confirm clean working directory
 
 ### Step 1: Environment Health Check
 ```bash
-# Verify environment setup
+# Verify core environment
+node --version                      # Verify Node.js available
+npm --version                       # Verify npm available
 npm install                         # Install dependencies
 npm run build                       # Verify build works
 npm test                           # Run existing tests
 
+# Verify screenshot tools
+npx playwright install              # Install browsers for screenshots
+npx playwright --version           # Verify Playwright available
+
 # Start development server
 npm run dev                        # Should start without errors
+# Verify server runs on http://localhost:3000
 ```
+
+**Environment Dependencies:**
+- Node.js + npm (verified above)
+- Playwright with browser installation
+- Development server port availability (3000)
+- Screenshots directory (create if missing)
+
 **⛔ If any failures, STOP and report dependency issues**
 
 ### Step 2: External Dependencies Verification
@@ -64,11 +85,21 @@ npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://lo
 # Focus on top portion where debug labels appear, not full page
 ```
 
-### Step 4: Provide Analysis Summary & WAIT FOR CONFIRMATION
-**Background Agent must provide summary and WAIT:**
+### Step 4: Analysis Summary
+**Mode-Specific Behavior:**
+
+**Background Agent Mode (Autonomous):**
+- Provide analysis summary in commit message and task file
+- Proceed automatically to implementation
+- Document findings for PM review
+
+**Interactive Mode:**
+- Provide analysis summary and wait for user confirmation
+- User reviews BEFORE screenshots and approach
+- Explicit permission required to proceed
 
 ---
-**TASK ANALYSIS SUMMARY:**
+**ANALYSIS SUMMARY FORMAT:**
 
 **Current State Identified:**
 - Debug labels component: `src/app/components/DebugLabels.tsx`
@@ -83,11 +114,7 @@ npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://lo
 
 **Before screenshot captured**: Shows current [X]px font size
 
-**⛔ AWAITING USER CONFIRMATION TO PROCEED**
-
 ---
-
-**DO NOT PROCEED WITH IMPLEMENTATION UNTIL USER CONFIRMS**
 
 ---
 
