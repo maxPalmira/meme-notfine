@@ -59,9 +59,9 @@ npm run dev                        # Should start without errors
 ```bash
 # With development server running at http://localhost:3000
 # Enable debug mode to show debug labels
-# Use Playwright for consistent screenshots:
-npx playwright screenshot --full-page http://localhost:3000 screenshots/before-debug-labels-font-size.png
-# OR use browser dev tools screenshot if Playwright fails
+# Use Playwright for focused screenshots (debug labels area only):
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/before-debug-labels-font-size.png
+# Focus on top portion where debug labels appear, not full page
 ```
 
 ### Step 4: Provide Analysis Summary & WAIT FOR CONFIRMATION
@@ -111,14 +111,17 @@ npm run dev
 
 ### Step 7: Screenshot Documentation (Exactly 4 Total)
 ```bash
-# Use Playwright for all screenshots (installed and available)
+# Use Playwright for focused screenshots (debug labels area only)
 # 1. BEFORE screenshot (already taken in Step 3)
-# 2. AFTER - larger font
-npx playwright screenshot --full-page http://localhost:3000 screenshots/AFTER-larger-font.png
-# 3. AFTER - toggle test (debug OFF)
-npx playwright screenshot --full-page http://localhost:3000 screenshots/AFTER-toggle-test.png  
-# 4. AFTER - responsive check
-npx playwright screenshot --device="iPhone 12" http://localhost:3000 screenshots/AFTER-responsive-check.png
+
+# 2. AFTER - larger font (same area as BEFORE for comparison)
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/AFTER-larger-font.png
+
+# 3. AFTER - toggle test (debug OFF, same area should show no labels)
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/AFTER-toggle-test.png  
+
+# 4. AFTER - responsive check (focused on labels area)
+npx playwright screenshot --viewport-size=375,667 --clip=0,0,375,300 http://localhost:3000 screenshots/AFTER-responsive-check.png
 ```
 
 **Screenshot Requirements:**
@@ -181,7 +184,9 @@ Before marking COMPLETED, verify:
 **If screenshots fail:**
 - Ensure dev server is running on http://localhost:3000
 - Verify Playwright is installed: `npx playwright --version`
-- If Playwright fails, use browser dev tools manual screenshot
+- Screenshots focus on debug labels area only (not full page)
+- Use --clip parameter to capture relevant sections: top 400px for desktop, top 300px for mobile
+- If Playwright fails, use browser dev tools to crop screenshots to debug labels area
 - Ensure debug mode is enabled before taking screenshots
 - Check screenshots directory exists or create it
 
