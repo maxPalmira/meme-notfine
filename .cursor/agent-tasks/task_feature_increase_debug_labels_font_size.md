@@ -4,225 +4,181 @@
 **Status**: PENDING  
 **Created**: 2025-01-21  
 **Assigned To**: dev agent  
+
 ## Overview
 Increase the font size of debug labels by 4px to improve readability. The debug labels are rendered by the `DebugLabels` component and should have their font size increased while maintaining all other styling properties.
 
-## ⚠️ PREPARATION PHASE - WAIT FOR CONFIRMATION
+## Execution Mode: AUTONOMOUS with Strategic Checkpoints
+- **Autonomous**: Environment setup, code changes, testing, screenshots
+- **Confirmation Required**: After initial analysis (Step 4), before final commit
+- **⛔ HARD STOPS**: Git workflow issues, environment failures, external dependency problems
 
-### Step 1: Task Preparation
+## Cost Control Measures
+- **Max debugging iterations**: 3 attempts before escalation
+- **Screenshot limit**: Exactly 4 final images (no debugging screenshots)
+- **External dependency timeout**: 30 minutes before escalation
+- **Task time limit**: 2 hours maximum
+
+---
+
+## PRE-EXECUTION PHASE
+
+### Step 0: Git Workflow Validation ⚠️ MANDATORY
+```bash
+# Verify current branch and sync
+git branch                           # Confirm current branch
+git checkout development            # Switch to base branch  
+git pull origin development         # Pull latest changes
+git checkout -b cursor/feature-debug-labels-font-size  # Create feature branch
+git status                          # Confirm clean working directory
+```
+**⛔ DO NOT PROCEED until git workflow is confirmed clean**
+
+### Step 1: Environment Health Check
 ```bash
 # Verify environment setup
-npm install
-npm run build
-npm test
+npm install                         # Install dependencies
+npm run build                       # Verify build works
+npm test                           # Run existing tests
 
 # Start development server
-npm run dev
+npm run dev                        # Should start without errors
 ```
+**⛔ If any failures, STOP and report dependency issues**
 
-### Step 2: Take BEFORE Screenshot
+### Step 2: External Dependencies Verification
 ```bash
-# With development server running
+# Check browser console for errors (http://localhost:3000)
+# Verify all external scripts load correctly
+# Check for any React hydration issues
+# Confirm debug toggle functionality works
+```
+**Common Issues**: Race conditions, missing dependencies, CORS, CDN failures
+
+### Step 3: Take BEFORE Screenshot
+```bash
+# With development server running at http://localhost:3000
 # Enable debug mode to show debug labels
-# Take screenshot of debug labels showing current font size
+# Take screenshot showing current font size
 # Save as: screenshots/before-debug-labels-font-size.png
 ```
 
-### Step 3: Provide Task Summary
-**Background Agent should provide a summary like this:**
+### Step 4: Provide Analysis Summary & WAIT FOR CONFIRMATION
+**Background Agent must provide summary and WAIT:**
 
 ---
-**TASK UNDERSTANDING SUMMARY:**
+**TASK ANALYSIS SUMMARY:**
 
-I understand this task requires:
-1. **Increase debug labels font size by +4px** from current value
-2. **Files to examine**: `src/app/components/DebugLabels.tsx` (primary component)
-3. **Maintain**: All other styling properties (color, weight, family, positioning)
-4. **Expected result**: Larger, more readable debug labels
-5. **Verification**: Visual comparison and consistent font size across all labels
+**Current State Identified:**
+- Debug labels component: `src/app/components/DebugLabels.tsx`
+- Current font size: [X]px (specify exact current value)
+- Font styling method: [CSS classes/inline styles/Tailwind]
 
-**BEFORE screenshot captured**: `screenshots/before-debug-labels-font-size.png`
-- Shows current debug labels font size
+**Implementation Plan:**
+1. Increase font size from [X]px to [X+4]px
+2. Update [specific file/class/property]
+3. Maintain all other styling (color, weight, positioning)
+4. Test across all label instances
 
-**Ready to proceed with implementation.**
+**Before screenshot captured**: Shows current [X]px font size
+
+**⛔ AWAITING USER CONFIRMATION TO PROCEED**
 
 ---
 
-### Step 4: ⛔ WAIT FOR USER CONFIRMATION
 **DO NOT PROCEED WITH IMPLEMENTATION UNTIL USER CONFIRMS**
-- User will review the BEFORE screenshot
-- User will confirm task understanding is correct
-- User will give explicit permission to proceed
 
-## Problem Description
-The current debug labels font size is too small for comfortable reading. Need to increase the font size by 4px to improve visibility and usability without affecting label positioning or layout.
+---
 
-## Implementation Instructions for Background Agent
-**⚠️ ONLY PROCEED AFTER USER CONFIRMATION**
+## IMPLEMENTATION PHASE (Only after confirmation)
 
-### Step 5: Update DebugLabels Component
-- Locate current font size styling in `DebugLabels.tsx`
-- Increase font size by 4px from current value
-- Maintain all other styling properties (color, weight, family)
+### Step 5: Code Implementation
+- Locate current font size in `DebugLabels.tsx`
+- Increase by exactly 4px from current value
+- Ensure consistency across all label instances
+- Maintain responsive behavior if present
 
-### Step 6: Verify CSS Consistency
-- Check if font size is defined in CSS or inline styles
-- Ensure consistent application across all label instances
-- Maintain responsive font scaling if currently implemented
-
-### Step 7: Take AFTER Screenshot
+### Step 6: Testing & Validation
 ```bash
-# With dev server running and debug mode enabled
-# Take screenshot of debug labels with increased font size
-# Save as: screenshots/after-debug-labels-font-size.png
+# Verify component renders correctly
+npm run dev
+
+# Check for console errors
+# Test debug toggle functionality
+# Verify no layout overflow or positioning issues
 ```
 
-## Files to Examine and Potentially Modify
+### Step 7: Screenshot Documentation (Exactly 4 Total)
+1. **BEFORE-current-font.png**: Current font size (debug ON, labels visible)
+2. **AFTER-larger-font.png**: Increased font size (debug ON, labels clearly larger)
+3. **AFTER-toggle-test.png**: Toggle functionality works (debug OFF, no labels)
+4. **AFTER-responsive-check.png**: Mobile/responsive view with larger font
+
+**⚠️ Font size difference must be clearly visible in screenshots**
+
+## Files to Examine and Modify
 - `src/app/components/DebugLabels.tsx` - Primary component file
-- Related CSS files if font styling is externalized
-- Any style configurations or theme files
+- Related CSS/styling files if font is externalized
+- Check for Tailwind classes or CSS-in-JS solutions
+
+## Success Criteria Validation ✅
+Before marking COMPLETED, verify:
+- [ ] Font size increased by exactly 4px (measure using browser dev tools)
+- [ ] All debug labels use consistent new font size
+- [ ] Labels remain properly positioned (no overflow)
+- [ ] Debug toggle functionality unaffected  
+- [ ] No console errors in browser
+- [ ] Screenshots clearly demonstrate +4px increase
+- [ ] All existing tests pass
+- [ ] Clean git commit with descriptive message
 
 ## Acceptance Criteria
-- [ ] Task preparation completed (environment, screenshots, summary)
-- [ ] **USER CONFIRMATION RECEIVED**
+- [ ] **Git workflow validated** (Step 0)
+- [ ] **Environment healthy** (Step 1) 
+- [ ] **Dependencies verified** (Step 2)
+- [ ] **BEFORE screenshot captured** (Step 3)
+- [ ] **USER CONFIRMATION RECEIVED** (Step 4)
 - [ ] Debug labels font size increased by exactly 4px
-- [ ] All debug labels use the new font size consistently
-- [ ] Labels remain properly positioned and readable
-- [ ] No layout issues or text overflow occur
-- [ ] Font size change persists across debug mode toggles
-- [ ] Accessibility standards maintained with larger font
+- [ ] All debug labels use consistent font size
+- [ ] Labels maintain proper positioning and readability
+- [ ] No layout issues or text overflow
+- [ ] Font change persists across debug mode toggles
 - [ ] All existing tests pass
-- [ ] **BEFORE screenshot shows smaller font size**
-- [ ] **AFTER screenshot shows increased font size**
-- [ ] **Visual comparison confirms +4px increase**
+- [ ] **Exactly 4 screenshots captured** showing clear improvement
+- [ ] **Clean git commit** on feature branch
 
-## Background Agent Notes
-- **Safe to auto-run**: Yes, BUT ONLY AFTER USER CONFIRMATION
-- **Rollback plan**: Git checkout if issues arise
-- **Confirmation Required**: Must wait for user approval before proceeding
+## Technical Notes
+- Focus on `DebugLabels` component in `src/app/components/`
+- Look for font-size in: CSS classes, inline styles, Tailwind classes
+- Add 4px to current value (e.g., 12px → 16px, 14px → 18px)
+- Maintain existing units (px/rem/em) and responsive scaling
+
+## Troubleshooting Guide
+**If font size doesn't change:**
+- Check CSS specificity issues
+- Verify Tailwind config if using utility classes
+- Check for !important declarations overriding changes
+- Inspect computed styles in browser dev tools
+
+**If layout breaks:**
+- Check for fixed heights/widths on label containers
+- Verify text doesn't overflow parent elements
+- Test on different screen sizes
+
+**If tests fail:**
+- Update test expectations for new font size
+- Check for hardcoded font size assertions
+- Verify accessibility requirements still met
 
 ---
-**Status**: Ready for Background Agent implementation with confirmation checkpoint
-
-## Test-Driven Development Approach
-
-### Test Requirements
-1. **Font Size Verification Test**:
-   - Verify debug labels have increased font size (+4px from current)
-   - Confirm font size change applies to all debug labels
-   - Test that font size is consistent across different label types
-
-2. **Visual Regression Test**:
-   - Ensure labels remain properly positioned after font size change
-   - Verify no layout overflow or clipping occurs
-   - Confirm labels don't interfere with other UI elements
-
-3. **Responsive Behavior Test**:
-   - Test font size scaling on different screen sizes
-   - Verify accessibility compliance with larger font size
-   - Ensure labels remain readable at various zoom levels
-
-## Testing Strategy
-
-### Unit Tests
-```javascript
-// Test font size increase
-test('should render debug labels with increased font size', () => {
-  render(<DebugLabels visible={true} />);
-  
-  const labels = screen.getAllByText(/debug/i);
-  labels.forEach(label => {
-    const computedStyle = getComputedStyle(label);
-    // Verify font size is 4px larger than original
-    expect(parseInt(computedStyle.fontSize)).toBeGreaterThan(originalFontSize);
-  });
-});
-
-// Test consistency across label types
-test('should apply consistent font size to all label types', () => {
-  render(<DebugLabels visible={true} />);
-  
-  const allLabels = document.querySelectorAll('[class*="debug-label"]');
-  const fontSizes = Array.from(allLabels).map(label => 
-    getComputedStyle(label).fontSize
-  );
-  
-  // All labels should have the same font size
-  expect(new Set(fontSizes).size).toBe(1);
-});
-```
-
-### Visual Tests
-```javascript
-// Test label positioning after font size change
-test('should maintain proper label positioning with larger font', () => {
-  render(<DebugLabels visible={true} />);
-  
-  const labels = screen.getAllByText(/debug/i);
-  labels.forEach(label => {
-    const rect = label.getBoundingClientRect();
-    
-    // Verify labels don't overflow container
-    expect(rect.right).toBeLessThanOrEqual(window.innerWidth);
-    expect(rect.bottom).toBeLessThanOrEqual(window.innerHeight);
-    
-    // Verify labels are visible
-    expect(rect.width).toBeGreaterThan(0);
-    expect(rect.height).toBeGreaterThan(0);
-  });
-});
-```
-
-### Accessibility Tests
-```javascript
-// Test accessibility compliance
-test('should maintain accessibility with larger font size', () => {
-  render(<DebugLabels visible={true} />);
-  
-  const labels = screen.getAllByText(/debug/i);
-  labels.forEach(label => {
-    // Test that labels are still accessible
-    expect(label).toBeVisible();
-    expect(label).toHaveAttribute('aria-label', expect.any(String));
-  });
-});
-```
+**Status**: Ready for Background Agent execution with strategic checkpoints
 
 ## Definition of Done
-- [ ] Font size successfully increased by 4px
-- [ ] Visual testing confirms improved readability
-- [ ] No layout regressions or positioning issues
-- [ ] All unit tests pass with updated expectations
-- [ ] Accessibility testing passes
-- [ ] Cross-browser compatibility verified
-- [ ] Code review completed
-
-## Technical Implementation Notes
-
-### Font Size Calculation
-- Identify current font size in DebugLabels component
-- Add 4px to current value (e.g., if current is 12px, new should be 16px)
-- Use consistent units (px, rem, em) as currently implemented
-- Maintain responsive scaling if applicable
-
-### Style Location Investigation
-Need to examine:
-1. Inline styles in DebugLabels component
-2. CSS classes applied to label elements  
-3. Tailwind classes if used
-4. CSS-in-JS solutions if implemented
-
-### Testing Approach
-- Take screenshots before/after for visual comparison
-- Measure actual font sizes using computed styles
-- Test on multiple devices and screen resolutions
-- Verify no text truncation occurs
-
-## Notes
-- This is a straightforward styling change with low risk
-- Focus on maintaining existing functionality while improving readability
-- Ensure change is applied consistently to all debug label instances
-- Consider documenting the new font size for future reference
-
----
-**Status**: Ready for implementation 
+- [ ] Feature branch created and synced
+- [ ] Code implementation completed
+- [ ] Font size measurably increased by 4px
+- [ ] Visual regression testing confirms no layout issues
+- [ ] All unit tests pass
+- [ ] Exactly 4 documentation screenshots captured
+- [ ] Clean git commit ready for review
+- [ ] Task completed within 2-hour time limit 
