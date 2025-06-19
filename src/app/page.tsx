@@ -48,7 +48,7 @@ export default function Home() {
         onSectionBordersToggle={handleSectionBordersToggle}
       />
 
-      {/* Debug Labels - Controlled by Config Console */}
+      {/* SVG Labels - Controlled by Config Console */}
       <DebugLabels visible={showLabels} />
 
       {/* Grid Overlay - Controlled by Config Console */}
