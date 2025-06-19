@@ -19,6 +19,7 @@ export default function Home() {
   const [showLabels, setShowLabels] = useState(false);
   const [showBorders, setShowBorders] = useState(false);
   const [showSectionBorders, setShowSectionBorders] = useState(false);
+  const [showSvgDebugBg, setShowSvgDebugBg] = useState(false);
   const [showConfigConsole, setShowConfigConsole] = useState(true);
 
   // Handler for section borders toggle
@@ -28,6 +29,16 @@ export default function Home() {
       document.body.classList.add('show-section-borders');
     } else {
       document.body.classList.remove('show-section-borders');
+    }
+  };
+
+  // Handler for SVG debug background toggle
+  const handleSvgDebugBgToggle = (enabled: boolean) => {
+    setShowSvgDebugBg(enabled);
+    if (enabled) {
+      document.body.classList.add('show-svg-debug-bg');
+    } else {
+      document.body.classList.remove('show-svg-debug-bg');
     }
   };
 
@@ -46,6 +57,7 @@ export default function Home() {
         onLabelsToggle={setShowLabels}
         onBordersToggle={setShowBorders}
         onSectionBordersToggle={handleSectionBordersToggle}
+        onSvgDebugBgToggle={handleSvgDebugBgToggle}
       />
 
       {/* Debug Labels - Controlled by Config Console */}

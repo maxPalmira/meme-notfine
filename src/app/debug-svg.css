@@ -15,3 +15,8 @@ body.debug-mode .debug-image {
 body.debug-mode.show-section-borders section {
   border: 1px dashed blue !important;
 }
+
+/* SVG debug background - Only when toggle is enabled */
+body.debug-mode.show-svg-debug-bg .svg-container {
+  background: rgba(255, 0, 0, 0.2) !important;
+}
