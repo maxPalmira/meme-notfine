@@ -21,6 +21,16 @@ export default function Home() {
   const [showSectionBorders, setShowSectionBorders] = useState(false);
   const [showConfigConsole, setShowConfigConsole] = useState(true);
 
+  // Handler for section borders toggle
+  const handleSectionBordersToggle = (enabled: boolean) => {
+    setShowSectionBorders(enabled);
+    if (enabled) {
+      document.body.classList.add('show-section-borders');
+    } else {
+      document.body.classList.remove('show-section-borders');
+    }
+  };
+
   return (
     <div className="min-h-screen relative">
       {/* Debug Toggle - Controls debug-mode class on body */}
@@ -35,7 +45,7 @@ export default function Home() {
         onGridToggle={setShowGrid}
         onLabelsToggle={setShowLabels}
         onBordersToggle={setShowBorders}
-        onSectionBordersToggle={setShowSectionBorders}
+        onSectionBordersToggle={handleSectionBordersToggle}
       />
 
       {/* Debug Labels - Controlled by Config Console */}
