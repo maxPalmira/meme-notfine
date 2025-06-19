@@ -44,9 +44,9 @@ export default function DebugLabels({ visible = true }: DebugLabelsProps) {
           background-color: #000000;
           color: #00FF00;
           font-family: 'Courier New', monospace;
-          font-size: 12px;
+          font-size: 16px;
           font-weight: normal;
-          line-height: 12px;
+          line-height: 16px;
           padding: 2px 4px;
           border: 1px solid #333333;
           border-radius: 2px;
