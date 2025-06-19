@@ -25,6 +25,7 @@ declare global {
 }
 
 interface ConfigDebugConsoleProps {
+  visible?: boolean;
   onGridToggle: (enabled: boolean) => void;
   onLabelsToggle: (enabled: boolean) => void;
   onBordersToggle: (enabled: boolean) => void;
@@ -39,6 +40,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
 };
 
 const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
+  visible = true,
   onGridToggle,
   onLabelsToggle,
   onBordersToggle,
@@ -46,6 +48,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
 }) => {
   const consoleRef = useRef<ConfigConsoleInstance | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
   // Load settings from localStorage with robust error handling
   const loadSettings = (): DebugSettings => {
@@ -91,107 +94,145 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
     }
   };
 
+  // Load the ConfigConsole script dynamically
+  const loadConfigConsoleScript = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // Check if already loaded
+      if (window.ConfigConsole) {
+        resolve();
+        return;
+      }
+
+      // Check if script tag already exists
+      const existingScript = document.querySelector('script[src*="config-console.js"]');
+      if (existingScript) {
+        // Script is loading, wait for it
+        existingScript.addEventListener('load', () => resolve());
+        existingScript.addEventListener('error', reject);
+        return;
+      }
+
+      // Create and load the script
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/gh/maxPalmira/debug-window@main/config-console.js';
+      script.async = true;
+      script.defer = true;
+      
+      script.onload = () => {
+        setScriptLoaded(true);
+        resolve();
+      };
+      
+      script.onerror = () => {
+        console.error('Failed to load ConfigConsole script');
+        reject(new Error('Failed to load ConfigConsole script'));
+      };
+
+      document.head.appendChild(script);
+    });
+  };
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
-    // Initialize callbacks with current settings
-    const initializeCallbacks = (settings: DebugSettings) => {
-      onGridToggle(settings.showGridOverlay);
-      onLabelsToggle(settings.showLabels);
-      onBordersToggle(settings.showDebugOutlines);
-      onSectionBordersToggle(settings.showSectionBorders);
-    };
 
-    // Initialize ConfigConsole instance
-    const initializeConfigConsole = (settings: DebugSettings) => {
-      try {
-        if (consoleRef.current) {
-          consoleRef.current.destroy();
-        }
-
-        consoleRef.current = new window.ConfigConsole({
-          title: 'Debug Console',
-          width: 300,
-          height: 400,
-          right: 20,
-          bottom: 20,
-        }).init();
-
-        // Add debug controls
-        consoleRef.current.addCheckbox('Grid Overlay', settings.showGridOverlay, (value: boolean) => {
-          const updatedSettings = { ...settings, showGridOverlay: value };
-          saveSettings(updatedSettings);
-          onGridToggle(value);
-        });
-
-        consoleRef.current.addCheckbox('Debug Labels', settings.showLabels, (value: boolean) => {
-          const updatedSettings = { ...settings, showLabels: value };
-          saveSettings(updatedSettings);
-          onLabelsToggle(value);
-        });
-
-        consoleRef.current.addCheckbox('Debug Outlines', settings.showDebugOutlines, (value: boolean) => {
-          const updatedSettings = { ...settings, showDebugOutlines: value };
-          saveSettings(updatedSettings);
-          onBordersToggle(value);
-        });
-
-        consoleRef.current.addCheckbox('Section Borders', settings.showSectionBorders, (value: boolean) => {
-          const updatedSettings = { ...settings, showSectionBorders: value };
-          saveSettings(updatedSettings);
-          onSectionBordersToggle(value);
-        });
-
-        // Add utility buttons
-        consoleRef.current.addConfigButton('Clear Logs', () => {
-          consoleRef.current?.clearLogs();
-        });
-
-        consoleRef.current.addConfigButton('Reset Settings', () => {
-          saveSettings(DEFAULT_SETTINGS);
-          // Trigger callbacks with default values
-          onGridToggle(DEFAULT_SETTINGS.showGridOverlay);
-          onLabelsToggle(DEFAULT_SETTINGS.showLabels);
-          onBordersToggle(DEFAULT_SETTINGS.showDebugOutlines);
-          onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
-        });
-
-      } catch (error) {
-        console.warn('Failed to initialize ConfigConsole:', error);
-      }
-    };
-    
     const loadedSettings = loadSettings();
 
-    // Wait for ConfigConsole to be available with retry mechanism
-    let retryCount = 0;
-    const maxRetries = 50; // 5 seconds max wait time
-    
-    const checkConfigConsole = () => {
-      if (window.ConfigConsole) {
-        initializeConfigConsole(loadedSettings);
-        // Initialize callbacks after ConfigConsole is ready
-        initializeCallbacks(loadedSettings);
-        setIsInitialized(true);
-      } else if (retryCount < maxRetries) {
-        retryCount++;
-        setTimeout(checkConfigConsole, 100);
-      } else {
-        console.warn('ConfigConsole failed to load after 5 seconds');
-        // Still initialize callbacks even if ConfigConsole fails to load
-        initializeCallbacks(loadedSettings);
-        setIsInitialized(true);
-      }
-    };
+    // Always create the console once on mount
+    if (!consoleRef.current) {
+      const initializeComponent = async () => {
+        try {
+          await loadConfigConsoleScript();
+          
+          consoleRef.current = new window.ConfigConsole({
+            title: 'Debug Console',
+            width: 300,
+            height: 400,
+            right: 20,
+            bottom: 20,
+          }).init();
 
-    checkConfigConsole();
+          // Add debug controls
+          consoleRef.current.addCheckbox('Grid Overlay', loadedSettings.showGridOverlay, (value: boolean) => {
+            const updatedSettings = { ...loadedSettings, showGridOverlay: value };
+            saveSettings(updatedSettings);
+            onGridToggle(value);
+          });
+
+          consoleRef.current.addCheckbox('Debug Labels', loadedSettings.showLabels, (value: boolean) => {
+            const updatedSettings = { ...loadedSettings, showLabels: value };
+            saveSettings(updatedSettings);
+            onLabelsToggle(value);
+          });
+
+          consoleRef.current.addCheckbox('Debug Outlines', loadedSettings.showDebugOutlines, (value: boolean) => {
+            const updatedSettings = { ...loadedSettings, showDebugOutlines: value };
+            saveSettings(updatedSettings);
+            onBordersToggle(value);
+          });
+
+          consoleRef.current.addCheckbox('Section Borders', loadedSettings.showSectionBorders, (value: boolean) => {
+            const updatedSettings = { ...loadedSettings, showSectionBorders: value };
+            saveSettings(updatedSettings);
+            onSectionBordersToggle(value);
+          });
+
+          // Add utility buttons
+          consoleRef.current.addConfigButton('Clear Logs', () => {
+            consoleRef.current?.clearLogs();
+          });
+
+          consoleRef.current.addConfigButton('Reset Settings', () => {
+            saveSettings(DEFAULT_SETTINGS);
+            onGridToggle(DEFAULT_SETTINGS.showGridOverlay);
+            onLabelsToggle(DEFAULT_SETTINGS.showLabels);
+            onBordersToggle(DEFAULT_SETTINGS.showDebugOutlines);
+            onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
+          });
+
+          setIsInitialized(true);
+
+          // Initialize callbacks with loaded settings
+          onGridToggle(loadedSettings.showGridOverlay);
+          onLabelsToggle(loadedSettings.showLabels);
+          onBordersToggle(loadedSettings.showDebugOutlines);
+          onSectionBordersToggle(loadedSettings.showSectionBorders);
+
+        } catch (error) {
+          console.warn('ConfigConsole failed to load:', error);
+          setIsInitialized(true);
+        }
+      };
+
+      initializeComponent();
+    }
 
     return () => {
       if (consoleRef.current) {
         consoleRef.current.destroy();
+        consoleRef.current = null;
       }
     };
-  }, [onGridToggle, onLabelsToggle, onBordersToggle, onSectionBordersToggle]);
+  }, []); // Only run once on mount
+
+  // Separate effect to handle visibility toggle with CSS class
+  useEffect(() => {
+    if (isInitialized && consoleRef.current) {
+      // Find the console DOM element and toggle hidden class
+      setTimeout(() => {
+        const consoleElement = document.querySelector('[data-title="Debug Console"]') || 
+                              document.querySelector('.config-console') ||
+                              document.querySelector('[class*="console"]');
+        
+        if (consoleElement) {
+          if (visible) {
+            consoleElement.classList.remove('hidden');
+          } else {
+            consoleElement.classList.add('hidden');
+          }
+        }
+      }, 100); // Small delay to ensure DOM is ready
+    }
+  }, [visible, isInitialized]);
 
   // Prevent rendering during SSR to avoid hydration issues
   if (!isInitialized) {

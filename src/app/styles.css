@@ -63,7 +63,6 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
-  background: linear-gradient(135deg, #ffb347 0%, #ff7043 100%);
   color: #ffffff;
   display: flex;
   flex-direction: column;
