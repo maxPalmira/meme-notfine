@@ -1,239 +1,233 @@
-# Task: Remove Debug Toggle Button from Screen Corner
+# Task: Remove Debug Toggle Button from Top-Left Corner
 **Type**: feature  
-**Priority**: MEDIUM  
+**Priority**: LOW  
 **Status**: PENDING  
 **Created**: 2025-01-21  
 **Assigned To**: dev agent  
+
 ## Overview
-Remove the "DEBUG: ON/OFF" button that currently appears in the top-left corner of the screen. This button is provided by the `DebugToggle` component and should be completely removed from the UI.
+Remove the DEBUG toggle button from the top-left corner of the page. The button should be completely removed from the UI since debug functionality is now handled through the config console.
 
-## Background Agent Context
+## Execution Mode: AUTONOMOUS with Strategic Checkpoints
+- **Autonomous**: Environment setup, code changes, testing, screenshots
+- **Confirmation Required**: After initial analysis (Step 4), before final commit
+- **⛔ HARD STOPS**: Git workflow issues, environment failures, external dependency problems
 
-### Project Environment
-- **Framework**: Next.js 14+ with TypeScript
-- **Testing**: Jest + React Testing Library
-- **Styling**: Tailwind CSS
-- **File Structure**: Standard Next.js app directory structure
+## Error Classification System
+- 🔴 **HARD STOP**: Git conflicts, server won't start, core functionality broken
+- 🟡 **PROCEED WITH CAUTION**: Linting warnings, test failures in unrelated components  
+- 🟢 **CONTINUE**: Missing optional dependencies with workarounds available
 
-### Current Implementation Location
-- **Main Page**: `src/app/page.tsx` (contains DebugToggle component usage)
-- **Component**: `src/app/components/DebugToggle.tsx` (keep file, remove usage only)
-- **Tests**: `src/app/components/__tests__/DebugToggle.test.tsx`
+## Cost Control Measures
+- **Max debugging iterations**: 3 attempts before escalation
+- **Debugging Attempt Definition**: Each cycle of modify code → test → verify → screenshot
+- **Reset counter**: After successful partial completion
+- **Screenshot limit**: Exactly 3 final images (no debugging screenshots)
+- **External dependency timeout**: 30 minutes before escalation
+- **Task time limit**: 1 hour maximum
 
-### Dependencies to Verify
+---
+
+## PRE-EXECUTION PHASE
+
+### Step 0: Git Workflow Validation ⚠️ MANDATORY
 ```bash
-# Ensure project builds and tests run
-npm install
-npm run build
-npm test
+# Verify current branch and sync
+git branch                           # Confirm current branch
+git checkout development            # Switch to base branch  
+git pull origin development         # Pull latest changes
+git checkout -b cursor/feature-remove-debug-toggle-button  # Create feature branch
+git status                          # Confirm clean working directory
 ```
+**⛔ DO NOT PROCEED until git workflow is confirmed clean**
 
-## Problem Description
-The debug toggle button is currently visible in the top-left corner (`fixed top-4 left-4`) and provides manual control over debug mode. This button should be removed to clean up the UI while maintaining all debug functionality through the config console.
-
-## ⚠️ PREPARATION PHASE - WAIT FOR CONFIRMATION
-
-### Step 1: Task Preparation
+### Step 1: Environment Health Check
 ```bash
-# Verify environment setup
-npm install
-npm run build
-npm test
+# Verify core environment
+node --version                      # Verify Node.js available
+npm --version                       # Verify npm available
+npm install                         # Install dependencies
+npm run build                       # Verify build works
+npm test                           # Run existing tests
+
+# Verify screenshot tools
+npx playwright install              # Install browsers for screenshots
+npx playwright --version           # Verify Playwright available
 
 # Start development server
-npm run dev
+npm run dev                        # Should start without errors
+# Verify server runs on http://localhost:3000
 ```
 
-### Step 2: Take BEFORE Screenshot
+**Environment Dependencies:**
+- Node.js + npm (verified above)
+- Playwright with browser installation
+- Development server port availability (3000)
+- Screenshots directory (create if missing)
+
+**⛔ If any failures, STOP and report dependency issues**
+
+### Step 2: External Dependencies Verification
 ```bash
-# With development server running
-# Open browser to development server
-# Take screenshot of TOP-LEFT CORNER showing the DEBUG button
-# Save as: screenshots/before-debug-toggle-removal.png
+# Check browser console for errors (http://localhost:3000)
+# Verify all external scripts load correctly
+# Check for any React hydration issues
+# Confirm debug functionality works via config console
+```
+**Common Issues**: Race conditions, missing dependencies, CORS, CDN failures
+
+### Step 3: Take BEFORE Screenshot
+```bash
+# With development server running at http://localhost:3000
+# Use Playwright for focused screenshots (top-left corner only):
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,400,300 http://localhost:3000 screenshots/before-debug-toggle-button.png
+# Focus on top-left corner where DEBUG button appears
 ```
 
-### Step 3: Provide Task Summary
-**Background Agent should provide a summary like this:**
+### Step 4: Analysis Summary
+**Mode-Specific Behavior:**
+
+**Background Agent Mode (Autonomous):**
+- Provide analysis summary in commit message and task file
+- Proceed automatically to implementation
+- Document findings for PM review
+
+**Interactive Mode:**
+- Provide analysis summary and wait for user confirmation
+- User reviews BEFORE screenshots and approach
+- Explicit permission required to proceed
 
 ---
-**TASK UNDERSTANDING SUMMARY:**
+**ANALYSIS SUMMARY FORMAT:**
 
-I understand this task requires:
-1. **Remove DEBUG toggle button** from top-left corner of the page
-2. **Files to modify**: `src/app/page.tsx` (remove import and JSX usage)
-3. **Files to preserve**: `src/app/components/DebugToggle.tsx` (keep component file)
-4. **Expected result**: Clean top-left corner with no debug button visible
-5. **Verification**: All debug functionality should remain via config console
+**Current State Identified:**
+- Debug toggle button location: [Component and line number]
+- Button rendering method: [JSX/Component/etc]
+- Associated styling: [CSS classes/inline styles]
 
-**BEFORE screenshot captured**: `screenshots/before-debug-toggle-removal.png`
-- Shows DEBUG button in top-left corner (fixed top-4 left-4 position)
+**Implementation Plan:**
+1. Locate DEBUG toggle button in component tree
+2. Remove button JSX/component reference
+3. Remove associated styling if no longer needed
+4. Test that debug functionality still works via config console
+5. Verify no broken references remain
 
-**Ready to proceed with implementation.**
+**Before screenshot captured**: Shows DEBUG button in top-left corner
 
 ---
 
-### Step 4: ⛔ WAIT FOR USER CONFIRMATION
-**DO NOT PROCEED WITH IMPLEMENTATION UNTIL USER CONFIRMS**
-- User will review the BEFORE screenshot
-- User will confirm task understanding is correct
-- User will give explicit permission to proceed
+## IMPLEMENTATION PHASE (Only after confirmation)
 
-## Screenshot Requirements for Background Agent
+### Step 5: Code Implementation
+- Locate DEBUG toggle button in component files
+- Remove button JSX element and any related code
+- Remove associated CSS classes if no longer used
+- Clean up any unused imports or references
+- Ensure debug functionality remains available via config console
 
-### CRITICAL: Before Starting Implementation
-1. **Take BEFORE screenshot**:
-   ```bash
-   npm run dev
-   # Wait for server to start
-   # Open browser to localhost:3000
-   # Take screenshot of TOP-LEFT CORNER of the page showing the DEBUG button
-   # Save as: screenshots/before-debug-toggle-removal.png
-   ```
-
-2. **Focus area**: Top-left corner of the viewport (approximately 200x100px area)
-3. **What to capture**: The "DEBUG: ON" or "DEBUG: OFF" button that should be visible
-
-### CRITICAL: After Implementation
-1. **Take AFTER screenshot**:
-   ```bash
-   npm run dev
-   # Wait for server to start  
-   # Open browser to localhost:3000
-   # Take screenshot of TOP-LEFT CORNER of the page (same area as before)
-   # Save as: screenshots/after-debug-toggle-removal.png
-   ```
-
-2. **Expected result**: No debug toggle button should be visible in top-left corner
-3. **Verify**: Compare before/after screenshots to confirm button removal
-
-### Screenshot Verification Checklist
-- [ ] BEFORE screenshot shows debug toggle button in top-left corner
-- [ ] AFTER screenshot shows clean top-left corner without button
-- [ ] Both screenshots focus on same viewport area (top-left ~200x100px)
-- [ ] Screenshots saved with descriptive filenames
-- [ ] Visual comparison confirms successful button removal
-
-## Implementation Instructions for Background Agent
-**⚠️ ONLY PROCEED AFTER USER CONFIRMATION**
-
-### Step 5: Remove Component Usage
-In `src/app/page.tsx`:
-1. Remove the import: `import DebugToggle from "./components/DebugToggle";`
-2. Remove the JSX: `<DebugToggle />`
-3. Keep all other debug-related imports and components intact
-
-### Step 6: Verification Commands
-Run these commands to verify the change:
+### Step 6: Testing & Validation
 ```bash
-# Build the project
-npm run build
-
-# Run tests
-npm test
-
-# Start dev server to visually verify
+# Verify component renders correctly
 npm run dev
+
+# Check for console errors
+# Test that debug functionality works via config console
+# Verify button is completely removed from UI
 ```
 
-### Step 7: Take AFTER Screenshot
+### Step 7: Screenshot Documentation (Exactly 3 Total)
 ```bash
-# With dev server running
-# Open browser to localhost:3000
-# Take screenshot of top-left corner (same area as before)
-# Save as: screenshots/after-debug-toggle-removal.png
+# Use Playwright for focused screenshots (top-left corner area)
+# 1. BEFORE screenshot (already taken in Step 3)
+
+# 2. AFTER - button removed (same top-left corner area)
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,400,300 http://localhost:3000 screenshots/AFTER-button-removed.png
+
+# 3. AFTER - debug console still works
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/AFTER-debug-console-functional.png
 ```
 
-### Step 8: Update Tests
-Update any tests in `src/app/components/__tests__/` that expect DebugToggle to be rendered on the main page.
+**Screenshot Requirements:**
+1. **BEFORE-button.png**: Shows DEBUG button in top-left corner
+2. **AFTER-removed.png**: Same area with no DEBUG button
+3. **AFTER-console.png**: Debug console working correctly
 
-## Test-Driven Development Approach
+**⚠️ Button removal must be clearly visible in before/after comparison**
 
-### Test Requirements
-1. **Component Removal Test**:
-   - Verify `DebugToggle` component is not rendered in the page
-   - Confirm no "DEBUG: ON" or "DEBUG: OFF" text appears in the UI
-   - Ensure no button with debug toggle functionality exists
+## Files to Examine and Modify
+- Search for DEBUG button in main components (likely `page.tsx` or layout files)
+- Check for button-related CSS in stylesheets
+- Remove any unused imports after button removal
 
-2. **Functionality Preservation Test**:
-   - Debug mode should still be controllable via other means
-   - Body class `debug-mode` functionality should remain intact
-   - All debug features should continue working
-
-3. **Visual Regression Test**:
-   - No button should appear in top-left corner (`top-4 left-4` position)
-   - UI should be cleaner without the debug toggle button
-   - No layout shifts should occur
+## Success Criteria Validation ✅
+Before marking COMPLETED, verify:
+- [ ] DEBUG button completely removed from top-left corner
+- [ ] No visual artifacts or spacing issues where button was
+- [ ] Debug functionality still available via config console
+- [ ] No console errors after button removal
+- [ ] Screenshots clearly show button removal
+- [ ] All existing tests pass
+- [ ] Clean git commit with descriptive message
 
 ## Acceptance Criteria
-- [ ] `DebugToggle` component is not rendered on the main page
-- [ ] No debug toggle button appears in the top-left corner
-- [ ] All existing debug functionality remains accessible via config console
-- [ ] Body class `debug-mode` can still be controlled programmatically
-- [ ] All existing tests pass (except DebugToggle-specific render tests)
-- [ ] No visual regressions in other UI components
-- [ ] Project builds successfully (`npm run build`)
-- [ ] All tests pass (`npm test`)
-- [ ] **BEFORE screenshot shows debug button presence**
-- [ ] **AFTER screenshot confirms debug button removal**
-- [ ] **Visual comparison validates successful implementation**
-- [ ] **USER CONFIRMATION RECEIVED before implementation**
+- [ ] **Git workflow validated** (Step 0)
+- [ ] **Environment healthy** (Step 1) 
+- [ ] **Dependencies verified** (Step 2)
+- [ ] **BEFORE screenshot captured** (Step 3)
+- [ ] **Analysis summary provided** (Step 4)
+- [ ] DEBUG button completely removed from top-left corner
+- [ ] No broken styling or layout issues
+- [ ] Debug functionality remains available via config console
+- [ ] No console errors or warnings
+- [ ] No unused code or imports remain
+- [ ] All existing tests pass
+- [ ] **Exactly 3 screenshots captured** showing clear removal
+- [ ] **Clean git commit** on feature branch
 
-## Files to Modify
-- `src/app/page.tsx` - Remove DebugToggle component usage
+## Technical Notes
+- Search for "DEBUG" or "debug" in component files
+- Look for toggle button implementations
+- Check for onClick handlers that might be related
+- Ensure no CSS is left unused after removal
 
-## Files to Preserve (DO NOT MODIFY)
-- `src/app/components/DebugToggle.tsx` - Keep component file (may be used elsewhere)
-- All debug functionality and CSS
-- Config console integration
+## Troubleshooting Guide
+**If button still appears:**
+- Check all component files for button references
+- Search for "DEBUG" in codebase
+- Verify component re-rendering after changes
+- Check for cached builds (try npm run build)
 
-## Testing Strategy for Background Agent
+**If layout breaks:**
+- Check for CSS Grid or Flexbox dependencies
+- Verify no positioning issues after removal
+- Look for spacing that depended on button presence
 
-### Automated Tests to Run
-```bash
-# Full test suite
-npm test
+**If debug functionality breaks:**
+- Ensure config console is still accessible
+- Verify debug state management still works
+- Check that only button was removed, not debug logic
 
-# Specific tests for page rendering
-npm test -- --testPathPattern="page"
+**If screenshots fail:**
+- Ensure dev server is running on http://localhost:3000
+- Verify Playwright is installed: `npx playwright --version`
+- Screenshots focus on relevant areas (not full page)
+- Use --clip parameter for focused captures
+- Check screenshots directory exists or create it
 
-# Build verification
-npm run build
-```
-
-### Manual Verification Steps
-1. Start dev server: `npm run dev`
-2. Open browser to development server
-3. Verify no "DEBUG: ON/OFF" button in top-left corner
-4. Open browser dev tools and check for any console errors
-5. Verify config console still works if enabled
-
-### Expected Test Changes
-```javascript
-// In page tests, this should FAIL after implementation:
-test('should not render DebugToggle component on main page', () => {
-  render(<Page />);
-  expect(screen.queryByText(/DEBUG: (ON|OFF)/)).not.toBeInTheDocument();
-});
-```
-
-## Background Agent Notes
-- **Safe to auto-run**: Yes, BUT ONLY AFTER USER CONFIRMATION
-- **Rollback plan**: Git checkout if issues arise
-- **Dependencies**: Ensure React Testing Library is available for tests
-- **Verification**: Visual check in browser is recommended after implementation
-- **Screenshots**: CRITICAL for visual verification of button removal
-- **Confirmation Required**: Must wait for user approval before proceeding
-
-## Definition of Done
-- [ ] Task preparation completed (environment, screenshots, summary)
-- [ ] **USER CONFIRMATION RECEIVED**
-- [ ] DebugToggle component removed from main page render
-- [ ] No debug toggle button visible in UI
-- [ ] All debug functionality preserved and accessible
-- [ ] All tests pass (updated as needed)
-- [ ] Project builds without errors
-- [ ] **BEFORE/AFTER screenshots captured and compared**
-- [ ] **Visual verification completed via screenshot analysis**
+**If tests fail:**
+- Update tests that expected DEBUG button to exist
+- Remove button-related test assertions
+- Verify accessibility requirements still met
 
 ---
-**Status**: Ready for Background Agent implementation with confirmation checkpoint 
+**Status**: Ready for Background Agent execution with strategic checkpoints
+
+## Definition of Done
+- [ ] Feature branch created and synced
+- [ ] DEBUG button completely removed from UI
+- [ ] No layout or styling issues
+- [ ] Debug functionality verified working via config console
+- [ ] All unit tests pass
+- [ ] Exactly 3 documentation screenshots captured
+- [ ] Clean git commit ready for review
+- [ ] Task completed within 1-hour time limit 

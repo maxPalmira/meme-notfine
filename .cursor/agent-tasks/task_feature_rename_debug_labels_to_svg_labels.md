@@ -1,223 +1,223 @@
-# Task: Rename Debug Labels to SVG Labels in Config Console
+# Task: Rename Debug Labels to SVG Labels
 **Type**: feature  
 **Priority**: LOW  
 **Status**: PENDING  
 **Created**: 2025-01-21  
 **Assigned To**: dev agent  
+
 ## Overview
-Rename the "Debug Labels" checkbox in the ConfigDebugConsole to "SVG Labels" to better reflect its purpose. This is a label-only change that should not affect any functionality or component behavior.
+Rename the "Debug Labels" checkbox in the ConfigDebugConsole to "SVG Labels" to better reflect its functionality. This is a simple text change that makes the UI more descriptive and accurate.
 
-## ⚠️ PREPARATION PHASE - WAIT FOR CONFIRMATION
+## Execution Mode: AUTONOMOUS with Strategic Checkpoints
+- **Autonomous**: Environment setup, code changes, testing, screenshots
+- **Confirmation Required**: After initial analysis (Step 4), before final commit
+- **⛔ HARD STOPS**: Git workflow issues, environment failures, external dependency problems
 
-### Step 1: Task Preparation
+## Error Classification System
+- 🔴 **HARD STOP**: Git conflicts, server won't start, core functionality broken
+- 🟡 **PROCEED WITH CAUTION**: Linting warnings, test failures in unrelated components  
+- 🟢 **CONTINUE**: Missing optional dependencies with workarounds available
+
+## Cost Control Measures
+- **Max debugging iterations**: 3 attempts before escalation
+- **Debugging Attempt Definition**: Each cycle of modify code → test → verify → screenshot
+- **Reset counter**: After successful partial completion
+- **Screenshot limit**: Exactly 3 final images (no debugging screenshots)
+- **External dependency timeout**: 30 minutes before escalation
+- **Task time limit**: 30 minutes maximum
+
+---
+
+## PRE-EXECUTION PHASE
+
+### Step 0: Git Workflow Validation ⚠️ MANDATORY
 ```bash
-# Verify environment setup
-npm install
-npm run build
-npm test
+# Verify current branch and sync
+git branch                           # Confirm current branch
+git checkout development            # Switch to base branch  
+git pull origin development         # Pull latest changes
+git checkout -b cursor/feature-rename-debug-labels-to-svg-labels  # Create feature branch
+git status                          # Confirm clean working directory
+```
+**⛔ DO NOT PROCEED until git workflow is confirmed clean**
+
+### Step 1: Environment Health Check
+```bash
+# Verify core environment
+node --version                      # Verify Node.js available
+npm --version                       # Verify npm available
+npm install                         # Install dependencies
+npm run build                       # Verify build works
+npm test                           # Run existing tests
+
+# Verify screenshot tools
+npx playwright install              # Install browsers for screenshots
+npx playwright --version           # Verify Playwright available
 
 # Start development server
+npm run dev                        # Should start without errors
+# Verify server runs on http://localhost:3000
+```
+
+**Environment Dependencies:**
+- Node.js + npm (verified above)
+- Playwright with browser installation
+- Development server port availability (3000)
+- Screenshots directory (create if missing)
+
+**⛔ If any failures, STOP and report dependency issues**
+
+### Step 2: External Dependencies Verification
+```bash
+# Check browser console for errors (http://localhost:3000)
+# Verify all external scripts load correctly
+# Check for any React hydration issues
+# Confirm config console functionality works
+```
+**Common Issues**: Race conditions, missing dependencies, CORS, CDN failures
+
+### Step 3: Take BEFORE Screenshot
+```bash
+# With development server running at http://localhost:3000
+# Enable debug mode and open config console
+# Use Playwright for focused screenshots (config console area only):
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/before-debug-labels-rename.png
+# Focus on config console showing "Debug Labels" checkbox
+```
+
+### Step 4: Analysis Summary
+**Mode-Specific Behavior:**
+
+**Background Agent Mode (Autonomous):**
+- Provide analysis summary in commit message and task file
+- Proceed automatically to implementation
+- Document findings for PM review
+
+**Interactive Mode:**
+- Provide analysis summary and wait for user confirmation
+- User reviews BEFORE screenshots and approach
+- Explicit permission required to proceed
+
+---
+**ANALYSIS SUMMARY FORMAT:**
+
+**Current State Identified:**
+- Config console component: `src/app/components/ConfigDebugConsole.tsx`
+- Current checkbox text: "Debug Labels"
+- Location in code: [line number and context]
+
+**Implementation Plan:**
+1. Locate "Debug Labels" text in ConfigDebugConsole
+2. Change text from "Debug Labels" to "SVG Labels"
+3. Update any related test assertions
+4. Verify functionality remains unchanged
+
+**Before screenshot captured**: Shows config console with "Debug Labels" checkbox
+
+---
+
+## IMPLEMENTATION PHASE (Only after confirmation)
+
+### Step 5: Code Implementation
+- Locate "Debug Labels" text in ConfigDebugConsole.tsx
+- Change checkbox label text from "Debug Labels" to "SVG Labels"
+- Ensure no functionality changes, only text update
+- Update any related comments if necessary
+
+### Step 6: Testing & Validation
+```bash
+# Verify component renders correctly
 npm run dev
+
+# Check for console errors
+# Test checkbox functionality unchanged
+# Verify text appears as "SVG Labels"
 ```
 
-### Step 2: Take BEFORE Screenshot
+### Step 7: Screenshot Documentation (Exactly 3 Total)
 ```bash
-# With development server running
-# Enable debug mode and open config console
-# Take screenshot of config console showing "Debug Labels" checkbox
-# Save as: screenshots/before-debug-labels-rename.png
+# Use Playwright for focused screenshots (config console area)
+# 1. BEFORE screenshot (already taken in Step 3)
+
+# 2. AFTER - config console with "SVG Labels" text
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/AFTER-svg-labels-renamed.png
+
+# 3. AFTER - verify functionality still works (toggle on/off)
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/AFTER-functionality-verified.png
 ```
 
-### Step 3: Provide Task Summary
-**Background Agent should provide a summary like this:**
+**Screenshot Requirements:**
+1. **BEFORE-debug-labels.png**: Config console showing "Debug Labels" text
+2. **AFTER-svg-labels.png**: Config console showing "SVG Labels" text  
+3. **AFTER-functional.png**: Verify toggle functionality unchanged
 
----
-**TASK UNDERSTANDING SUMMARY:**
+**⚠️ Text change must be clearly visible in before/after comparison**
 
-I understand this task requires:
-1. **Rename "Debug Labels" to "SVG Labels"** in ConfigDebugConsole checkbox text only
-2. **Files to modify**: `src/app/components/ConfigDebugConsole.tsx` (change checkbox label)
-3. **Preserve**: All functionality, prop names, state management, localStorage keys
-4. **Expected result**: Config console shows "SVG Labels" instead of "Debug Labels"
-5. **No changes**: Component interfaces, callback functions, or internal logic
+## Files to Examine and Modify
+- `src/app/components/ConfigDebugConsole.tsx` - Change checkbox label text
+- Related test files - Update text expectations if needed
 
-**BEFORE screenshot captured**: `screenshots/before-debug-labels-rename.png`
-- Shows "Debug Labels" checkbox in config console
-
-**Ready to proceed with implementation.**
-
----
-
-### Step 4: ⛔ WAIT FOR USER CONFIRMATION
-**DO NOT PROCEED WITH IMPLEMENTATION UNTIL USER CONFIRMS**
-- User will review the BEFORE screenshot
-- User will confirm task understanding is correct
-- User will give explicit permission to proceed
-
-## Problem Description
-The current "Debug Labels" naming in the config console is generic and doesn't clearly indicate that these labels are specifically for SVG elements. Renaming to "SVG Labels" will provide better clarity about the feature's purpose.
-
-## Implementation Instructions for Background Agent
-**⚠️ ONLY PROCEED AFTER USER CONFIRMATION**
-
-### Step 5: Update ConfigDebugConsole Component
-- Change checkbox label from "Debug Labels" to "SVG Labels"
-- Locate the `addCheckbox` call for debug labels
-- Update only the display text, not the functionality
-
-### Step 6: Preserve All Functionality
-- Keep `onLabelsToggle` callback unchanged
-- Maintain localStorage settings and keys
-- Preserve all state management logic
-
-### Step 7: Take AFTER Screenshot
-```bash
-# With dev server running
-# Enable debug mode and open config console
-# Take screenshot showing "SVG Labels" checkbox
-# Save as: screenshots/after-debug-labels-rename.png
-```
-
-## Files to Modify
-- `src/app/components/ConfigDebugConsole.tsx` - Update checkbox label text
-
-## Files to Keep Unchanged
-- All functionality and state management
-- Component prop names and interfaces
-- localStorage keys and structure
-- Test logic (except for text expectations)
+## Success Criteria Validation ✅
+Before marking COMPLETED, verify:
+- [ ] Checkbox text changed from "Debug Labels" to "SVG Labels"
+- [ ] Functionality remains completely unchanged
+- [ ] No console errors after text change
+- [ ] Screenshots clearly show text change
+- [ ] All existing tests pass (updated if needed)
+- [ ] Clean git commit with descriptive message
 
 ## Acceptance Criteria
-- [ ] Task preparation completed (environment, screenshots, summary)
-- [ ] **USER CONFIRMATION RECEIVED**
-- [ ] Config console displays "SVG Labels" instead of "Debug Labels"
-- [ ] Checkbox functionality remains identical
-- [ ] All existing functionality preserved (toggle, state, persistence)
-- [ ] No layout or visual regressions
-- [ ] Updated tests pass with new label text
-- [ ] Accessibility attributes maintained
-- [ ] **BEFORE screenshot shows "Debug Labels"**
-- [ ] **AFTER screenshot shows "SVG Labels"**
+- [ ] **Git workflow validated** (Step 0)
+- [ ] **Environment healthy** (Step 1) 
+- [ ] **Dependencies verified** (Step 2)
+- [ ] **BEFORE screenshot captured** (Step 3)
+- [ ] **Analysis summary provided** (Step 4)
+- [ ] Checkbox text changed from "Debug Labels" to "SVG Labels"
+- [ ] All functionality remains exactly the same
+- [ ] No TypeScript compilation errors
+- [ ] Toggle behavior unchanged (shows/hides SVG labels)
+- [ ] All existing tests pass
+- [ ] **Exactly 3 screenshots captured** showing clear text change
+- [ ] **Clean git commit** on feature branch
 
-## Background Agent Notes
-- **Safe to auto-run**: Yes, BUT ONLY AFTER USER CONFIRMATION
-- **Rollback plan**: Git checkout if issues arise
-- **Confirmation Required**: Must wait for user approval before proceeding
+## Technical Notes
+- This is a simple text change only
+- No interface changes or functionality modifications needed
+- Focus on ConfigDebugConsole component in `src/app/components/`
+- Look for checkbox label or display text
+
+## Troubleshooting Guide
+**If text doesn't change:**
+- Check for multiple occurrences of "Debug Labels" in the file
+- Verify component re-rendering after changes
+- Check for cached builds (try npm run build)
+
+**If functionality breaks:**
+- Ensure only text was changed, no code logic
+- Check for syntax errors in modified lines
+- Verify no accidental changes to handlers or props
+
+**If tests fail:**
+- Update test assertions that check for "Debug Labels" text
+- Change to expect "SVG Labels" instead
+- Verify no other test dependencies on the old text
+
+**If screenshots fail:**
+- Ensure dev server is running on http://localhost:3000
+- Verify Playwright is installed: `npx playwright --version`
+- Screenshots focus on config console area (not full page)
+- Use --clip parameter for focused captures
+- Ensure debug mode is enabled before taking screenshots
+- Check screenshots directory exists or create it
 
 ---
-**Status**: Ready for Background Agent implementation with confirmation checkpoint
-
-## Test-Driven Development Approach
-
-### Test Requirements
-1. **Label Text Verification Test**:
-   - Verify checkbox displays "SVG Labels" instead of "Debug Labels"
-   - Confirm the label text change appears in the config console
-   - Ensure the checkbox remains functional with new label
-
-2. **Functionality Preservation Test**:
-   - Verify checkbox still controls the same underlying functionality
-   - Confirm `onLabelsToggle` callback remains connected and functional
-   - Ensure localStorage key and behavior remain unchanged
-
-3. **UI Consistency Test**:
-   - Verify new label fits properly in config console layout
-   - Confirm no visual regressions or layout issues
-   - Test label accessibility attributes are maintained
-
-## Testing Strategy
-
-### Unit Tests
-```javascript
-// Test new label text
-test('should display SVG Labels checkbox in config console', () => {
-  render(<ConfigDebugConsole {...defaultProps} />);
-  expect(screen.getByText('SVG Labels')).toBeInTheDocument();
-  expect(screen.queryByText('Debug Labels')).not.toBeInTheDocument();
-});
-
-// Test functionality preservation
-test('should maintain labels toggle functionality with new name', () => {
-  const mockOnLabelsToggle = jest.fn();
-  render(<ConfigDebugConsole onLabelsToggle={mockOnLabelsToggle} {...otherProps} />);
-  
-  const checkbox = screen.getByLabelText('SVG Labels');
-  fireEvent.click(checkbox);
-  
-  expect(mockOnLabelsToggle).toHaveBeenCalledWith(true);
-});
-
-// Test accessibility
-test('should maintain accessibility with new label', () => {
-  render(<ConfigDebugConsole {...defaultProps} />);
-  
-  const checkbox = screen.getByLabelText('SVG Labels');
-  expect(checkbox).toBeInTheDocument();
-  expect(checkbox).toHaveAttribute('type', 'checkbox');
-});
-```
-
-### Integration Tests
-```javascript
-// Test full integration with new label
-test('should control SVG labels functionality via renamed checkbox', () => {
-  render(<Page />);
-  
-  // Find SVG Labels checkbox
-  const checkbox = screen.getByLabelText('SVG Labels');
-  
-  // Test toggle functionality
-  fireEvent.click(checkbox);
-  expect(checkbox).toBeChecked();
-  
-  // Verify underlying functionality works
-  // (labels appear/disappear as expected)
-});
-```
-
-### Regression Tests
-- Verify all existing debug functionality works
-- Confirm localStorage persistence unchanged
-- Test state restoration with new label text
+**Status**: Ready for Background Agent execution with strategic checkpoints
 
 ## Definition of Done
-- [ ] "SVG Labels" text appears in config console
-- [ ] "Debug Labels" text no longer appears
-- [ ] All functionality remains identical
-- [ ] Tests updated and passing
-- [ ] No visual or layout regressions
-- [ ] Accessibility maintained
-- [ ] Code review completed
-
-## Technical Implementation Notes
-
-### Specific Change Location
-In `ConfigDebugConsole.tsx`, locate this line:
-```typescript
-consoleRef.current.addCheckbox('Debug Labels', loadedSettings.showLabels, (value: boolean) => {
-```
-
-Change to:
-```typescript
-consoleRef.current.addCheckbox('SVG Labels', loadedSettings.showLabels, (value: boolean) => {
-```
-
-### Test Updates Required
-Update test expectations that check for "Debug Labels" text to instead check for "SVG Labels"
-
-### No Changes Required
-- Component prop names (`onLabelsToggle`)
-- State property names (`showLabels`)
-- localStorage keys
-- Callback functionality
-- Interface definitions
-
-## Notes
-- This is a cosmetic change only - no functional modifications
-- Very low risk change with minimal testing requirements
-- Focus on ensuring the label change doesn't break anything
-- Maintain all existing behavior and state management
-- Update only user-facing text, not internal naming
-
----
-**Status**: Ready for implementation 
+- [ ] Feature branch created and synced
+- [ ] Text changed from "Debug Labels" to "SVG Labels"
+- [ ] All functionality verified unchanged
+- [ ] All unit tests pass (updated as needed)
+- [ ] Exactly 3 documentation screenshots captured
+- [ ] Clean git commit ready for review
+- [ ] Task completed within 30-minute time limit 

@@ -4,316 +4,241 @@
 **Status**: PENDING  
 **Created**: 2025-01-21  
 **Assigned To**: dev agent  
+
 ## Overview
-Add a new "SVG Borders" checkbox to the ConfigDebugConsole that toggles 2px black borders on elements with class `svg-container`. This will help visualize SVG container boundaries during debugging.
+Add a new "SVG Borders" checkbox to the ConfigDebugConsole that toggles 2px black borders around SVG containers. This will help visualize SVG boundaries during debugging without affecting the SVG content itself.
 
-## ⚠️ PREPARATION PHASE - WAIT FOR CONFIRMATION
+## Execution Mode: AUTONOMOUS with Strategic Checkpoints
+- **Autonomous**: Environment setup, code changes, testing, screenshots
+- **Confirmation Required**: After initial analysis (Step 4), before final commit
+- **⛔ HARD STOPS**: Git workflow issues, environment failures, external dependency problems
 
-### Step 1: Task Preparation
+## Error Classification System
+- 🔴 **HARD STOP**: Git conflicts, server won't start, core functionality broken
+- 🟡 **PROCEED WITH CAUTION**: Linting warnings, test failures in unrelated components  
+- 🟢 **CONTINUE**: Missing optional dependencies with workarounds available
+
+## Cost Control Measures
+- **Max debugging iterations**: 3 attempts before escalation
+- **Debugging Attempt Definition**: Each cycle of modify code → test → verify → screenshot
+- **Reset counter**: After successful partial completion
+- **Screenshot limit**: Exactly 4 final images (no debugging screenshots)
+- **External dependency timeout**: 30 minutes before escalation
+- **Task time limit**: 2 hours maximum
+
+---
+
+## PRE-EXECUTION PHASE
+
+### Step 0: Git Workflow Validation ⚠️ MANDATORY
 ```bash
-# Verify environment setup
-npm install
-npm run build
-npm test
+# Verify current branch and sync
+git branch                           # Confirm current branch
+git checkout development            # Switch to base branch  
+git pull origin development         # Pull latest changes
+git checkout -b cursor/feature-svg-borders-toggle  # Create feature branch
+git status                          # Confirm clean working directory
+```
+**⛔ DO NOT PROCEED until git workflow is confirmed clean**
+
+### Step 1: Environment Health Check
+```bash
+# Verify core environment
+node --version                      # Verify Node.js available
+npm --version                       # Verify npm available
+npm install                         # Install dependencies
+npm run build                       # Verify build works
+npm test                           # Run existing tests
+
+# Verify screenshot tools
+npx playwright install              # Install browsers for screenshots
+npx playwright --version           # Verify Playwright available
 
 # Start development server
+npm run dev                        # Should start without errors
+# Verify server runs on http://localhost:3000
+```
+
+**Environment Dependencies:**
+- Node.js + npm (verified above)
+- Playwright with browser installation
+- Development server port availability (3000)
+- Screenshots directory (create if missing)
+
+**⛔ If any failures, STOP and report dependency issues**
+
+### Step 2: External Dependencies Verification
+```bash
+# Check browser console for errors (http://localhost:3000)
+# Verify all external scripts load correctly
+# Check for any React hydration issues
+# Confirm config console functionality works
+```
+**Common Issues**: Race conditions, missing dependencies, CORS, CDN failures
+
+### Step 3: Take BEFORE Screenshot
+```bash
+# With development server running at http://localhost:3000
+# Enable debug mode and open config console
+# Use Playwright for focused screenshots (config console area only):
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/before-svg-borders-console.png
+# Focus on config console area, not full page
+```
+
+### Step 4: Analysis Summary
+**Mode-Specific Behavior:**
+
+**Background Agent Mode (Autonomous):**
+- Provide analysis summary in commit message and task file
+- Proceed automatically to implementation
+- Document findings for PM review
+
+**Interactive Mode:**
+- Provide analysis summary and wait for user confirmation
+- User reviews BEFORE screenshots and approach
+- Explicit permission required to proceed
+
+---
+**ANALYSIS SUMMARY FORMAT:**
+
+**Current State Identified:**
+- Config console component: `src/app/components/ConfigDebugConsole.tsx`
+- Current toggles: [list existing toggles]
+- SVG containers: Elements with class `svg-container`
+- CSS file location: `src/app/debug-svg.css`
+
+**Implementation Plan:**
+1. Add `showSvgBorders` to DebugSettings interface
+2. Add "SVG Borders" checkbox to config console UI
+3. Add CSS rule for 2px black borders on SVG containers
+4. Implement toggle logic with body class management
+5. Test toggle functionality
+
+**Before screenshot captured**: Shows current config console without SVG Borders toggle
+
+---
+
+## IMPLEMENTATION PHASE (Only after confirmation)
+
+### Step 5: Code Implementation
+- Update ConfigDebugConsole interface (add `showSvgBorders` to DebugSettings)
+- Add "SVG Borders" checkbox to config console
+- Add CSS rule: `body.debug-mode.show-svg-borders .svg-container { border: 2px solid black !important; }`
+- Implement toggle logic with body class management
+- Connect to localStorage persistence
+
+### Step 6: Testing & Validation
+```bash
+# Verify component renders correctly
 npm run dev
+
+# Check for console errors
+# Test toggle functionality (on/off states)
+# Verify black borders appear/disappear on .svg-container elements
 ```
 
-### Step 2: Take BEFORE Screenshots
+### Step 7: Screenshot Documentation (Exactly 4 Total)
 ```bash
-# With development server running
-# Enable debug mode and open config console
-# Take screenshot of config console (should NOT show "SVG Borders" checkbox)
-# Save as: screenshots/before-svg-borders-console.png
+# Use Playwright for focused screenshots (config console and SVG area)
+# 1. BEFORE screenshot (already taken in Step 3)
 
-# Take screenshot of SVG containers (no borders)
-# Save as: screenshots/before-svg-containers-no-borders.png
+# 2. AFTER - config console with new SVG Borders toggle
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,400 http://localhost:3000 screenshots/AFTER-svg-borders-console.png
+
+# 3. AFTER - toggle OFF (no borders on SVG containers)
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,600 http://localhost:3000 screenshots/AFTER-toggle-off-no-borders.png
+
+# 4. AFTER - toggle ON (2px black borders visible on SVG containers)
+npx playwright screenshot --viewport-size=1200,800 --clip=0,0,1200,600 http://localhost:3000 screenshots/AFTER-toggle-on-borders.png
 ```
 
-### Step 3: Provide Task Summary
-**Background Agent should provide a summary like this:**
+**Screenshot Requirements:**
+1. **BEFORE-console.png**: Current config console (no SVG Borders toggle)
+2. **AFTER-console.png**: Config console with new SVG Borders checkbox
+3. **AFTER-toggle-off.png**: SVG containers with no borders
+4. **AFTER-toggle-on.png**: SVG containers with 2px black borders
 
----
-**TASK UNDERSTANDING SUMMARY:**
+**⚠️ Border appearance/disappearance must be clearly visible in screenshots**
 
-I understand this task requires:
-1. **Add new "SVG Borders" checkbox** to ConfigDebugConsole
-2. **Add CSS rule** for 2px black borders on `.svg-container` elements
-3. **Update interfaces**: Add `showSvgBorders` to `DebugSettings`, add `onSvgBordersToggle` to props
-4. **Files to modify**: `ConfigDebugConsole.tsx`, `debug-svg.css`, `page.tsx`
-5. **Expected result**: New toggle that shows/hides 2px black borders on SVG containers
-6. **CSS selector**: `body.debug-mode.show-svg-borders .svg-container`
-
-**BEFORE screenshots captured**:
-- `screenshots/before-svg-borders-console.png` - Config console lacks "SVG Borders" checkbox
-- `screenshots/before-svg-containers-no-borders.png` - SVG containers have no borders
-
-**Ready to proceed with implementation.**
-
----
-
-### Step 4: ⛔ WAIT FOR USER CONFIRMATION
-**DO NOT PROCEED WITH IMPLEMENTATION UNTIL USER CONFIRMS**
-- User will review the BEFORE screenshots
-- User will confirm task understanding is correct
-- User will give explicit permission to proceed
-
-## Problem Description
-Currently, there's no way to visualize SVG container boundaries in the debug console. Adding a toggle for SVG borders will help developers understand the layout and positioning of SVG elements by showing clear container boundaries.
-
-## Implementation Instructions for Background Agent
-**⚠️ ONLY PROCEED AFTER USER CONFIRMATION**
-
-### Step 5: Update ConfigDebugConsole Interface
-- Add `showSvgBorders` to `DebugSettings` interface
-- Add `onSvgBordersToggle` to `ConfigDebugConsoleProps`
-- Update `DEFAULT_SETTINGS` to include SVG borders setting
-
-### Step 6: Add CSS Rule
-Create CSS rule for SVG container borders in debug mode:
-```css
-body.debug-mode.show-svg-borders .svg-container {
-  border: 2px solid black !important;
-}
-```
-
-### Step 7: Implement Toggle Logic
-- Add SVG borders checkbox to config console
-- Implement body class management for `show-svg-borders`
-- Connect toggle to localStorage persistence
-
-### Step 8: Update Parent Component
-- Add SVG borders toggle handler to main page
-- Pass `onSvgBordersToggle` prop to ConfigDebugConsole
-- Implement body class management logic
-
-### Step 9: Take AFTER Screenshots
-```bash
-# With dev server running
-# Enable debug mode and open config console
-# Take screenshot showing new "SVG Borders" checkbox
-# Save as: screenshots/after-svg-borders-console.png
-
-# With "SVG Borders" checkbox UNCHECKED
-# Take screenshot of SVG containers (no borders)
-# Save as: screenshots/after-svg-borders-toggle-off.png
-
-# CHECK the "SVG Borders" checkbox
-# Take screenshot of SVG containers with 2px black borders
-# Save as: screenshots/after-svg-borders-toggle-on.png
-```
-
-## Files to Modify
+## Files to Examine and Modify
 - `src/app/components/ConfigDebugConsole.tsx` - Add SVG borders control
 - `src/app/debug-svg.css` - Add CSS rule for SVG borders
 - `src/app/page.tsx` - Add SVG borders toggle handler
 
-## Acceptance Criteria
-- [ ] Task preparation completed (environment, screenshots, summary)
-- [ ] **USER CONFIRMATION RECEIVED**
+## Success Criteria Validation ✅
+Before marking COMPLETED, verify:
 - [ ] "SVG Borders" checkbox appears in config console
 - [ ] Checkbox toggles 2px black borders on `.svg-container` elements
 - [ ] Borders only appear when debug mode is active AND toggle is enabled
 - [ ] Toggle state persists across page reloads
-- [ ] CSS rule uses proper selector pattern for debug mode control
-- [ ] All existing debug functionality remains intact
-- [ ] All tests pass including new SVG borders tests
-- [ ] **BEFORE screenshots show missing functionality**
-- [ ] **AFTER screenshots prove new toggle works**
+- [ ] No console errors in browser
+- [ ] Screenshots clearly demonstrate toggle functionality
+- [ ] All existing tests pass
+- [ ] Clean git commit with descriptive message
 
-## Background Agent Notes
-- **Safe to auto-run**: Yes, BUT ONLY AFTER USER CONFIRMATION
-- **Rollback plan**: Git checkout if issues arise
-- **Confirmation Required**: Must wait for user approval before proceeding
+## Acceptance Criteria
+- [ ] **Git workflow validated** (Step 0)
+- [ ] **Environment healthy** (Step 1) 
+- [ ] **Dependencies verified** (Step 2)
+- [ ] **BEFORE screenshot captured** (Step 3)
+- [ ] **Analysis summary provided** (Step 4)
+- [ ] "SVG Borders" checkbox appears in config console
+- [ ] Checkbox toggles 2px black borders on `.svg-container` elements
+- [ ] Borders only appear when debug mode is active AND toggle is enabled
+- [ ] Toggle state persists across page reloads
+- [ ] CSS rule uses proper selector: `body.debug-mode.show-svg-borders .svg-container`
+- [ ] Border style: `2px solid black`
+- [ ] All existing debug functionality remains intact
+- [ ] All existing tests pass
+- [ ] **Exactly 4 screenshots captured** showing clear toggle functionality
+- [ ] **Clean git commit** on feature branch
+
+## Technical Notes
+- Focus on ConfigDebugConsole component in `src/app/components/`
+- Add to DebugSettings interface: `showSvgBorders: boolean`
+- CSS selector pattern: `body.debug-mode.show-svg-borders .svg-container`
+- Use !important to ensure borders show over existing styles
+
+## Troubleshooting Guide
+**If toggle doesn't appear:**
+- Check ConfigDebugConsole interface updates
+- Verify checkbox is added to JSX render
+- Check for TypeScript compilation errors
+
+**If borders don't show:**
+- Verify CSS rule selector matches body classes
+- Check for CSS specificity issues
+- Inspect .svg-container elements exist on page
+- Verify debug mode is active
+
+**If borders affect SVG content:**
+- Use border instead of outline to avoid affecting layout
+- Check that borders are applied to containers, not SVG elements themselves
+- Verify borders don't interfere with existing positioning
+
+**If screenshots fail:**
+- Ensure dev server is running on http://localhost:3000
+- Verify Playwright is installed: `npx playwright --version`
+- Screenshots focus on relevant areas (not full page)
+- Use --clip parameter for focused captures
+- If Playwright fails, use browser dev tools to crop screenshots
+- Ensure debug mode is enabled before taking screenshots
+- Check screenshots directory exists or create it
+
+**If tests fail:**
+- Update test expectations for new toggle
+- Check for hardcoded interface assertions
+- Verify accessibility requirements still met
 
 ---
-**Status**: Ready for Background Agent implementation with confirmation checkpoint
-
-## Test-Driven Development Approach
-
-### Test Requirements
-1. **Control Addition Test**:
-   - Verify "SVG Borders" checkbox appears in config console
-   - Confirm checkbox can be toggled on/off
-   - Test checkbox state persists in localStorage
-
-2. **Border Toggle Functionality Test**:
-   - Verify toggling adds/removes borders on `.svg-container` elements
-   - Confirm 2px black border styling is applied correctly
-   - Test that borders only appear when debug mode is active AND toggle is enabled
-
-3. **State Management Test**:
-   - Test localStorage persistence for SVG borders state
-   - Verify proper state restoration on page reload
-   - Confirm integration with existing debug settings
-
-## Implementation Requirements
-
-### Primary Changes Required
-1. **Update ConfigDebugConsole Interface**:
-   - Add `showSvgBorders` to `DebugSettings` interface
-   - Add `onSvgBordersToggle` to `ConfigDebugConsoleProps`
-   - Update `DEFAULT_SETTINGS` to include SVG borders setting
-
-2. **Add CSS Rule**:
-   - Create CSS rule for SVG container borders in debug mode
-   - Use pattern: `body.debug-mode.show-svg-borders .svg-container`
-   - Apply 2px black border styling
-
-3. **Implement Toggle Logic**:
-   - Add SVG borders checkbox to config console
-   - Implement body class management for `show-svg-borders`
-   - Connect toggle to localStorage persistence
-
-4. **Update Parent Component**:
-   - Add SVG borders toggle handler to main page
-   - Pass `onSvgBordersToggle` prop to ConfigDebugConsole
-   - Implement body class management logic
-
-### Files to Modify
-- `src/app/components/ConfigDebugConsole.tsx` - Add SVG borders control
-- `src/app/debug-svg.css` - Add CSS rule for SVG borders
-- `src/app/page.tsx` - Add SVG borders toggle handler
-
-## Testing Strategy
-
-### Unit Tests
-```javascript
-// Test checkbox presence
-test('should render SVG Borders checkbox in config console', () => {
-  render(<ConfigDebugConsole {...defaultProps} />);
-  expect(screen.getByText('SVG Borders')).toBeInTheDocument();
-});
-
-// Test interface compliance
-test('should accept onSvgBordersToggle prop', () => {
-  const mockToggle = jest.fn();
-  expect(() => 
-    render(<ConfigDebugConsole onSvgBordersToggle={mockToggle} {...otherProps} />)
-  ).not.toThrow();
-});
-
-// Test CSS class management
-test('should add show-svg-borders class when SVG borders enabled', () => {
-  const { rerender } = render(<Page />);
-  
-  // Enable debug mode first
-  document.body.classList.add('debug-mode');
-  
-  // Find and toggle SVG borders checkbox
-  const checkbox = screen.getByLabelText('SVG Borders');
-  fireEvent.click(checkbox);
-  
-  expect(document.body).toHaveClass('show-svg-borders');
-});
-```
-
-### Integration Tests
-```javascript
-// Test border visibility
-test('should show SVG borders only when both debug mode and toggle are active', () => {
-  render(<Page />);
-  
-  // Create test SVG container
-  const svgContainer = document.createElement('div');
-  svgContainer.className = 'svg-container';
-  document.body.appendChild(svgContainer);
-  
-  // Case 1: Neither active - no borders
-  expect(getComputedStyle(svgContainer).border).toBe('');
-  
-  // Case 2: Only debug mode - no borders
-  document.body.classList.add('debug-mode');
-  expect(getComputedStyle(svgContainer).border).toBe('');
-  
-  // Case 3: Both active - borders visible
-  document.body.classList.add('show-svg-borders');
-  expect(getComputedStyle(svgContainer).border).toContain('2px solid black');
-});
-
-// Test localStorage persistence
-test('should persist SVG borders state in localStorage', () => {
-  render(<ConfigDebugConsole {...defaultProps} />);
-  
-  const checkbox = screen.getByLabelText('SVG Borders');
-  fireEvent.click(checkbox);
-  
-  const savedSettings = JSON.parse(localStorage.getItem('debugSettings'));
-  expect(savedSettings.showSvgBorders).toBe(true);
-});
-```
-
-### CSS Tests
-```javascript
-// Test CSS rule specificity
-test('should apply SVG borders with correct CSS selector', () => {
-  const svgContainer = document.createElement('div');
-  svgContainer.className = 'svg-container';
-  document.body.appendChild(svgContainer);
-  
-  // Test CSS rule application
-  document.body.classList.add('debug-mode', 'show-svg-borders');
-  
-  const computedStyle = getComputedStyle(svgContainer);
-  expect(computedStyle.border).toContain('2px');
-  expect(computedStyle.border).toContain('black');
-});
-```
+**Status**: Ready for Background Agent execution with strategic checkpoints
 
 ## Definition of Done
-- [ ] SVG Borders checkbox added to config console
-- [ ] CSS rule added for SVG container borders
-- [ ] Toggle functionality implemented and working
-- [ ] State persistence in localStorage working
-- [ ] All unit and integration tests pass
-- [ ] Visual testing confirms borders appear correctly
-- [ ] Code review completed
-
-## Technical Implementation Details
-
-### CSS Rule to Add
-```css
-/* SVG container borders in debug mode */
-body.debug-mode.show-svg-borders .svg-container {
-  border: 2px solid black !important;
-}
-```
-
-### Interface Updates
-```typescript
-interface DebugSettings {
-  showGridOverlay: boolean;
-  showLabels: boolean;
-  showSectionBorders: boolean;
-  showSvgBorders: boolean; // Add this
-}
-
-interface ConfigDebugConsoleProps {
-  visible?: boolean;
-  onGridToggle: (enabled: boolean) => void;
-  onLabelsToggle: (enabled: boolean) => void;
-  onSectionBordersToggle: (enabled: boolean) => void;
-  onSvgBordersToggle: (enabled: boolean) => void; // Add this
-}
-```
-
-### Default Settings Update
-```typescript
-const DEFAULT_SETTINGS: DebugSettings = {
-  showGridOverlay: true,
-  showLabels: true,
-  showSectionBorders: false,
-  showSvgBorders: false, // Add this
-};
-```
-
-## Notes
-- Follow the same pattern as existing border toggles (section borders)
-- Ensure SVG borders only appear when both debug mode and toggle are enabled
-- Use consistent naming convention with existing debug controls
-- Test with actual SVG containers in the application
-- Maintain clean separation between different debug features
-
----
-**Status**: Ready for implementation 
+- [ ] Feature branch created and synced
+- [ ] Code implementation completed
+- [ ] SVG Borders toggle working correctly
+- [ ] 2px black borders toggle on .svg-container elements
+- [ ] All unit tests pass
+- [ ] Exactly 4 documentation screenshots captured
+- [ ] Clean git commit ready for review
+- [ ] Task completed within 2-hour time limit 
