@@ -154,7 +154,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
             onGridToggle(value);
           });
 
-          consoleRef.current.addCheckbox('Debug Labels', loadedSettings.showLabels, (value: boolean) => {
+          consoleRef.current.addCheckbox('SVG Labels', loadedSettings.showLabels, (value: boolean) => {
             const currentSettings = loadSettings();
             const updatedSettings = { ...currentSettings, showLabels: value };
             saveSettings(updatedSettings);

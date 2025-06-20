@@ -107,7 +107,7 @@ export default function Home() {
         onSvgDebugBgToggle={handleSvgDebugBgToggle}
       />
 
-      {/* Debug Labels - Controlled by Config Console */}
+      {/* SVG Labels - Controlled by Config Console */}
       <DebugLabels visible={showLabels} />
 
       {/* Grid Overlay - Controlled by Config Console */}
