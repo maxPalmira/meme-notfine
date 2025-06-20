@@ -148,31 +148,36 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
 
           // Add debug controls
           consoleRef.current.addCheckbox('Grid Overlay', loadedSettings.showGridOverlay, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showGridOverlay: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showGridOverlay: value };
             saveSettings(updatedSettings);
             onGridToggle(value);
           });
 
           consoleRef.current.addCheckbox('Debug Labels', loadedSettings.showLabels, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showLabels: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showLabels: value };
             saveSettings(updatedSettings);
             onLabelsToggle(value);
           });
 
           consoleRef.current.addCheckbox('Debug Outlines', loadedSettings.showDebugOutlines, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showDebugOutlines: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showDebugOutlines: value };
             saveSettings(updatedSettings);
             onBordersToggle(value);
           });
 
           consoleRef.current.addCheckbox('Section Borders', loadedSettings.showSectionBorders, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showSectionBorders: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showSectionBorders: value };
             saveSettings(updatedSettings);
             onSectionBordersToggle(value);
           });
 
           consoleRef.current.addCheckbox('SVG Borders', loadedSettings.showSvgBorders, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showSvgBorders: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showSvgBorders: value };
             saveSettings(updatedSettings);
             onSvgBordersToggle(value);
           });
