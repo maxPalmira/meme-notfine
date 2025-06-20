@@ -114,16 +114,16 @@ export default function Home() {
       <GridOverlay visible={showGrid} />
 
       {/* Header Navigation - Using SVG Component */}
-      {/* <HeaderNavigation /> */}
+      <HeaderNavigation />
 
       {/* Hero Section - Using SVG Component */}
       <HeroSection />
 
       {/* Contract Address Section - Using Component */}
-      {/* <CASection /> */}
+      <CASection />
 
       {/* Memes Section */}
-      {/* <MemesSection /> */}
+      <MemesSection />
 
     </div>
   );
