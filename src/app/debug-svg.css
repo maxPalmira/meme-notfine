@@ -24,3 +24,8 @@ body.debug-mode.show-svg-borders .svg-container {
 body.debug-mode.show-svg-debug-bg .svg-container {
   background: rgba(255, 0, 0, 0.2) !important;
 }
+
+/* Show real SVGs when toggle is enabled */
+body.debug-mode.show-real-svg .svg-container svg {
+  display: block !important;
+}

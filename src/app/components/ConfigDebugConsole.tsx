@@ -9,6 +9,7 @@ interface DebugSettings {
   showSectionBorders: boolean;
   showSvgBorders: boolean;
   showSvgDebugBg: boolean;
+  showRealSvg: boolean;
 }
 
 interface ConfigConsoleInstance {
@@ -32,6 +33,7 @@ interface ConfigDebugConsoleProps {
   onSectionBordersToggle: (enabled: boolean) => void;
   onSvgBordersToggle: (enabled: boolean) => void;
   onSvgDebugBgToggle: (enabled: boolean) => void;
+  onShowRealSvgToggle: (enabled: boolean) => void;
 }
 
 const DEFAULT_SETTINGS: DebugSettings = {
@@ -40,6 +42,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
   showSectionBorders: false,
   showSvgBorders: false,
   showSvgDebugBg: false,
+  showRealSvg: false,
 };
 
 const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
@@ -49,6 +52,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   onSectionBordersToggle,
   onSvgBordersToggle,
   onSvgDebugBgToggle,
+  onShowRealSvgToggle,
 }) => {
   const consoleRef = useRef<ConfigConsoleInstance | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -182,6 +186,13 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
             onSvgDebugBgToggle(value);
           });
 
+          consoleRef.current.addCheckbox('Show Real SVG', loadedSettings.showRealSvg, (value: boolean) => {
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showRealSvg: value };
+            saveSettings(updatedSettings);
+            onShowRealSvgToggle(value);
+          });
+
           // Add utility buttons
           consoleRef.current.addConfigButton('Clear Logs', () => {
             consoleRef.current?.clearLogs();
@@ -194,6 +205,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
             onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
             onSvgBordersToggle(DEFAULT_SETTINGS.showSvgBorders);
             onSvgDebugBgToggle(DEFAULT_SETTINGS.showSvgDebugBg);
+            onShowRealSvgToggle(DEFAULT_SETTINGS.showRealSvg);
           });
 
           setIsInitialized(true);
@@ -204,6 +216,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
           onSectionBordersToggle(loadedSettings.showSectionBorders);
           onSvgBordersToggle(loadedSettings.showSvgBorders);
           onSvgDebugBgToggle(loadedSettings.showSvgDebugBg);
+          onShowRealSvgToggle(loadedSettings.showRealSvg);
 
         } catch (error) {
           setIsInitialized(true);
