@@ -19,6 +19,7 @@ export default function Home() {
   const [showGrid, setShowGrid] = useState(false);
   const [showLabels, setShowLabels] = useState(false);
   const [showSectionBorders, setShowSectionBorders] = useState(false);
+  const [showSvgBorders, setShowSvgBorders] = useState(false);
   const [showConfigConsole, setShowConfigConsole] = useState(true);
 
   // Debug mode state management (moved from DebugToggle component)
@@ -70,6 +71,16 @@ export default function Home() {
     }
   };
 
+  // Handler for SVG borders toggle
+  const handleSvgBordersToggle = (enabled: boolean) => {
+    setShowSvgBorders(enabled);
+    if (enabled) {
+      document.body.classList.add('show-svg-borders');
+    } else {
+      document.body.classList.remove('show-svg-borders');
+    }
+  };
+
   return (
     <div className="min-h-screen relative">
       {/* Config Console Toggle - Controls ConfigDebugConsole visibility */}
@@ -81,6 +92,7 @@ export default function Home() {
         onGridToggle={setShowGrid}
         onLabelsToggle={setShowLabels}
         onSectionBordersToggle={handleSectionBordersToggle}
+        onSvgBordersToggle={handleSvgBordersToggle}
       />
 
       {/* Debug Labels - Controlled by Config Console */}

@@ -7,6 +7,7 @@ interface DebugSettings {
   showGridOverlay: boolean;
   showLabels: boolean;
   showSectionBorders: boolean;
+  showSvgBorders: boolean;
 }
 
 interface ConfigConsoleInstance {
@@ -28,12 +29,14 @@ interface ConfigDebugConsoleProps {
   onGridToggle: (enabled: boolean) => void;
   onLabelsToggle: (enabled: boolean) => void;
   onSectionBordersToggle: (enabled: boolean) => void;
+  onSvgBordersToggle: (enabled: boolean) => void;
 }
 
 const DEFAULT_SETTINGS: DebugSettings = {
   showGridOverlay: true,
   showLabels: true,  
   showSectionBorders: false,
+  showSvgBorders: false,
 };
 
 const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
@@ -41,6 +44,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   onGridToggle,
   onLabelsToggle,
   onSectionBordersToggle,
+  onSvgBordersToggle,
 }) => {
   const consoleRef = useRef<ConfigConsoleInstance | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -140,21 +144,31 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
 
           // Add debug controls
           consoleRef.current.addCheckbox('Grid Overlay', loadedSettings.showGridOverlay, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showGridOverlay: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showGridOverlay: value };
             saveSettings(updatedSettings);
             onGridToggle(value);
           });
 
           consoleRef.current.addCheckbox('Debug Labels', loadedSettings.showLabels, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showLabels: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showLabels: value };
             saveSettings(updatedSettings);
             onLabelsToggle(value);
           });
 
           consoleRef.current.addCheckbox('Section Borders', loadedSettings.showSectionBorders, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showSectionBorders: value };
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showSectionBorders: value };
             saveSettings(updatedSettings);
             onSectionBordersToggle(value);
+          });
+
+          consoleRef.current.addCheckbox('SVG Borders', loadedSettings.showSvgBorders, (value: boolean) => {
+            const currentSettings = loadSettings();
+            const updatedSettings = { ...currentSettings, showSvgBorders: value };
+            saveSettings(updatedSettings);
+            onSvgBordersToggle(value);
           });
 
           // Add utility buttons
@@ -167,6 +181,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
             onGridToggle(DEFAULT_SETTINGS.showGridOverlay);
             onLabelsToggle(DEFAULT_SETTINGS.showLabels);
             onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
+            onSvgBordersToggle(DEFAULT_SETTINGS.showSvgBorders);
           });
 
           setIsInitialized(true);
@@ -175,6 +190,7 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
           onGridToggle(loadedSettings.showGridOverlay);
           onLabelsToggle(loadedSettings.showLabels);
           onSectionBordersToggle(loadedSettings.showSectionBorders);
+          onSvgBordersToggle(loadedSettings.showSvgBorders);
 
         } catch (error) {
           setIsInitialized(true);
