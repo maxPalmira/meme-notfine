@@ -53,6 +53,7 @@ describe('ConfigDebugConsole', () => {
   const mockOnLabelsToggle = jest.fn();
   const mockOnBordersToggle = jest.fn();
   const mockOnSectionBordersToggle = jest.fn();
+  const mockOnSvgDebugBgToggle = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -83,6 +84,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -103,6 +105,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -120,6 +123,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -153,6 +157,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -185,6 +190,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -205,6 +211,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -222,6 +229,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -240,6 +248,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -255,6 +264,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -270,6 +280,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
 
@@ -289,6 +300,7 @@ describe('ConfigDebugConsole', () => {
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
         onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
       />
     );
 
@@ -315,6 +327,7 @@ describe('ConfigDebugConsole', () => {
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
         onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
       />
     );
 
@@ -333,6 +346,7 @@ describe('ConfigDebugConsole', () => {
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
         onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
       />
     );
 
@@ -364,6 +378,7 @@ describe('ConfigDebugConsole', () => {
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
         onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
       />
     );
 
@@ -383,6 +398,7 @@ describe('ConfigDebugConsole', () => {
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
         onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
       />
     );
 
@@ -416,6 +432,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -434,6 +451,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -449,6 +467,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -464,6 +483,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -485,6 +505,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -505,6 +526,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -529,6 +551,7 @@ describe('ConfigDebugConsole', () => {
           onLabelsToggle={mockOnLabelsToggle}
           onBordersToggle={mockOnBordersToggle}
           onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
         />
       );
     }).not.toThrow();
@@ -554,6 +577,7 @@ describe('ConfigDebugConsole', () => {
         onLabelsToggle={mockOnLabelsToggle}
         onBordersToggle={mockOnBordersToggle}
         onSectionBordersToggle={mockOnSectionBordersToggle}
+          onSvgDebugBgToggle={mockOnSvgDebugBgToggle}
       />
     );
 

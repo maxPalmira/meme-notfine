@@ -20,3 +20,8 @@ body.debug-mode.show-section-borders section {
 body.debug-mode.show-svg-borders .svg-container {
   border: 2px solid black !important;
 }
+
+/* SVG debug background - Only when toggle is enabled */
+body.debug-mode.show-svg-debug-bg .svg-container {
+  background: rgba(255, 0, 0, 0.2) !important;
+}
