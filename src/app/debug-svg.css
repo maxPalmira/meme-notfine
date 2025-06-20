@@ -7,11 +7,20 @@ body.debug-mode .debug-svg {
 
 /* For images with debug labels */
 body.debug-mode .debug-image {
-  border: 2px dashed black !important;
-  background: #ff000014 !important;
+  
 }
 
-/* Section borders in debug mode */
-body.debug-mode section {
+/* Section borders in debug mode - FIXED: Only when toggle is enabled */
+body.debug-mode.show-section-borders section {
   border: 1px dashed blue !important;
+}
+
+/* SVG borders in debug mode - Only when toggle is enabled */
+body.debug-mode.show-svg-borders .svg-container {
+  border: 2px solid black !important;
+}
+
+/* SVG debug background - Only when toggle is enabled */
+body.debug-mode.show-svg-debug-bg .svg-container {
+  background: rgba(255, 0, 0, 0.2) !important;
 }
