@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 interface DebugSettings {
   showGridOverlay: boolean;
   showLabels: boolean;
-  showDebugOutlines: boolean;
   showSectionBorders: boolean;
 }
 
@@ -28,14 +27,12 @@ interface ConfigDebugConsoleProps {
   visible?: boolean;
   onGridToggle: (enabled: boolean) => void;
   onLabelsToggle: (enabled: boolean) => void;
-  onBordersToggle: (enabled: boolean) => void;
   onSectionBordersToggle: (enabled: boolean) => void;
 }
 
 const DEFAULT_SETTINGS: DebugSettings = {
   showGridOverlay: true,
   showLabels: true,  
-  showDebugOutlines: true,
   showSectionBorders: false,
 };
 
@@ -43,7 +40,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   visible = true,
   onGridToggle,
   onLabelsToggle,
-  onBordersToggle,
   onSectionBordersToggle,
 }) => {
   const consoleRef = useRef<ConfigConsoleInstance | null>(null);
@@ -155,12 +151,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
             onLabelsToggle(value);
           });
 
-          consoleRef.current.addCheckbox('Debug Outlines', loadedSettings.showDebugOutlines, (value: boolean) => {
-            const updatedSettings = { ...loadedSettings, showDebugOutlines: value };
-            saveSettings(updatedSettings);
-            onBordersToggle(value);
-          });
-
           consoleRef.current.addCheckbox('Section Borders', loadedSettings.showSectionBorders, (value: boolean) => {
             const updatedSettings = { ...loadedSettings, showSectionBorders: value };
             saveSettings(updatedSettings);
@@ -176,7 +166,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
             saveSettings(DEFAULT_SETTINGS);
             onGridToggle(DEFAULT_SETTINGS.showGridOverlay);
             onLabelsToggle(DEFAULT_SETTINGS.showLabels);
-            onBordersToggle(DEFAULT_SETTINGS.showDebugOutlines);
             onSectionBordersToggle(DEFAULT_SETTINGS.showSectionBorders);
           });
 
@@ -185,7 +174,6 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
           // Initialize callbacks with loaded settings
           onGridToggle(loadedSettings.showGridOverlay);
           onLabelsToggle(loadedSettings.showLabels);
-          onBordersToggle(loadedSettings.showDebugOutlines);
           onSectionBordersToggle(loadedSettings.showSectionBorders);
 
         } catch (error) {
