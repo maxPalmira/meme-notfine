@@ -54,14 +54,14 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  // Load settings from localStorage with robust error handling
+  // Load settings from sessionStorage with robust error handling
   const loadSettings = (): DebugSettings => {
-    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    if (typeof window === 'undefined' || typeof sessionStorage === 'undefined') {
       return DEFAULT_SETTINGS;
     }
     
     try {
-      const saved = localStorage.getItem('debugSettings');
+      const saved = sessionStorage.getItem('debugSettings');
       if (saved === null || saved === undefined || saved === '' || saved === 'undefined') {
         return DEFAULT_SETTINGS;
       }
@@ -73,21 +73,21 @@ const ConfigDebugConsole: React.FC<ConfigDebugConsoleProps> = ({
       return DEFAULT_SETTINGS;
     } catch (error) {
       try {
-        localStorage.removeItem('debugSettings');
+        sessionStorage.removeItem('debugSettings');
       } catch (clearError) {
       }
       return DEFAULT_SETTINGS;
     }
   };
 
-  // Save settings to localStorage with error handling
+  // Save settings to sessionStorage with error handling
   const saveSettings = (settings: DebugSettings) => {
-    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    if (typeof window === 'undefined' || typeof sessionStorage === 'undefined') {
       return;
     }
     
     try {
-      localStorage.setItem('debugSettings', JSON.stringify(settings));
+      sessionStorage.setItem('debugSettings', JSON.stringify(settings));
     } catch (error) {
     }
   };
