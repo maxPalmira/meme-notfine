@@ -11,7 +11,7 @@ const CASection = () => {
       await navigator.clipboard.writeText(contractAddress);
       setCopyStatus('copied');
       setTimeout(() => setCopyStatus('idle'), 2000);
-    } catch {
+    } catch (error) {
       // Image failed to load, use fallback
       console.warn('Failed to load CA section image, using fallback');
       setCopyStatus('error');
@@ -33,18 +33,24 @@ const CASection = () => {
       style={{ maxWidth: '1920px', background: 'none', marginLeft: 'auto', marginRight: 'auto' }}
     >
       <div className="w-full max-w-6xl relative">
-        {/* CA Button (Contract Address Display) */}
+        {/* CA Address Container (with background SVG) */}
         <div 
           data-testid="ca-button"
-          className="bg-cream border-black border-7 rounded-40 cursor-pointer hover:opacity-90 transition-opacity p-6 mb-4 w-full"
-          onClick={handleCopy}
-          onKeyDown={handleKeyDown}
+          className="relative bg-cream border-black border-7 rounded-40 hover:opacity-90 transition-opacity p-6 mb-4 w-full"
           role="button"
           tabIndex={0}
           aria-label="Click to copy contract address"
         >
+          {/* Background SVG Container */}
+          <div className="svg-container debug-image absolute inset-0 w-full h-full pointer-events-none">
+            {/* CA address background SVG removed */}
+          </div>
+          
+          {/* Contract Address Text */}
           <div 
-            className="font-jua text-xl md:text-2xl text-black cursor-pointer select-none text-center break-all"
+            className="relative z-10 font-jua text-xl md:text-2xl text-black cursor-pointer select-none text-center break-all"
+            onClick={handleCopy}
+            onKeyDown={handleKeyDown}
           >
             {contractAddress}
           </div>
@@ -53,14 +59,22 @@ const CASection = () => {
         {/* Copy Button */}
         <div className="flex justify-center">
           <div
-            className="svg-container debug-image"
-            data-filename="copy-button.svg"
+            className="bg-red-primary border-black border-7 rounded-40 shadow-custom cursor-pointer hover:opacity-90 transition-opacity p-4"
             onClick={handleCopy}
             onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
             aria-label="Copy contract address to clipboard"
           >
+            {/* Copy Button SVG Container */}
+            <div className="svg-container debug-image">
+              {/* Copy button SVG removed */}
+            </div>
+            
+            {/* Copy Button Text */}
+            <div className="font-jua text-4xl md:text-6xl text-black text-center">
+              copy
+            </div>
           </div>
         </div>
 

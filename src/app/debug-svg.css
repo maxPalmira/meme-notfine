@@ -24,3 +24,46 @@ body.debug-mode.show-svg-borders .svg-container {
 body.debug-mode.show-svg-debug-bg .svg-container {
   background: rgba(255, 0, 0, 0.2) !important;
 }
+
+/* SVG Debug Styles */
+.svg-container {
+  border: 2px solid rgba(255, 0, 0, 0.5);
+  position: relative;
+}
+
+.svg-container::after {
+  content: 'SVG Container';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: rgba(255, 0, 0, 0.7);
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  line-height: 1;
+  font-family: monospace;
+  z-index: 1000;
+}
+
+/* SVG Borders Debug */
+.debug-svg-borders .svg-container {
+  border: 2px solid rgba(0, 255, 0, 0.5) !important;
+  background: rgba(0, 255, 0, 0.1) !important;
+}
+
+.debug-svg-borders .svg-container::after {
+  background: rgba(0, 255, 0, 0.7) !important;
+  content: 'SVG Border Debug' !important;
+}
+
+/* SVG Debug Background */
+.debug-svg-bg .svg-container {
+  background: rgba(255, 255, 0, 0.3) !important;
+  border: 2px solid rgba(255, 255, 0, 0.8) !important;
+}
+
+.debug-svg-bg .svg-container::after {
+  background: rgba(255, 255, 0, 0.8) !important;
+  color: black !important;
+  content: 'SVG BG Debug' !important;
+}
