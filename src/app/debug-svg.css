@@ -67,3 +67,8 @@ body.debug-mode.show-svg-debug-bg .svg-container {
   color: black !important;
   content: 'SVG BG Debug' !important;
 }
+
+/* Show real SVGs when toggle is enabled */
+body.debug-mode.show-real-svg .svg-container svg {
+  display: block !important;
+}

@@ -21,6 +21,7 @@ export default function Home() {
   const [showSectionBorders, setShowSectionBorders] = useState(false);
   const [showSvgBorders, setShowSvgBorders] = useState(false);
   const [showSvgDebugBg, setShowSvgDebugBg] = useState(false);
+  const [showRealSvg, setShowRealSvg] = useState(false);
   const [showConfigConsole, setShowConfigConsole] = useState(true);
 
   // Debug mode state management (moved from DebugToggle component)
@@ -92,6 +93,16 @@ export default function Home() {
     }
   };
 
+  // Handler for Show Real SVG toggle
+  const handleShowRealSvgToggle = (enabled: boolean) => {
+    setShowRealSvg(enabled);
+    if (enabled) {
+      document.body.classList.add('show-real-svg');
+    } else {
+      document.body.classList.remove('show-real-svg');
+    }
+  };
+
   return (
     <div className="min-h-screen relative">
       {/* Config Console Toggle - Controls ConfigDebugConsole visibility */}
@@ -105,6 +116,7 @@ export default function Home() {
         onSectionBordersToggle={handleSectionBordersToggle}
         onSvgBordersToggle={handleSvgBordersToggle}
         onSvgDebugBgToggle={handleSvgDebugBgToggle}
+        onShowRealSvgToggle={handleShowRealSvgToggle}
       />
 
       {/* SVG Labels - Controlled by Config Console */}
