@@ -45,11 +45,6 @@ body.debug-mode.show-svg-debug-bg .svg-container {
   z-index: 1000;
 }
 
-/* Temporarily hide real SVGs to show container implementation */
-.svg-container svg {
-  display: none;
-}
-
 /* SVG Borders Debug */
 .debug-svg-borders .svg-container {
   border: 2px solid rgba(0, 255, 0, 0.5) !important;
